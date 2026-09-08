@@ -31,6 +31,10 @@ import {
   Sparkles,
   ShieldCheck,
   MessageCircle,
+  Bot,
+  Zap,
+  Cpu,
+  Wand2,
 } from "lucide-react"
 import { Navbar } from "@/components/navbar"
 import { DemoModal } from "@/components/demo-modal"
@@ -291,9 +295,65 @@ const DashboardMockup = () => (
   </div>
 )
 
+const AIChatMockup = () => (
+  <div className="relative">
+    <div className="rounded-2xl border border-white/10 bg-slate-900/80 p-4 shadow-2xl backdrop-blur">
+      <div className="flex items-center gap-3 border-b border-white/10 pb-3">
+        <span className="relative flex h-9 w-9 items-center justify-center rounded-full bg-brand text-white">
+          <Bot className="h-5 w-5" />
+          <span className="absolute -right-0.5 -top-0.5 h-2.5 w-2.5 rounded-full bg-green-400 ring-2 ring-slate-900" />
+        </span>
+        <div>
+          <p className="text-sm font-semibold text-white">Asistente IA</p>
+          <p className="text-[11px] text-green-400">En línea · responde al instante</p>
+        </div>
+        <Sparkles className="ml-auto h-4 w-4 text-brand-light/70" />
+      </div>
+      <div className="space-y-3 py-4">
+        <div className="max-w-[80%] rounded-2xl rounded-tl-sm bg-white/10 px-3 py-2 text-sm text-slate-200">
+          Hola, ¿en qué puedo ayudarte hoy?
+        </div>
+        <div className="ml-auto max-w-[80%] rounded-2xl rounded-tr-sm bg-brand px-3 py-2 text-sm text-white">
+          Necesito el estado de mi pedido #1042
+        </div>
+        <div className="max-w-[88%] rounded-2xl rounded-tl-sm bg-white/10 px-3 py-2 text-sm text-slate-200">
+          Tu pedido #1042 está en camino y llega hoy entre las 14 y 18 h. ¿Querés que te avise cuando salga a
+          reparto?
+        </div>
+      </div>
+      <div className="flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-2.5">
+        <span className="text-sm text-slate-400">Escribí tu mensaje…</span>
+        <span className="ml-auto flex items-center gap-1">
+          <span className="h-1.5 w-1.5 animate-bounce rounded-full bg-brand-light [animation-delay:-0.3s]" />
+          <span className="h-1.5 w-1.5 animate-bounce rounded-full bg-brand-light [animation-delay:-0.15s]" />
+          <span className="h-1.5 w-1.5 animate-bounce rounded-full bg-brand-light" />
+        </span>
+      </div>
+    </div>
+    <div className="animate-float absolute -right-3 -top-5 hidden rounded-2xl border border-white/10 bg-slate-900/90 p-3 shadow-xl backdrop-blur md:flex md:items-center md:gap-2">
+      <span className="flex h-9 w-9 items-center justify-center rounded-full bg-brand/20 text-brand-light">
+        <Zap className="h-5 w-5" />
+      </span>
+      <div>
+        <p className="text-xs font-semibold text-white">+3x productividad</p>
+        <p className="text-[10px] text-slate-400">con automatización IA</p>
+      </div>
+    </div>
+  </div>
+)
+
 /* ────────────────────────────────────────────────────────────
    Data
    ──────────────────────────────────────────────────────────── */
+const aiFeatures = [
+  { icon: MessageCircle, title: "Chatbots y asistentes 24/7", text: "Atención automática que responde y vende sola." },
+  { icon: Zap, title: "Automatización inteligente", text: "Tareas repetitivas resueltas sin intervención." },
+  { icon: TrendingUp, title: "Análisis predictivo", text: "Anticipá demanda, stock y comportamiento." },
+  { icon: Wand2, title: "Lectura de documentos", text: "Extrae datos de facturas y formularios al instante." },
+  { icon: Search, title: "Búsqueda y recomendaciones", text: "Resultados y sugerencias personalizadas." },
+  { icon: Cpu, title: "Integrado a tus sistemas", text: "La IA vive dentro de tu web y tu ERP." },
+]
+
 const techStack = [
   "Next.js",
   "React",
@@ -715,7 +775,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ── SEO / Migrations feature ─────────────────────────── */}
+      {/* ── SEO / Migrations feature ─────────────────────────���─ */}
       <section id="seo" className="bg-slate-50 py-24">
         <div className="container mx-auto grid grid-cols-1 items-center gap-14 px-4 md:px-6 lg:grid-cols-2">
           <Reveal>
@@ -795,6 +855,60 @@ export default function HomePage() {
                 Contactanos <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
               </OrangeButton>
             </div>
+          </Reveal>
+        </div>
+      </section>
+
+      {/* ── IA / Inteligencia Artificial ─────────────────────── */}
+      <section id="ia" className="relative overflow-hidden bg-ink py-24 text-white">
+        <div className="pointer-events-none absolute inset-0 bg-grid-pattern opacity-[0.12]" />
+        <div className="animate-aurora pointer-events-none absolute -left-20 top-8 h-72 w-72 rounded-full bg-brand/30 blur-3xl" />
+        <div className="animate-aurora pointer-events-none absolute -right-10 bottom-0 h-72 w-72 rounded-full bg-orange-500/20 blur-3xl" />
+        <div className="container relative mx-auto grid grid-cols-1 items-center gap-14 px-4 md:px-6 lg:grid-cols-2">
+          <Reveal>
+            <span className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-4 py-1.5 text-sm font-semibold text-brand-light">
+              <Sparkles className="h-4 w-4" /> Inteligencia Artificial
+            </span>
+            <h2 className="font-display mt-5 text-3xl font-extrabold leading-tight md:text-4xl lg:text-[2.75rem]">
+              Sistemas que{" "}
+              <span className="bg-gradient-to-r from-brand-light via-white to-orange-300 bg-clip-text text-transparent">
+                integran IA
+              </span>{" "}
+              para vender y operar mejor
+            </h2>
+            <p className="mt-5 text-lg leading-relaxed text-slate-300">
+              No solo desarrollamos software: incorporamos inteligencia artificial en tus procesos para automatizar
+              tareas, atender clientes las 24 horas y tomar decisiones con datos reales. Convertí tu operación en una
+              máquina que trabaja sola.
+            </p>
+            <div className="mt-8 grid grid-cols-1 gap-3 sm:grid-cols-2">
+              {aiFeatures.map((f) => {
+                const Icon = f.icon
+                return (
+                  <div
+                    key={f.title}
+                    className="flex gap-3 rounded-2xl border border-white/10 bg-white/[0.04] p-4 transition-colors hover:border-brand/50 hover:bg-white/[0.08]"
+                  >
+                    <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-brand/20 text-brand-light">
+                      <Icon className="h-5 w-5" />
+                    </span>
+                    <div>
+                      <p className="font-semibold text-white">{f.title}</p>
+                      <p className="mt-1 text-sm text-slate-400">{f.text}</p>
+                    </div>
+                  </div>
+                )
+              })}
+            </div>
+            <div className="mt-8">
+              <OrangeButton onClick={() => scrollToSection("contacto")}>
+                Quiero IA en mi negocio{" "}
+                <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
+              </OrangeButton>
+            </div>
+          </Reveal>
+          <Reveal delay={0.15}>
+            <AIChatMockup />
           </Reveal>
         </div>
       </section>

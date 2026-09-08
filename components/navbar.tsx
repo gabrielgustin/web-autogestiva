@@ -13,6 +13,7 @@ import {
   BookOpen,
   Search,
   Server,
+  Sparkles,
   ArrowRight,
 } from "lucide-react"
 import { Button } from "@/components/ui/button"
@@ -43,6 +44,12 @@ const services = [
     href: "/#soluciones",
   },
   {
+    icon: Sparkles,
+    title: "Integración de IA",
+    description: "Chatbots, automatización y análisis con inteligencia artificial.",
+    href: "/#ia",
+  },
+  {
     icon: Search,
     title: "SEO & Migraciones",
     description: "Posicionamiento y traspasos seguros sin perder tráfico.",
@@ -59,6 +66,7 @@ const services = [
 const navLinks = [
   { label: "Servicios", href: "/#servicios" },
   { label: "Soluciones", href: "/#soluciones" },
+  { label: "IA", href: "/#ia" },
   { label: "Proceso", href: "/#como-funciona" },
   { label: "Casos", href: "/#testimonios" },
 ]
