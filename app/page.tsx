@@ -17,7 +17,6 @@ import {
   MapPin,
   Mail,
   Phone,
-  ShoppingCart,
   Globe,
   ChevronDown,
   Palette,
@@ -34,6 +33,7 @@ import {
   Zap,
   Cpu,
   Wand2,
+  Workflow,
 } from "lucide-react"
 import { Navbar } from "@/components/navbar"
 import { DemoModal } from "@/components/demo-modal"
@@ -392,7 +392,7 @@ const AIChatMockup = () => (
   </div>
 )
 
-/* ────────────────────────────────────────────────────────────
+/* ────────────────────────────────���───────────────────────────
    Data
    ──────────────────────────────────────────────────────────── */
 const aiFeatures = [
@@ -515,20 +515,20 @@ const services = [
 
 const solutions = [
   {
-    title: "Landing Pages",
-    description:
-      "Páginas profesionales diseñadas para captar clientes y convertir visitas en ventas. Perfectas para lanzar productos, servicios o campañas.",
-    icon: Globe,
-    accent: "from-brand to-brand-dark",
-    features: ["Diseño orientado a conversión", "Responsive y veloz", "Formularios de contacto", "SEO optimizado"],
+  title: "Landing Pages / Web Institucionales",
+  description:
+  "Sitios profesionales para presentar tu negocio, captar clientes y convertir visitas en ventas. Ideales para lanzar productos, servicios o dar presencia formal a tu empresa en internet.",
+  icon: Globe,
+  accent: "from-brand to-brand-dark",
+  features: ["Diseño orientado a conversión", "Responsive y veloz", "Formularios de contacto", "SEO optimizado"],
   },
   {
-    title: "E-commerce",
-    description:
-      "Tiendas online completas para vender tus productos. Gestión de inventario, pagos seguros y experiencia de compra optimizada.",
-    icon: ShoppingCart,
-    accent: "from-orange-500 to-orange-600",
-    features: ["Carrito y pagos seguros", "Gestión de stock", "Panel de administración", "Reportes de ventas"],
+  title: "Automatizaciones",
+  description:
+  "Conectamos tus herramientas y automatizamos tareas repetitivas: seguimiento de clientes, notificaciones, carga de datos y más. Ahorrás tiempo y reducís errores manuales.",
+  icon: Workflow,
+  accent: "from-orange-500 to-orange-600",
+  features: ["Integración entre sistemas", "Flujos de trabajo a medida", "Notificaciones automáticas", "Menos tareas manuales"],
   },
   {
     title: "ERP / Sistemas de gestión",
@@ -589,7 +589,7 @@ const faqs = [
   {
     question: "¿Cuánto tiempo tarda el desarrollo?",
     answer:
-      "Depende del proyecto. Una landing o catálogo puede estar listo en 1-2 semanas. E-commerce y sistemas de gestión (ERP) suelen tomar de 3 a 6 semanas según la complejidad.",
+      "Depende del proyecto. Una landing page o catálogo digital puede estar listo en 1-2 semanas. Automatizaciones y sistemas de gestión (ERP) suelen tomar de 3 a 6 semanas según la complejidad.",
   },
   {
     question: "¿Puedo actualizar el contenido yo mismo?",
@@ -758,7 +758,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ── Services grid ────────────────────────────────────── */}
+      {/* ── Services grid ────────────────────────────────��───── */}
       <section id="servicios" className="py-24">
         <div className="container mx-auto px-4 md:px-6">
           <Reveal className="mx-auto mb-16 max-w-2xl text-center">
@@ -1318,8 +1318,8 @@ export default function HomePage() {
               <h3 className="font-display text-lg font-semibold">Soluciones</h3>
               <ul className="mt-4 space-y-3 text-sm">
                 {[
-                  { label: "Landing Pages", href: "#soluciones" },
-                  { label: "E-commerce", href: "#soluciones" },
+  { label: "Landing Pages / Web Institucionales", href: "#soluciones" },
+  { label: "Automatizaciones", href: "#soluciones" },
                   { label: "ERP / Sistemas de gestión", href: "#sistemas" },
                   { label: "Catálogos Digitales / Cartas Digitales", href: "#soluciones" },
                 ].map((item) => (
