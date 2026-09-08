@@ -392,7 +392,7 @@ const AIChatMockup = () => (
   </div>
 )
 
-/* ────────────────────────────────���───────────────────────────
+/* ────────────────────────────────����───────────────────────────
    Data
    ──────────────────────────────────────────────────────────── */
 const aiFeatures = [
@@ -683,7 +683,7 @@ export default function HomePage() {
       <DemoModal open={demoDialogOpen} onOpenChange={setDemoDialogOpen} demoUrl={demoUrl} originPosition={buttonPosition} />
 
       {/* ── Hero ─────────────────────────────────────────────── */}
-      <section id="hero" className="relative overflow-hidden bg-white pt-14 pb-20 md:pt-20 md:pb-28">
+      <section id="hero" className="relative bg-white pt-14 pb-20 md:pt-20 md:pb-28">
         {/* animated aurora background */}
         <div className="pointer-events-none absolute inset-0 overflow-hidden">
           <div className="animate-aurora absolute -top-24 -left-24 h-96 w-96 rounded-full bg-brand/10 blur-3xl" />
