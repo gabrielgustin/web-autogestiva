@@ -269,81 +269,140 @@ const HeroMockup = () => {
   )
 }
 
-const SeoMockup = () => (
-  <div className="relative">
-    <BrowserChrome>
-      <div className="space-y-3 p-6">
-        <div className="h-7 w-4/5 rounded-lg bg-brand" />
-        <div className="h-7 w-3/5 rounded-lg bg-brand/50" />
-        <div className="mt-4 space-y-2">
-          <div className="h-3 w-full rounded bg-slate-200" />
-          <div className="h-3 w-11/12 rounded bg-slate-200" />
-          <div className="h-3 w-4/5 rounded bg-slate-200" />
-          <div className="h-3 w-3/4 rounded bg-slate-200" />
-        </div>
-      </div>
-    </BrowserChrome>
-    {/* magnifier */}
-    <div className="animate-float absolute -bottom-6 -right-2 grid h-28 w-28 place-items-center rounded-full border-[6px] border-brand-dark bg-white/40 backdrop-blur-sm shadow-2xl">
-      <Search className="h-10 w-10 text-brand-dark" />
-      <span className="absolute -bottom-4 -right-2 h-10 w-3 rotate-45 rounded-full bg-brand-dark" />
-    </div>
-    <div className="absolute right-6 top-6 flex items-center gap-1 rounded-full bg-green-500 px-3 py-1 text-xs font-semibold text-white shadow-lg">
-      <ShieldCheck className="h-3.5 w-3.5" /> SEO OK
-    </div>
-  </div>
-)
+const SeoMockup = () => {
+  const [visible, setVisible] = useState(false)
+  const ref = useRef<HTMLDivElement>(null)
 
-const DashboardMockup = () => (
-  <div className="relative">
-    <BrowserChrome>
-      <div className="flex">
-        <div className="hidden w-16 shrink-0 space-y-3 bg-slate-900 p-3 sm:block">
-          <div className="h-8 w-8 rounded-lg bg-brand" />
-          {[0, 1, 2, 3].map((i) => (
-            <div key={i} className="h-2.5 w-full rounded bg-white/20" />
-          ))}
-        </div>
-        <div className="flex-1 p-5">
-          <div className="flex items-center justify-between">
-            <div className="h-4 w-32 rounded bg-slate-800" />
-            <div className="h-6 w-6 rounded-full bg-brand-light" />
-          </div>
-          <div className="mt-4 grid grid-cols-3 gap-3">
-            {[
-              { c: "bg-brand", w: "w-2/3" },
-              { c: "bg-orange-500", w: "w-1/2" },
-              { c: "bg-green-500", w: "w-3/4" },
-            ].map((k, i) => (
-              <div key={i} className="rounded-xl border border-slate-100 bg-slate-50 p-3">
-                <div className={`h-2.5 ${k.w} rounded bg-slate-300`} />
-                <div className={`mt-2 h-5 w-12 rounded ${k.c}`} />
-              </div>
-            ))}
-          </div>
-          <div className="mt-4 flex h-28 items-end gap-2 rounded-xl border border-slate-100 bg-slate-50 p-3">
-            {[40, 65, 50, 80, 55, 90, 70].map((h, i) => (
-              <div
-                key={i}
-                className="flex-1 rounded-t bg-gradient-to-t from-brand to-brand/50"
-                style={{ height: `${h}%` }}
-              />
-            ))}
+  useEffect(() => {
+    const el = ref.current
+    if (!el) return
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setVisible(true)
+            observer.unobserve(entry.target)
+          }
+        })
+      },
+      { threshold: 0.35 },
+    )
+    observer.observe(el)
+    return () => observer.disconnect()
+  }, [])
+
+  const build = (delay: string) => (visible ? "animate-build-in" : "opacity-0")
+  const buildStyle = (delay: string) => (visible ? { animationDelay: delay } : undefined)
+
+  return (
+    <div className="relative" ref={ref}>
+      <BrowserChrome>
+        <div className="space-y-3 p-6">
+          <div className={`${build("0.05s")} h-7 w-4/5 rounded-lg bg-brand`} style={buildStyle("0.05s")} />
+          <div className={`${build("0.15s")} h-7 w-3/5 rounded-lg bg-brand/50`} style={buildStyle("0.15s")} />
+          <div className="mt-4 space-y-2">
+            <div className={`${build("0.3s")} h-3 w-full rounded bg-slate-200`} style={buildStyle("0.3s")} />
+            <div className={`${build("0.4s")} h-3 w-11/12 rounded bg-slate-200`} style={buildStyle("0.4s")} />
+            <div className={`${build("0.5s")} h-3 w-4/5 rounded bg-slate-200`} style={buildStyle("0.5s")} />
+            <div className={`${build("0.6s")} h-3 w-3/4 rounded bg-slate-200`} style={buildStyle("0.6s")} />
           </div>
         </div>
+      </BrowserChrome>
+      {/* magnifier */}
+      <div className="animate-float absolute -bottom-6 -right-2 grid h-28 w-28 place-items-center rounded-full border-[6px] border-brand-dark bg-white/40 backdrop-blur-sm shadow-2xl">
+        <Search className="h-10 w-10 text-brand-dark" />
+        <span className="absolute -bottom-4 -right-2 h-10 w-3 rotate-45 rounded-full bg-brand-dark" />
       </div>
-    </BrowserChrome>
-    <div className="animate-float-slow absolute -left-3 bottom-6 hidden rounded-2xl border border-slate-100 bg-white p-3 shadow-xl md:flex md:items-center md:gap-2">
-      <span className="flex h-9 w-9 items-center justify-center rounded-full bg-green-100 text-green-600">
-        <Clock className="h-5 w-5" />
-      </span>
-      <div>
-        <p className="text-xs font-semibold text-slate-800">-80% tiempo</p>
-        <p className="text-[10px] text-slate-500">operativo</p>
+      <div className="absolute right-6 top-6 flex items-center gap-1 rounded-full bg-green-500 px-3 py-1 text-xs font-semibold text-white shadow-lg">
+        <ShieldCheck className="h-3.5 w-3.5" /> SEO OK
       </div>
     </div>
-  </div>
-)
+  )
+}
+
+const DashboardMockup = () => {
+  const [visible, setVisible] = useState(false)
+  const ref = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    const el = ref.current
+    if (!el) return
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setVisible(true)
+            observer.unobserve(entry.target)
+          }
+        })
+      },
+      { threshold: 0.35 },
+    )
+    observer.observe(el)
+    return () => observer.disconnect()
+  }, [])
+
+  const build = (delay: string) => (visible ? "animate-build-in" : "opacity-0")
+  const buildStyle = (delay: string) => (visible ? { animationDelay: delay } : undefined)
+
+  return (
+    <div className="relative" ref={ref}>
+      <BrowserChrome>
+        <div className="flex">
+          <div className="hidden w-16 shrink-0 space-y-3 bg-slate-900 p-3 sm:block">
+            <div className="h-8 w-8 rounded-lg bg-brand" />
+            {[0, 1, 2, 3].map((i) => (
+              <div key={i} className="h-2.5 w-full rounded bg-white/20" />
+            ))}
+          </div>
+          <div className="flex-1 p-5">
+            <div className="flex items-center justify-between">
+              <div className={`${build("0.05s")} h-4 w-32 rounded bg-slate-800`} style={buildStyle("0.05s")} />
+              <div className={`${build("0.15s")} h-6 w-6 rounded-full bg-brand-light`} style={buildStyle("0.15s")} />
+            </div>
+            <div className="mt-4 grid grid-cols-3 gap-3">
+              {[
+                { c: "bg-brand", w: "w-2/3", delay: "0.3s" },
+                { c: "bg-orange-500", w: "w-1/2", delay: "0.4s" },
+                { c: "bg-green-500", w: "w-3/4", delay: "0.5s" },
+              ].map((k, i) => (
+                <div
+                  key={i}
+                  className={`${build(k.delay)} rounded-xl border border-slate-100 bg-slate-50 p-3`}
+                  style={buildStyle(k.delay)}
+                >
+                  <div className={`h-2.5 ${k.w} rounded bg-slate-300`} />
+                  <div className={`mt-2 h-5 w-12 rounded ${k.c}`} />
+                </div>
+              ))}
+            </div>
+            <div
+              className={`${build("0.65s")} mt-4 flex h-28 items-end gap-2 rounded-xl border border-slate-100 bg-slate-50 p-3`}
+              style={buildStyle("0.65s")}
+            >
+              {[40, 65, 50, 80, 55, 90, 70].map((h, i) => (
+                <div
+                  key={i}
+                  className="flex-1 rounded-t bg-gradient-to-t from-brand to-brand/50"
+                  style={{ height: `${h}%` }}
+                />
+              ))}
+            </div>
+          </div>
+        </div>
+      </BrowserChrome>
+      <div className="animate-float-slow absolute -left-3 bottom-6 hidden rounded-2xl border border-slate-100 bg-white p-3 shadow-xl md:flex md:items-center md:gap-2">
+        <span className="flex h-9 w-9 items-center justify-center rounded-full bg-green-100 text-green-600">
+          <Clock className="h-5 w-5" />
+        </span>
+        <div>
+          <p className="text-xs font-semibold text-slate-800">-80% tiempo</p>
+          <p className="text-[10px] text-slate-500">operativo</p>
+        </div>
+      </div>
+    </div>
+  )
+}
 
 const AIChatMockup = () => (
   <div className="relative">
@@ -392,7 +451,7 @@ const AIChatMockup = () => (
   </div>
 )
 
-/* ────────────────────────────────����───────────────────────────
+/* ────────────────────────────────�����───────────────────────────
    Data
    ──────────────────────────────────────────────────────────── */
 const aiFeatures = [
