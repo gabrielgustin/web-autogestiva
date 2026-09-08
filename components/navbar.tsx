@@ -102,7 +102,7 @@ export function Navbar() {
             alt="Logo Autogestiva"
             width={200}
             height={45}
-            className="h-9 md:h-10 w-auto"
+            className="h-11 md:h-12 w-auto"
           />
           <span className="sr-only">Autogestiva</span>
         </Link>

@@ -130,7 +130,7 @@ const StatCounter = ({
   }, [inView, value, duration])
 
   return (
-    <div ref={ref} className="font-display text-4xl md:text-5xl font-extrabold text-brand">
+    <div ref={ref} className="font-display text-4xl md:text-5xl font-extrabold text-white">
       {prefix}
       {count}
       {suffix}
