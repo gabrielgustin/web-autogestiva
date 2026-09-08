@@ -367,6 +367,63 @@ const techStack = [
   "Supabase",
 ]
 
+const clients = [
+  {
+    name: "Traslados Jarabus",
+    logo: "/images/clients/jarabus.jpg",
+    url: "https://trasladosjarabus.com.ar",
+    dark: false,
+  },
+  {
+    name: "Estudio Jurídico CONVS",
+    logo: "/images/clients/convs.png",
+    url: "https://estudiojuridicoconvs.com.ar",
+    dark: false,
+  },
+  {
+    name: "Tempograss",
+    logo: "/images/clients/tempograss.png",
+    url: "https://tempograss.vercel.app",
+    dark: true,
+  },
+  {
+    name: "SEA - Villada",
+    logo: "/images/clients/sea-villada.png",
+    url: "https://portalsea.com.ar/villada",
+    dark: false,
+  },
+  {
+    name: "SEA - Savio",
+    logo: "/images/clients/sea-savio.png",
+    url: "https://portalsea.com.ar/savio",
+    dark: false,
+  },
+  {
+    name: "Gimnasio Life Gym",
+    logo: "/images/clients/life-gym.png",
+    url: "https://gimnasiolifegym.com.ar",
+    dark: false,
+  },
+  {
+    name: "Mara Saúl Estética",
+    logo: "/images/clients/mara-saul.png",
+    url: "https://v0-mara-saul.vercel.app",
+    dark: true,
+  },
+  {
+    name: "Visual Henderson",
+    logo: "/images/clients/visual-henderson.png",
+    url: "https://visual-henderson.netlify.app",
+    dark: false,
+  },
+  {
+    name: "Cambel Red Jurídica",
+    logo: "/images/clients/cambel.png",
+    url: "https://cambelredjuridica.com.ar",
+    dark: true,
+  },
+]
+
 const services = [
   {
     icon: Palette,
@@ -968,6 +1025,49 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* ── Clients ──────────────────────────────────────────── */}
+      <section id="clientes" className="border-y border-slate-100 bg-slate-50 py-24">
+        <div className="container mx-auto px-4 md:px-6">
+          <Reveal className="mx-auto mb-14 max-w-2xl text-center">
+            <span className="text-sm font-semibold uppercase tracking-widest text-orange-500">Clientes</span>
+            <h2 className="font-display mt-3 text-3xl font-extrabold text-ink md:text-4xl">
+              Marcas que ya confían en nosotros
+            </h2>
+            <p className="mt-4 text-pretty text-slate-600">
+              Negocios de rubros muy distintos eligieron nuestras soluciones digitales para crecer.
+            </p>
+          </Reveal>
+
+          <Reveal delay={0.1}>
+            <div className="marquee-mask relative overflow-hidden">
+              <div className="flex w-max animate-marquee-clients items-center gap-6">
+                {[...clients, ...clients].map((client, i) => (
+                  <a
+                    key={`${client.name}-${i}`}
+                    href={client.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={`Visitar el sitio web de ${client.name}`}
+                    className={`group flex h-24 w-48 shrink-0 items-center justify-center rounded-2xl border p-5 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-lg ${
+                      client.dark ? "border-slate-800 bg-slate-900" : "border-slate-200 bg-white"
+                    }`}
+                  >
+                    <img
+                      src={client.logo || "/placeholder.svg"}
+                      alt={client.name}
+                      crossOrigin="anonymous"
+                      loading="lazy"
+                      decoding="async"
+                      className="max-h-14 max-w-full object-contain opacity-75 grayscale transition-all duration-300 group-hover:opacity-100 group-hover:grayscale-0"
+                    />
+                  </a>
+                ))}
+              </div>
+            </div>
+          </Reveal>
+        </div>
+      </section>
+
       {/* ── Testimonials ─────────────────────────────────────── */}
       <section id="testimonios" className="py-24">
         <div className="container mx-auto px-4 md:px-6">
@@ -1157,7 +1257,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ── Footer ───────────────────────────────────────────── */}
+      {/* ── Footer ───────────────────────────────────────��───── */}
       <footer className="bg-ink text-white">
         <div className="container mx-auto px-4 py-14 md:px-6">
           <div className="grid grid-cols-1 gap-10 md:grid-cols-4">
