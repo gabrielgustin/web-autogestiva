@@ -80,7 +80,7 @@ export function Navbar() {
       <div className="container mx-auto flex h-20 md:h-16 items-center justify-between pl-2 pr-4 md:px-6">
         <Link className="flex items-center gap-2" href="/">
           <img
-            src="/images/design-mode/Logo%20Autogestiva%20%281%29%20%281%29.png"
+            src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Logo%20Autogestiva%20ultimo-R93mHhq1sUa1o5uzR06VLSNktwqoaS.png"
             alt="Logo Autogestiva"
             width={216}
             height={49}
