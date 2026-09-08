@@ -20,7 +20,6 @@ import {
   ShoppingCart,
   Globe,
   ChevronDown,
-  Star,
   Palette,
   Gauge,
   Search,
@@ -529,27 +528,6 @@ const procesSteps = [
     icon: MousePointerClick,
     image: "/images/implementacio-cc-81n.png",
     mobileImage: "/images/implementacion-mobile.png",
-  },
-]
-
-const testimonials = [
-  {
-    name: "Mara Saul",
-    business: "Estética",
-    text: "Una experiencia muy gratificante, ofrecen una atención personalizada y son muy flexibles en varios aspectos.",
-    rating: 5,
-  },
-  {
-    name: "Santiago Henderson",
-    business: "Carpintería",
-    text: "Muy conforme con el resultado y la rapidez con la que trabajaron.",
-    rating: 5,
-  },
-  {
-    name: "Lulu Deco",
-    business: "Tienda de decoración",
-    text: "Muy contenta con los resultados, 100% funcional y fácil de administrar.",
-    rating: 5,
   },
 ]
 
@@ -1065,37 +1043,6 @@ export default function HomePage() {
               </div>
             </div>
           </Reveal>
-        </div>
-      </section>
-
-      {/* ── Testimonials ─────────────────────────────────────── */}
-      <section id="testimonios" className="py-24">
-        <div className="container mx-auto px-4 md:px-6">
-          <Reveal className="mx-auto mb-16 max-w-2xl text-center">
-            <span className="text-sm font-semibold uppercase tracking-widest text-orange-500">Casos</span>
-            <h2 className="font-display mt-3 text-3xl font-extrabold text-ink md:text-4xl">
-              Lo que dicen nuestros clientes
-            </h2>
-          </Reveal>
-
-          <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
-            {testimonials.map((testimonial, index) => (
-              <Reveal key={testimonial.name} delay={0.1 * index}>
-                <div className="flex h-full flex-col rounded-2xl border border-slate-100 bg-white p-8 shadow-sm transition-shadow hover:shadow-xl">
-                  <div className="mb-4 flex gap-1">
-                    {Array.from({ length: testimonial.rating }).map((_, i) => (
-                      <Star key={i} className="h-5 w-5 fill-yellow-400 text-yellow-400" />
-                    ))}
-                  </div>
-                  <p className="flex-1 text-pretty italic text-slate-700">&ldquo;{testimonial.text}&rdquo;</p>
-                  <div className="mt-6 border-t border-slate-100 pt-4">
-                    <p className="font-display font-bold text-ink">{testimonial.name}</p>
-                    <p className="text-sm text-slate-500">{testimonial.business}</p>
-                  </div>
-                </div>
-              </Reveal>
-            ))}
-          </div>
         </div>
       </section>
 
