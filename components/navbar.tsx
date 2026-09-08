@@ -89,7 +89,7 @@ export function Navbar() {
 
   return (
     <header
-      className={`sticky top-0 z-50 w-full transition-all duration-300 ${
+      className={`sticky top-0 z-50 w-full relative transition-all duration-300 ${
         scrolled
           ? "bg-white/90 backdrop-blur-md shadow-[0_6px_24px_-12px_rgba(15,23,41,0.25)] border-b border-slate-200/70"
           : "bg-white border-b border-transparent"
@@ -109,11 +109,7 @@ export function Navbar() {
 
         {/* Desktop nav */}
         <nav className="hidden lg:flex items-center gap-1">
-          <div
-            className="relative"
-            onMouseEnter={() => setIsServicesOpen(true)}
-            onMouseLeave={() => setIsServicesOpen(false)}
-          >
+          <div onMouseEnter={() => setIsServicesOpen(true)} onMouseLeave={() => setIsServicesOpen(false)}>
             <button
               className="flex items-center gap-1.5 rounded-lg px-4 py-2.5 text-[15px] font-medium text-slate-700 transition-colors hover:text-brand hover:bg-brand-light"
               aria-expanded={isServicesOpen}
@@ -126,7 +122,7 @@ export function Navbar() {
 
             {isServicesOpen && (
               <div className="absolute top-full left-1/2 -translate-x-1/2 pt-3">
-                <div className="w-[640px] rounded-2xl border border-slate-100 bg-white p-3 shadow-2xl animate-rise-in">
+                <div className="w-[min(640px,92vw)] rounded-2xl border border-slate-100 bg-white p-3 shadow-2xl animate-rise-in">
                   <div className="grid grid-cols-2 gap-1">
                     {services.map((service) => {
                       const Icon = service.icon
