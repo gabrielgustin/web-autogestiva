@@ -63,12 +63,6 @@ const services = [
   },
 ]
 
-const navLinks = [
-  { label: "Servicios", href: "/#servicios" },
-  { label: "Soluciones", href: "/#soluciones" },
-  { label: "IA", href: "/#ia" },
-]
-
 export function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [isServicesOpen, setIsServicesOpen] = useState(false)
@@ -159,15 +153,6 @@ export function Navbar() {
             )}
           </div>
 
-          {navLinks.slice(1).map((link) => (
-            <Link
-              key={link.href}
-              href={link.href}
-              className="rounded-lg px-4 py-2.5 text-[15px] font-medium text-slate-700 transition-colors hover:text-brand hover:bg-brand-light"
-            >
-              {link.label}
-            </Link>
-          ))}
         </nav>
 
         {/* Desktop actions */}
@@ -229,15 +214,6 @@ export function Navbar() {
               </div>
             )}
 
-            {navLinks.slice(1).map((link) => (
-              <Link
-                key={link.href}
-                href={link.href}
-                className="rounded-lg px-3 py-3 text-base font-medium text-slate-800 hover:bg-slate-50"
-              >
-                {link.label}
-              </Link>
-            ))}
 
             <div className="mt-2 flex flex-col gap-2 border-t border-slate-100 pt-3">
               <Link
