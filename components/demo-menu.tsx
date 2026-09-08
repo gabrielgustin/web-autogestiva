@@ -1,7 +1,7 @@
 "use client"
 
 import { useEffect, useRef, useState } from "react"
-import { Globe, BookOpen, ArrowRight, ChevronDown } from "lucide-react"
+import { Globe, BookOpen, ArrowRight, ChevronDown, ShoppingCart, Building2 } from "lucide-react"
 
 const DEMOS = [
   {
@@ -17,6 +17,20 @@ const DEMOS = [
     description: "Menú o catálogo autogestionable, ideal para gastronomía y comercios.",
     url: "https://v0-carta-digital.vercel.app",
     icon: BookOpen,
+  },
+  {
+    example: "Traslados Jarabus",
+    title: "E-commerce",
+    description: "Tienda online con reserva y venta de pasajes de forma autogestionable.",
+    url: "https://trasladosjarabus.com.ar",
+    icon: ShoppingCart,
+  },
+  {
+    example: "Tempograss",
+    title: "Web Institucional",
+    description: "Sitio institucional con presentación de servicios y contacto directo.",
+    url: "https://tempograss.vercel.app",
+    icon: Building2,
   },
 ]
 
