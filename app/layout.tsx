@@ -2,7 +2,6 @@ import type React from "react"
 import "./globals.css"
 import type { Metadata, Viewport } from "next"
 import { Inter, Poppins } from "next/font/google"
-import { AuthProvider } from "@/components/auth-provider"
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter", display: "swap" })
 const poppins = Poppins({
@@ -51,9 +50,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="es" className={`scroll-smooth bg-background ${inter.variable} ${poppins.variable}`}>
-      <body className={inter.className}>
-        <AuthProvider>{children}</AuthProvider>
-      </body>
+      <body className={inter.className}>{children}</body>
     </html>
   )
 }

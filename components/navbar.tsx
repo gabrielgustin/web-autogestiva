@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react"
 import Link from "next/link"
-import { usePathname, useRouter } from "next/navigation"
+import { usePathname } from "next/navigation"
 import {
   Menu,
   X,
@@ -67,8 +67,6 @@ const navLinks = [
   { label: "Servicios", href: "/#servicios" },
   { label: "Soluciones", href: "/#soluciones" },
   { label: "IA", href: "/#ia" },
-  { label: "Proceso", href: "/#como-funciona" },
-  { label: "Casos", href: "/#testimonios" },
 ]
 
 export function Navbar() {
@@ -76,7 +74,6 @@ export function Navbar() {
   const [isServicesOpen, setIsServicesOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
   const pathname = usePathname()
-  const router = useRouter()
 
   useEffect(() => {
     setIsMenuOpen(false)
@@ -89,11 +86,6 @@ export function Navbar() {
     window.addEventListener("scroll", onScroll, { passive: true })
     return () => window.removeEventListener("scroll", onScroll)
   }, [])
-
-  const handlePanelRedirect = () => {
-    router.push("/login")
-    setIsMenuOpen(false)
-  }
 
   return (
     <header
@@ -180,12 +172,6 @@ export function Navbar() {
 
         {/* Desktop actions */}
         <div className="hidden lg:flex items-center gap-3 shrink-0">
-          <button
-            onClick={handlePanelRedirect}
-            className="rounded-lg px-4 py-2.5 text-[15px] font-medium text-slate-700 transition-colors hover:text-brand"
-          >
-            Acceso Clientes
-          </button>
           <Link
             href="/#contacto"
             className="group relative inline-flex items-center gap-2 overflow-hidden rounded-full bg-orange-500 px-6 py-2.5 text-[15px] font-semibold text-white shadow-lg shadow-orange-500/25 transition-all hover:bg-orange-600 hover:shadow-orange-500/40"
@@ -254,12 +240,6 @@ export function Navbar() {
             ))}
 
             <div className="mt-2 flex flex-col gap-2 border-t border-slate-100 pt-3">
-              <button
-                onClick={handlePanelRedirect}
-                className="rounded-lg border border-slate-200 px-4 py-3 text-base font-medium text-slate-800 hover:bg-slate-50"
-              >
-                Acceso Clientes
-              </button>
               <Link
                 href="/#contacto"
                 className="inline-flex items-center justify-center gap-2 rounded-full bg-orange-500 px-6 py-3 text-base font-semibold text-white shadow-lg"
