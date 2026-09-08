@@ -90,32 +90,37 @@ export function Navbar() {
       }`}
     >
       <div className="container mx-auto flex h-18 md:h-20 items-center justify-between gap-4 px-4 md:px-6 py-3">
-        <Link className="flex items-center gap-2 shrink-0" href="/">
-          <img
-            src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Logo%20Autogestiva%20ultimo-R93mHhq1sUa1o5uzR06VLSNktwqoaS.png"
-            alt="Logo Autogestiva"
-            width={200}
-            height={45}
-            className="h-11 md:h-12 w-auto"
-          />
-          <span className="sr-only">Autogestiva</span>
-        </Link>
+        <div className="flex items-center gap-1">
+          <Link className="flex items-center gap-2 shrink-0" href="/">
+            <img
+              src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Logo%20Autogestiva%20ultimo-R93mHhq1sUa1o5uzR06VLSNktwqoaS.png"
+              alt="Logo Autogestiva"
+              width={200}
+              height={45}
+              className="h-11 md:h-12 w-auto"
+            />
+            <span className="sr-only">Autogestiva</span>
+          </Link>
 
-        {/* Desktop nav */}
-        <nav className="hidden lg:flex items-center gap-1">
-          <div onMouseEnter={() => setIsServicesOpen(true)} onMouseLeave={() => setIsServicesOpen(false)}>
-            <button
-              className="flex items-center gap-1.5 rounded-lg px-4 py-2.5 text-[15px] font-medium text-slate-700 transition-colors hover:text-brand hover:bg-brand-light"
-              aria-expanded={isServicesOpen}
+          {/* Desktop nav */}
+          <nav className="hidden lg:flex items-center gap-1">
+            <div
+              className="relative"
+              onMouseEnter={() => setIsServicesOpen(true)}
+              onMouseLeave={() => setIsServicesOpen(false)}
             >
-              Servicios
-              <ChevronDown
-                className={`h-4 w-4 transition-transform duration-200 ${isServicesOpen ? "rotate-180" : ""}`}
-              />
-            </button>
+              <button
+                className="flex items-center gap-1.5 rounded-lg px-4 py-2.5 text-[15px] font-medium text-slate-700 transition-colors hover:text-brand hover:bg-brand-light"
+                aria-expanded={isServicesOpen}
+              >
+                Servicios
+                <ChevronDown
+                  className={`h-4 w-4 transition-transform duration-200 ${isServicesOpen ? "rotate-180" : ""}`}
+                />
+              </button>
 
-            {isServicesOpen && (
-              <div className="absolute top-full left-1/2 -translate-x-1/2 pt-3">
+              {isServicesOpen && (
+                <div className="absolute top-full left-0 pt-3">
                 <div className="w-[min(640px,92vw)] rounded-2xl border border-slate-100 bg-white p-3 shadow-2xl animate-rise-in">
                   <div className="grid grid-cols-2 gap-1">
                     {services.map((service) => {
@@ -153,7 +158,8 @@ export function Navbar() {
             )}
           </div>
 
-        </nav>
+          </nav>
+        </div>
 
         {/* Desktop actions */}
         <div className="hidden lg:flex items-center gap-3 shrink-0">

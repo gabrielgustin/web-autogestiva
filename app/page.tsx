@@ -489,7 +489,7 @@ const solutions = [
     features: ["Automatización de procesos", "Roles y permisos", "Reportes en tiempo real", "Integraciones a medida"],
   },
   {
-    title: "Catálogos Digitales / Cartas Digitales",
+    title: "Catálogos / Cartas Digitales",
     description:
       "Catálogos autogestionables para emprendimientos y tiendas. Mostrá tus productos de forma atractiva, organizada y siempre actualizada.",
     icon: BookOpen,
@@ -506,30 +506,33 @@ const stats = [
 
 const procesSteps = [
   {
-    title: "Análisis y Diseño",
-    description:
-      "Analizamos tus necesidades específicas y diseñamos una solución personalizada, alineada con tu marca y tus objetivos de negocio.",
-    icon: Lightbulb,
-    image: "/images/ana-cc-81lisis-20y-20disen-cc-83o.png",
-    mobileImage: "/images/analisis-diseno-mobile.png",
+  title: "Análisis y Diseño",
+  description:
+  "Analizamos tus necesidades específicas y diseñamos una solución personalizada, alineada con tu marca y tus objetivos de negocio.",
+  icon: Lightbulb,
+  image: "/images/ana-cc-81lisis-20y-20disen-cc-83o.png",
+  mobileImage: "/images/analisis-diseno-mobile.png",
+  tags: ["Reunión inicial", "Objetivos", "Wireframes"],
   },
   {
-    title: "Desarrollo",
-    description:
-      "Construimos tu solución con foco en la experiencia de usuario y la facilidad de gestión. Desarrollo ágil, transparente y con tecnología moderna.",
-    icon: Rocket,
-    image: "/images/desarrollo.png",
-    mobileImage: "/images/desarrollo-mobile.png",
+  title: "Desarrollo",
+  description:
+  "Construimos tu solución con foco en la experiencia de usuario y la facilidad de gestión. Desarrollo ágil, transparente y con tecnología moderna.",
+  icon: Rocket,
+  image: "/images/desarrollo.png",
+  mobileImage: "/images/desarrollo-mobile.png",
+  tags: ["Diseño a medida", "Tecnología moderna", "Revisiones"],
   },
   {
-    title: "Lanzamiento y Capacitación",
-    description:
-      "Lanzamos tu proyecto y te capacitamos para que gestiones el contenido de forma autónoma. Soporte continuo después del despegue.",
-    icon: MousePointerClick,
-    image: "/images/implementacio-cc-81n.png",
-    mobileImage: "/images/implementacion-mobile.png",
+  title: "Lanzamiento y Capacitación",
+  description:
+  "Lanzamos tu proyecto y te capacitamos para que gestiones el contenido de forma autónoma. Soporte continuo después del despegue.",
+  icon: MousePointerClick,
+  image: "/images/implementacio-cc-81n.png",
+  mobileImage: "/images/implementacion-mobile.png",
+  tags: ["Puesta online", "Capacitación", "Soporte continuo"],
   },
-]
+  ]
 
 const faqs = [
   {
@@ -952,39 +955,64 @@ export default function HomePage() {
       <section id="como-funciona" className="bg-slate-50 py-24">
         <div className="container mx-auto px-4 md:px-6">
           <Reveal className="mx-auto mb-20 max-w-2xl text-center">
-            <span className="text-sm font-semibold uppercase tracking-widest text-orange-500">Proceso</span>
-            <h2 className="font-display mt-3 text-3xl font-extrabold text-ink md:text-4xl">
-              Nuestro proceso de trabajo en 3 pasos
+            <span className="inline-flex items-center gap-2 rounded-full bg-orange-500/10 px-4 py-1.5 text-sm font-semibold uppercase tracking-widest text-orange-500">
+              Proceso
+            </span>
+            <h2 className="font-display mt-4 text-3xl font-extrabold text-ink md:text-4xl">
+              De la idea al lanzamiento en 3 pasos
             </h2>
+            <p className="mt-4 text-pretty text-slate-600">
+              Un camino claro y transparente. Así acompañamos tu proyecto desde la primera charla hasta que estás online.
+            </p>
           </Reveal>
 
-          <div className="relative">
-            <div className="absolute left-1/2 top-0 bottom-0 hidden w-0.5 -translate-x-1/2 bg-gradient-to-b from-brand via-brand/40 to-orange-500 md:block" />
-            <div className="space-y-16 md:space-y-24">
+          <div className="relative mx-auto max-w-5xl">
+            <div className="absolute left-6 top-4 bottom-4 w-0.5 bg-gradient-to-b from-brand via-brand/40 to-orange-500 md:left-1/2 md:-translate-x-1/2" />
+            <div className="space-y-12 md:space-y-16">
               {procesSteps.map((step, index) => {
                 const Icon = step.icon
                 const textFirst = index % 2 === 0
                 return (
-                  <div key={step.title} className="grid grid-cols-1 items-center gap-10 md:grid-cols-2">
-                    <div className={textFirst ? "md:order-1" : "md:order-2"}>
-                      <Reveal>
-                        <div className={textFirst ? "md:text-right" : ""}>
-                          <div
-                            className={`inline-flex items-center gap-3 ${textFirst ? "md:flex-row-reverse" : ""}`}
-                          >
-                            <span className="flex h-12 w-12 items-center justify-center rounded-full bg-brand text-white shadow-lg">
+                  <Reveal key={step.title} delay={0.05 * index}>
+                    <div className="relative grid grid-cols-1 items-center gap-6 md:grid-cols-2 md:gap-12">
+                      {/* Timeline node */}
+                      <span className="absolute left-6 top-8 z-10 flex h-5 w-5 -translate-x-1/2 items-center justify-center rounded-full border-4 border-slate-50 bg-orange-500 md:left-1/2">
+                        <span className="absolute h-full w-full animate-ping rounded-full bg-orange-500/40" />
+                      </span>
+
+                      {/* Text card */}
+                      <div className={textFirst ? "md:order-1" : "md:order-2"}>
+                        <div
+                          className={`group ml-14 rounded-2xl border border-slate-100 bg-white p-6 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-xl md:ml-0 ${
+                            textFirst ? "md:mr-8 md:text-right" : "md:ml-8"
+                          }`}
+                        >
+                          <div className={`flex items-center gap-3 ${textFirst ? "md:flex-row-reverse" : ""}`}>
+                            <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-brand text-white shadow-lg transition-transform duration-300 group-hover:scale-110">
                               <Icon className="h-6 w-6" />
                             </span>
-                            <span className="font-display text-5xl font-extrabold text-slate-200">0{index + 1}</span>
+                            <span className="font-display text-5xl font-extrabold text-slate-100 transition-colors group-hover:text-orange-500/20">
+                              0{index + 1}
+                            </span>
                           </div>
                           <h3 className="font-display mt-4 text-2xl font-bold text-ink">{step.title}</h3>
-                          <p className="mt-3 text-slate-600">{step.description}</p>
+                          <p className="mt-3 leading-relaxed text-slate-600">{step.description}</p>
+                          <div className={`mt-5 flex flex-wrap gap-2 ${textFirst ? "md:justify-end" : ""}`}>
+                            {step.tags.map((tag) => (
+                              <span
+                                key={tag}
+                                className="rounded-full bg-brand-light px-3 py-1 text-xs font-medium text-brand"
+                              >
+                                {tag}
+                              </span>
+                            ))}
+                          </div>
                         </div>
-                      </Reveal>
-                    </div>
-                    <div className={textFirst ? "md:order-2" : "md:order-1"}>
-                      <Reveal delay={0.15}>
-                        <div className="mx-auto max-w-md overflow-hidden rounded-2xl">
+                      </div>
+
+                      {/* Image */}
+                      <div className={textFirst ? "md:order-2" : "md:order-1"}>
+                        <div className="ml-14 max-w-md overflow-hidden rounded-2xl md:mx-auto md:ml-0">
                           <img
                             src={(isMobile ? step.mobileImage : step.image) || "/placeholder.svg"}
                             alt={step.title}
@@ -993,9 +1021,9 @@ export default function HomePage() {
                             decoding="async"
                           />
                         </div>
-                      </Reveal>
+                      </div>
                     </div>
-                  </div>
+                  </Reveal>
                 )
               })}
             </div>
@@ -1050,8 +1078,7 @@ export default function HomePage() {
       <section id="faq" className="bg-slate-50 py-24">
         <div className="container mx-auto px-4 md:px-6">
           <Reveal className="mx-auto mb-14 max-w-2xl text-center">
-            <span className="text-sm font-semibold uppercase tracking-widest text-orange-500">FAQ</span>
-            <h2 className="font-display mt-3 text-3xl font-extrabold text-ink md:text-4xl">Preguntas frecuentes</h2>
+            <h2 className="font-display text-3xl font-extrabold text-ink md:text-4xl">Preguntas frecuentes</h2>
           </Reveal>
 
           <div className="mx-auto max-w-3xl space-y-3">
