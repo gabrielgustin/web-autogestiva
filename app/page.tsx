@@ -153,92 +153,121 @@ const BrowserChrome = ({ children }: { children: React.ReactNode }) => (
   </div>
 )
 
-const HeroMockup = () => (
-  <div className="relative">
-    <div className="animate-float">
-      <BrowserChrome>
-        <div className="p-5">
-          <div className="flex items-center justify-between">
-            <div className="animate-build-in h-4 w-24 rounded bg-brand" style={{ animationDelay: "0.05s" }} />
-            <div className="flex gap-2">
-              <div className="animate-build-in h-3 w-10 rounded bg-slate-200" style={{ animationDelay: "0.15s" }} />
-              <div className="animate-build-in h-3 w-10 rounded bg-slate-200" style={{ animationDelay: "0.2s" }} />
-              <div
-                className="animate-build-in h-6 w-16 rounded-full bg-orange-500"
-                style={{ animationDelay: "0.25s" }}
-              />
-            </div>
-          </div>
-          <div className="mt-6 grid grid-cols-5 gap-4">
-            <div className="col-span-3 space-y-3">
-              <div className="animate-build-in h-6 w-4/5 rounded bg-slate-800" style={{ animationDelay: "0.35s" }} />
-              <div className="animate-build-in h-6 w-3/5 rounded bg-slate-300" style={{ animationDelay: "0.45s" }} />
-              <div className="animate-build-in h-3 w-full rounded bg-slate-200" style={{ animationDelay: "0.55s" }} />
-              <div
-                className="animate-build-in h-3 w-11/12 rounded bg-slate-200"
-                style={{ animationDelay: "0.6s" }}
-              />
-              <div className="mt-4 flex gap-2">
-                <div className="animate-build-in h-8 w-24 rounded-lg bg-brand" style={{ animationDelay: "0.7s" }} />
+const HeroMockup = () => {
+  const [visible, setVisible] = useState(false)
+  const ref = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    const el = ref.current
+    if (!el) return
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setVisible(true)
+            observer.unobserve(entry.target)
+          }
+        })
+      },
+      { threshold: 0.35 },
+    )
+    observer.observe(el)
+    return () => observer.disconnect()
+  }, [])
+
+  const build = (delay: string) => (visible ? "animate-build-in" : "opacity-0")
+  const buildStyle = (delay: string) => (visible ? { animationDelay: delay } : undefined)
+
+  return (
+    <div className="relative" ref={ref}>
+      <div className="animate-float">
+        <BrowserChrome>
+          <div className="p-5">
+            <div className="flex items-center justify-between">
+              <div className={`${build("0.05s")} h-4 w-24 rounded bg-brand`} style={buildStyle("0.05s")} />
+              <div className="flex gap-2">
+                <div className={`${build("0.15s")} h-3 w-10 rounded bg-slate-200`} style={buildStyle("0.15s")} />
+                <div className={`${build("0.2s")} h-3 w-10 rounded bg-slate-200`} style={buildStyle("0.2s")} />
                 <div
-                  className="animate-build-in h-8 w-24 rounded-lg bg-slate-100 ring-1 ring-slate-200"
-                  style={{ animationDelay: "0.78s" }}
+                  className={`${build("0.25s")} h-6 w-16 rounded-full bg-orange-500`}
+                  style={buildStyle("0.25s")}
                 />
               </div>
             </div>
-            <div
-              className="animate-build-in col-span-2 rounded-xl bg-gradient-to-br from-brand to-brand-dark p-3"
-              style={{ animationDelay: "0.4s" }}
-            >
-              <div className="animate-build-in h-3 w-2/3 rounded bg-white/70" style={{ animationDelay: "0.65s" }} />
+            <div className="mt-6 grid grid-cols-5 gap-4">
+              <div className="col-span-3 space-y-3">
+                <div className={`${build("0.35s")} h-6 w-4/5 rounded bg-slate-800`} style={buildStyle("0.35s")} />
+                <div className={`${build("0.45s")} h-6 w-3/5 rounded bg-slate-300`} style={buildStyle("0.45s")} />
+                <div className={`${build("0.55s")} h-3 w-full rounded bg-slate-200`} style={buildStyle("0.55s")} />
+                <div
+                  className={`${build("0.6s")} h-3 w-11/12 rounded bg-slate-200`}
+                  style={buildStyle("0.6s")}
+                />
+                <div className="mt-4 flex gap-2">
+                  <div className={`${build("0.7s")} h-8 w-24 rounded-lg bg-brand`} style={buildStyle("0.7s")} />
+                  <div
+                    className={`${build("0.78s")} h-8 w-24 rounded-lg bg-slate-100 ring-1 ring-slate-200`}
+                    style={buildStyle("0.78s")}
+                  />
+                </div>
+              </div>
               <div
-                className="animate-build-in mt-2 h-3 w-1/2 rounded bg-white/40"
-                style={{ animationDelay: "0.75s" }}
-              />
-              <div
-                className="animate-build-in mt-4 h-16 rounded-lg bg-white/20"
-                style={{ animationDelay: "0.85s" }}
-              />
+                className={`${build("0.4s")} col-span-2 rounded-xl bg-gradient-to-br from-brand to-brand-dark p-3`}
+                style={buildStyle("0.4s")}
+              >
+                <div className={`${build("0.65s")} h-3 w-2/3 rounded bg-white/70`} style={buildStyle("0.65s")} />
+                <div
+                  className={`${build("0.75s")} mt-2 h-3 w-1/2 rounded bg-white/40`}
+                  style={buildStyle("0.75s")}
+                />
+                <div
+                  className={`${build("0.85s")} mt-4 h-16 rounded-lg bg-white/20`}
+                  style={buildStyle("0.85s")}
+                />
+              </div>
+            </div>
+            <div className="mt-5 grid grid-cols-3 gap-3">
+              {[0, 1, 2].map((i) => {
+                const delay = `${0.9 + i * 0.12}s`
+                return (
+                  <div
+                    key={i}
+                    className={`${build(delay)} rounded-xl border border-slate-100 bg-slate-50 p-3`}
+                    style={buildStyle(delay)}
+                  >
+                    <div className="h-6 w-6 rounded-md bg-brand-light" />
+                    <div className="mt-2 h-2.5 w-full rounded bg-slate-200" />
+                    <div className="mt-1.5 h-2.5 w-2/3 rounded bg-slate-200" />
+                  </div>
+                )
+              })}
             </div>
           </div>
-          <div className="mt-5 grid grid-cols-3 gap-3">
-            {[0, 1, 2].map((i) => (
-              <div
-                key={i}
-                className="animate-build-in rounded-xl border border-slate-100 bg-slate-50 p-3"
-                style={{ animationDelay: `${0.9 + i * 0.12}s` }}
-              >
-                <div className="h-6 w-6 rounded-md bg-brand-light" />
-                <div className="mt-2 h-2.5 w-full rounded bg-slate-200" />
-                <div className="mt-1.5 h-2.5 w-2/3 rounded bg-slate-200" />
-              </div>
-            ))}
-          </div>
-        </div>
-      </BrowserChrome>
-    </div>
+        </BrowserChrome>
+      </div>
 
-    {/* floating badges */}
-    <div className="animate-float-slow absolute -left-4 top-16 hidden rounded-2xl border border-slate-100 bg-white p-3 shadow-xl sm:flex sm:items-center sm:gap-2">
-      <span className="flex h-9 w-9 items-center justify-center rounded-full bg-green-100 text-green-600">
-        <TrendingUp className="h-5 w-5" />
-      </span>
-      <div>
-        <p className="text-xs font-semibold text-slate-800">+35% ventas</p>
-        <p className="text-[10px] text-slate-500">primeros 90 días</p>
+      {/* floating badges */}
+      <div className="animate-float-slow absolute -left-4 top-16 hidden rounded-2xl border border-slate-100 bg-white p-3 shadow-xl sm:flex sm:items-center sm:gap-2">
+        <span className="flex h-9 w-9 items-center justify-center rounded-full bg-green-100 text-green-600">
+          <TrendingUp className="h-5 w-5" />
+        </span>
+        <div>
+          <p className="text-xs font-semibold text-slate-800">+35% ventas</p>
+          <p className="text-[10px] text-slate-500">primeros 90 días</p>
+        </div>
+      </div>
+      <div className="animate-float absolute -right-3 bottom-8 hidden rounded-2xl border border-slate-100 bg-white p-3 shadow-xl sm:flex sm:items-center sm:gap-2">
+        <span className="flex h-9 w-9 items-center justify-center rounded-full bg-brand-light text-brand">
+          <Gauge className="h-5 w-5" />
+        </span>
+        <div>
+          <p className="text-xs font-semibold text-slate-800">100/100</p>
+          <p className="text-[10px] text-slate-500">performance</p>
+        </div>
       </div>
     </div>
-    <div className="animate-float absolute -right-3 bottom-8 hidden rounded-2xl border border-slate-100 bg-white p-3 shadow-xl sm:flex sm:items-center sm:gap-2">
-      <span className="flex h-9 w-9 items-center justify-center rounded-full bg-brand-light text-brand">
-        <Gauge className="h-5 w-5" />
-      </span>
-      <div>
-        <p className="text-xs font-semibold text-slate-800">100/100</p>
-        <p className="text-[10px] text-slate-500">performance</p>
-      </div>
-    </div>
-  </div>
-)
+  )
+}
 
 const SeoMockup = () => (
   <div className="relative">
@@ -591,7 +620,7 @@ const faqs = [
 
 /* ────────────────────────────────────────────────────────────
    Page
-   ──────────────────────────────────────────────────────────── */
+   ─────────────────���────────────────────────────────────────── */
 export default function HomePage() {
   const isMobile = useMobile()
   const [demoDialogOpen, setDemoDialogOpen] = useState(false)
