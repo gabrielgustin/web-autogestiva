@@ -34,6 +34,7 @@ import {
 } from "lucide-react"
 import { Navbar } from "@/components/navbar"
 import { DemoModal } from "@/components/demo-modal"
+import { DemoMenu } from "@/components/demo-menu"
 
 /* ────────────────────────────────────────────────────────────
    Reveal-on-scroll helper
@@ -568,12 +569,7 @@ export default function HomePage() {
               <OrangeButton onClick={() => scrollToSection("contacto")}>
                 Cotizá tu proyecto <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
               </OrangeButton>
-              <button
-                onClick={(e) => openDemoDialog("https://autogestiva-estudio-juridico.vercel.app/", e)}
-                className="inline-flex items-center justify-center gap-2 rounded-full border border-slate-200 bg-white px-7 py-3.5 text-base font-semibold text-slate-700 transition-all hover:border-brand hover:text-brand"
-              >
-                <Globe className="h-4 w-4" /> Ver demos
-              </button>
+              <DemoMenu onSelect={(url) => openDemoDialog(url)} />
             </div>
 
             <div className="mt-10 flex flex-wrap items-center justify-center gap-x-6 gap-y-3 text-sm text-slate-500 lg:justify-start">
