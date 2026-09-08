@@ -159,33 +159,55 @@ const HeroMockup = () => (
       <BrowserChrome>
         <div className="p-5">
           <div className="flex items-center justify-between">
-            <div className="h-4 w-24 rounded bg-brand" />
+            <div className="animate-build-in h-4 w-24 rounded bg-brand" style={{ animationDelay: "0.05s" }} />
             <div className="flex gap-2">
-              <div className="h-3 w-10 rounded bg-slate-200" />
-              <div className="h-3 w-10 rounded bg-slate-200" />
-              <div className="h-6 w-16 rounded-full bg-orange-500" />
+              <div className="animate-build-in h-3 w-10 rounded bg-slate-200" style={{ animationDelay: "0.15s" }} />
+              <div className="animate-build-in h-3 w-10 rounded bg-slate-200" style={{ animationDelay: "0.2s" }} />
+              <div
+                className="animate-build-in h-6 w-16 rounded-full bg-orange-500"
+                style={{ animationDelay: "0.25s" }}
+              />
             </div>
           </div>
           <div className="mt-6 grid grid-cols-5 gap-4">
             <div className="col-span-3 space-y-3">
-              <div className="h-6 w-4/5 rounded bg-slate-800" />
-              <div className="h-6 w-3/5 rounded bg-slate-300" />
-              <div className="h-3 w-full rounded bg-slate-200" />
-              <div className="h-3 w-11/12 rounded bg-slate-200" />
+              <div className="animate-build-in h-6 w-4/5 rounded bg-slate-800" style={{ animationDelay: "0.35s" }} />
+              <div className="animate-build-in h-6 w-3/5 rounded bg-slate-300" style={{ animationDelay: "0.45s" }} />
+              <div className="animate-build-in h-3 w-full rounded bg-slate-200" style={{ animationDelay: "0.55s" }} />
+              <div
+                className="animate-build-in h-3 w-11/12 rounded bg-slate-200"
+                style={{ animationDelay: "0.6s" }}
+              />
               <div className="mt-4 flex gap-2">
-                <div className="h-8 w-24 rounded-lg bg-brand" />
-                <div className="h-8 w-24 rounded-lg bg-slate-100 ring-1 ring-slate-200" />
+                <div className="animate-build-in h-8 w-24 rounded-lg bg-brand" style={{ animationDelay: "0.7s" }} />
+                <div
+                  className="animate-build-in h-8 w-24 rounded-lg bg-slate-100 ring-1 ring-slate-200"
+                  style={{ animationDelay: "0.78s" }}
+                />
               </div>
             </div>
-            <div className="col-span-2 rounded-xl bg-gradient-to-br from-brand to-brand-dark p-3">
-              <div className="h-3 w-2/3 rounded bg-white/70" />
-              <div className="mt-2 h-3 w-1/2 rounded bg-white/40" />
-              <div className="mt-4 h-16 rounded-lg bg-white/20" />
+            <div
+              className="animate-build-in col-span-2 rounded-xl bg-gradient-to-br from-brand to-brand-dark p-3"
+              style={{ animationDelay: "0.4s" }}
+            >
+              <div className="animate-build-in h-3 w-2/3 rounded bg-white/70" style={{ animationDelay: "0.65s" }} />
+              <div
+                className="animate-build-in mt-2 h-3 w-1/2 rounded bg-white/40"
+                style={{ animationDelay: "0.75s" }}
+              />
+              <div
+                className="animate-build-in mt-4 h-16 rounded-lg bg-white/20"
+                style={{ animationDelay: "0.85s" }}
+              />
             </div>
           </div>
           <div className="mt-5 grid grid-cols-3 gap-3">
             {[0, 1, 2].map((i) => (
-              <div key={i} className="rounded-xl border border-slate-100 bg-slate-50 p-3">
+              <div
+                key={i}
+                className="animate-build-in rounded-xl border border-slate-100 bg-slate-50 p-3"
+                style={{ animationDelay: `${0.9 + i * 0.12}s` }}
+              >
                 <div className="h-6 w-6 rounded-md bg-brand-light" />
                 <div className="mt-2 h-2.5 w-full rounded bg-slate-200" />
                 <div className="mt-1.5 h-2.5 w-2/3 rounded bg-slate-200" />
@@ -741,7 +763,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ── Stats ────────────────────────────────────────────── */}
+      {/* ── Stats ──────────────��─────────────────────────────── */}
       <section className="bg-gradient-to-br from-brand to-brand-dark py-16">
         <div className="container mx-auto grid grid-cols-1 gap-8 px-4 md:grid-cols-3 md:px-6">
           {stats.map((stat, index) => {
