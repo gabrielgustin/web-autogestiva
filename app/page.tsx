@@ -489,7 +489,7 @@ const solutions = [
     features: ["Automatización de procesos", "Roles y permisos", "Reportes en tiempo real", "Integraciones a medida"],
   },
   {
-    title: "Catálogos Digitales",
+    title: "Catálogos Digitales / Cartas Digitales",
     description:
       "Catálogos autogestionables para emprendimientos y tiendas. Mostrá tus productos de forma atractiva, organizada y siempre actualizada.",
     icon: BookOpen,
@@ -1243,7 +1243,7 @@ export default function HomePage() {
                   { label: "Landing Pages", href: "#soluciones" },
                   { label: "E-commerce", href: "#soluciones" },
                   { label: "ERP / Sistemas de gestión", href: "#sistemas" },
-                  { label: "Catálogos Digitales", href: "#soluciones" },
+                  { label: "Catálogos Digitales / Cartas Digitales", href: "#soluciones" },
                 ].map((item) => (
                   <li key={item.label}>
                     <a href={item.href} className="text-slate-400 transition-colors hover:text-white">
