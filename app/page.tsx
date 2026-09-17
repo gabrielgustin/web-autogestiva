@@ -454,9 +454,7 @@ const AIChatMockup = () => (
 /* ────────────────────────────────�����───────────────────────────
    Data
    ──────────────────────────────────────────────────────────── */
-const aiFeatures = [
-  { icon: MessageCircle, title: "Chatbots y asistentes 24/7", text: "Atención automática que responde y vende sola." },
-  { icon: Zap, title: "Automatización inteligente", text: "Tareas repetitivas resueltas sin intervención." },
+  const aiFeatures = [
   { icon: TrendingUp, title: "Análisis predictivo", text: "Anticipá demanda, stock y comportamiento." },
   { icon: Wand2, title: "Lectura de documentos", text: "Extrae datos de facturas y formularios al instante." },
   { icon: Search, title: "Búsqueda y recomendaciones", text: "Resultados y sugerencias personalizadas." },
@@ -1061,7 +1059,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ── Process ──────────────────────────────────────────── */}
+      {/* ── Process ─────────────────��────────────────────────── */}
       <section id="como-funciona" className="bg-slate-50 py-24">
         <div className="container mx-auto px-4 md:px-6">
           <Reveal className="mx-auto mb-20 max-w-2xl text-center">
