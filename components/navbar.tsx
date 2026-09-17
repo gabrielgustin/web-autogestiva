@@ -8,7 +8,7 @@ import {
   X,
   ChevronDown,
   Globe,
-  ShoppingCart,
+  Building2,
   LayoutDashboard,
   BookOpen,
   Search,
@@ -25,10 +25,10 @@ const services = [
     href: "/#servicios",
   },
   {
-    icon: ShoppingCart,
-    title: "Tiendas online",
-    description: "E-commerce completo con pagos y gestión de stock.",
-    href: "/#soluciones",
+  icon: Building2,
+  title: "Web Institucionales",
+  description: "Sitios profesionales para presentar tu empresa y generar confianza.",
+  href: "/#soluciones",
   },
   {
     icon: LayoutDashboard,
