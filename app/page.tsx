@@ -33,7 +33,7 @@ import {
   Zap,
   Cpu,
   Wand2,
-  Workflow,
+  Building2,
 } from "lucide-react"
 import { Navbar } from "@/components/navbar"
 import { DemoModal } from "@/components/demo-modal"
@@ -574,20 +574,20 @@ const services = [
 
 const solutions = [
   {
-  title: "Landing Pages / Web Institucionales",
+  title: "Landing Pages",
   description:
-  "Sitios profesionales para presentar tu negocio, captar clientes y convertir visitas en ventas. Ideales para lanzar productos, servicios o dar presencia formal a tu empresa en internet.",
+  "Páginas profesionales diseñadas para captar clientes y convertir visitas en ventas. Perfectas para lanzar productos, servicios o campañas puntuales.",
   icon: Globe,
   accent: "from-brand to-brand-dark",
   features: ["Diseño orientado a conversión", "Responsive y veloz", "Formularios de contacto", "SEO optimizado"],
   },
   {
-  title: "Automatizaciones",
+  title: "Web Institucionales",
   description:
-  "Conectamos tus herramientas y automatizamos tareas repetitivas: seguimiento de clientes, notificaciones, carga de datos y más. Ahorrás tiempo y reducís errores manuales.",
-  icon: Workflow,
+  "Sitios corporativos que presentan tu empresa, servicios y equipo de forma profesional. Dan presencia formal y confianza a tu marca en internet.",
+  icon: Building2,
   accent: "from-orange-500 to-orange-600",
-  features: ["Integración entre sistemas", "Flujos de trabajo a medida", "Notificaciones automáticas", "Menos tareas manuales"],
+  features: ["Presencia profesional", "Secciones institucionales", "Información de contacto", "Diseño a tu marca"],
   },
   {
     title: "ERP / Sistemas de gestión",
@@ -648,7 +648,7 @@ const faqs = [
   {
     question: "¿Cuánto tiempo tarda el desarrollo?",
     answer:
-      "Depende del proyecto. Una landing page o catálogo digital puede estar listo en 1-2 semanas. Automatizaciones y sistemas de gestión (ERP) suelen tomar de 3 a 6 semanas según la complejidad.",
+      "Depende del proyecto. Una landing page, web institucional o catálogo digital puede estar listo en 1-2 semanas. Los sistemas de gestión (ERP) suelen tomar de 3 a 6 semanas según la complejidad.",
   },
   {
     question: "¿Puedo actualizar el contenido yo mismo?",
@@ -1377,8 +1377,8 @@ export default function HomePage() {
               <h3 className="font-display text-lg font-semibold">Soluciones</h3>
               <ul className="mt-4 space-y-3 text-sm">
                 {[
-  { label: "Landing Pages / Web Institucionales", href: "#soluciones" },
-  { label: "Automatizaciones", href: "#soluciones" },
+  { label: "Landing Pages", href: "#soluciones" },
+  { label: "Web Institucionales", href: "#soluciones" },
                   { label: "ERP / Sistemas de gestión", href: "#sistemas" },
                   { label: "Catálogos Digitales / Cartas Digitales", href: "#soluciones" },
                 ].map((item) => (
