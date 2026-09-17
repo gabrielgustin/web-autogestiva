@@ -12,7 +12,6 @@ import {
   LayoutDashboard,
   BookOpen,
   Search,
-  Server,
   Sparkles,
   ArrowRight,
 } from "lucide-react"
@@ -21,7 +20,7 @@ import { Button } from "@/components/ui/button"
 const services = [
   {
     icon: Globe,
-    title: "Páginas web & Landing",
+    title: "Páginas web",
     description: "Sitios a medida que convierten visitas en clientes.",
     href: "/#servicios",
   },
@@ -54,12 +53,6 @@ const services = [
     title: "SEO & Migraciones",
     description: "Posicionamiento y traspasos seguros sin perder tráfico.",
     href: "/#seo",
-  },
-  {
-    icon: Server,
-    title: "Hosting privado",
-    description: "Servidores propios con monitoreo y soporte 24/7.",
-    href: "/#servicios",
   },
 ]
 
