@@ -828,24 +828,26 @@ export default function HomePage() {
       </section>
 
       {/* ── Sistemas de gestión (ERP) feature ────────────────── */}
-      <section id="sistemas" className="py-24">
-        <div className="container mx-auto grid grid-cols-1 items-center gap-14 px-4 md:px-6 lg:grid-cols-2">
-          <Reveal delay={0.15} className="order-2 lg:order-1">
-            <DashboardMockup />
-          </Reveal>
-          <Reveal className="order-1 lg:order-2">
+      <section id="sistemas" className="py-16 sm:py-20 lg:py-24">
+        <div className="container mx-auto grid grid-cols-1 items-start gap-10 px-4 md:gap-12 md:px-6 lg:grid-cols-2 lg:gap-x-14 lg:gap-y-8">
+          <Reveal className="lg:col-start-2 lg:row-start-1 lg:self-center">
             <span className="text-sm font-semibold uppercase tracking-widest text-orange-500">
               ERP / Sistemas de gestión
             </span>
-            <h2 className="font-display mt-3 text-3xl font-extrabold leading-tight text-ink md:text-4xl">
+            <h2 className="font-display mt-3 text-balance text-3xl font-extrabold leading-tight text-ink md:text-4xl">
               Sistemas de gestión que impulsan tu operación
             </h2>
-            <p className="mt-5 text-lg leading-relaxed text-slate-600">
+            <p className="mt-4 text-pretty text-base leading-relaxed text-slate-600 md:text-lg lg:mt-5">
               Desarrollamos plataformas internas a medida que automatizan tareas y digitalizan procesos clave. Nuestros
               sistemas ayudaron a empresas a reducir hasta un 80% del tiempo operativo, mejorando su seguridad,
               eficiencia y rentabilidad.
             </p>
-            <div className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2">
+          </Reveal>
+          <Reveal delay={0.15} className="w-full lg:col-start-1 lg:row-start-1">
+            <DashboardMockup />
+          </Reveal>
+          <Reveal delay={0.1} className="lg:col-span-2 lg:row-start-2">
+            <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4">
               {[
                 { icon: MousePointerClick, title: "Automatización", text: "Menos tareas manuales, más foco." },
                 { icon: ShieldCheck, title: "Roles y permisos", text: "Control total y datos seguros." },
@@ -854,22 +856,27 @@ export default function HomePage() {
               ].map((f) => {
                 const Icon = f.icon
                 return (
-                  <div key={f.title} className="rounded-2xl border border-slate-100 bg-slate-50 p-4">
-                    <span className="mb-3 inline-flex h-10 w-10 items-center justify-center rounded-lg bg-brand-light text-brand">
+                  <div
+                    key={f.title}
+                    className="flex gap-3 rounded-2xl border border-slate-100 bg-slate-50 p-4 lg:flex-col"
+                  >
+                    <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-brand-light text-brand">
                       <Icon className="h-5 w-5" />
                     </span>
-                    <p className="font-semibold text-ink">{f.title}</p>
-                    <p className="mt-1 text-sm text-slate-500">{f.text}</p>
+                    <div>
+                      <p className="font-semibold text-ink">{f.title}</p>
+                      <p className="mt-1 text-sm text-slate-500">{f.text}</p>
+                    </div>
                   </div>
                 )
               })}
             </div>
-            <div className="mt-8">
-              <OrangeButton onClick={() => scrollToSection("contacto")}>
-                Contactanos <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
-              </OrangeButton>
-            </div>
           </Reveal>
+          <div className="flex justify-center lg:col-span-2 lg:row-start-3 lg:pt-2">
+            <OrangeButton onClick={() => scrollToSection("contacto")}>
+              Contactanos <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
+            </OrangeButton>
+          </div>
         </div>
       </section>
 
