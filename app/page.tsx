@@ -883,7 +883,7 @@ export default function HomePage() {
             <span className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-4 py-1.5 text-sm font-semibold text-brand-light">
               <Sparkles className="h-4 w-4" /> Inteligencia Artificial
             </span>
-            <h2 className="font-display mt-5 max-w-3xl text-3xl font-extrabold leading-tight md:text-4xl lg:max-w-none lg:text-[2.75rem]">
+            <h2 className="font-display mt-5 max-w-3xl text-3xl font-extrabold leading-tight md:text-4xl lg:max-w-[760px] lg:text-[2.75rem]">
               Sistemas que{" "}
               <span className="bg-gradient-to-r from-brand-light via-white to-orange-300 bg-clip-text text-transparent">
                 integran IA
@@ -910,7 +910,7 @@ export default function HomePage() {
               })}
             </div>
           </Reveal>
-          <Reveal delay={0.15}>
+          <Reveal delay={0.15} className="lg:translate-y-16">
             <AIChatMockup />
           </Reveal>
           <div className="flex justify-center lg:col-span-2">
@@ -962,7 +962,11 @@ export default function HomePage() {
                             <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-brand text-white shadow-lg transition-transform duration-300 group-hover:scale-110">
                               <Icon className="h-6 w-6" />
                             </span>
-                            <span className="font-display text-5xl font-extrabold text-slate-100 transition-colors group-hover:text-orange-500/20">
+                            <span
+                              className={`font-display text-5xl font-extrabold transition-colors ${
+                                index === 2 ? "text-orange-500" : "text-slate-100 group-hover:text-orange-500/20"
+                              }`}
+                            >
                               0{index + 1}
                             </span>
                           </div>
