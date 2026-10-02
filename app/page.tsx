@@ -471,6 +471,12 @@ const clients = [
     url: "https://cambelredjuridica.com.ar",
     dark: true,
   },
+  {
+    name: "Zonabot Espacio Tecnológico",
+    logo: "/images/clients/zonabot.png",
+    url: "#",
+    dark: false,
+  },
 ]
 
 const services = [
@@ -1039,8 +1045,10 @@ export default function HomePage() {
   ? "border-black bg-black"
   : client.name === "Visual Henderson"
   ? "border-[#040a15] bg-[#040a15]"
-  : client.name === "Estudio Jurídico CONVS"
+  :   client.name === "Estudio Jurídico CONVS"
   ? "border-[#2d3127] bg-[#2d3127]"
+  : client.name === "Zonabot Espacio Tecnológico"
+  ? "border-[#f5d9a8] bg-[#f5d9a8]"
   : client.dark
   ? "border-slate-800 bg-slate-900"
   : "border-slate-200 bg-white"
@@ -1055,6 +1063,8 @@ export default function HomePage() {
                       className={`object-contain transition-all duration-300 ${
                         client.name === "Gimnasio Life Gym"
                           ? "max-h-20 max-w-[90%] opacity-100 grayscale-0"
+                          : client.name === "Zonabot Espacio Tecnológico"
+                          ? "max-h-16 max-w-full opacity-100 grayscale-0"
                           : "max-h-14 max-w-full opacity-75 grayscale group-hover:opacity-100 group-hover:grayscale-0"
                       }`}
   />
