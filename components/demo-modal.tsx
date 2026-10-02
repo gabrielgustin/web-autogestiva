@@ -2,7 +2,7 @@
 
 import * as React from "react"
 import { Dialog, DialogContent } from "@/components/ui/dialog"
-import { Smartphone, Monitor } from "lucide-react"
+import { Smartphone, Monitor, X } from "lucide-react"
 import { cn } from "@/lib/utils"
 
 interface DemoModalProps {
@@ -87,6 +87,14 @@ export function DemoModal({ open, onOpenChange, demoUrl }: DemoModalProps) {
               className={cn("h-3.5 w-3.5 transition-transform duration-300", viewMode === "desktop" && "scale-110")}
             />
             <span>Desktop</span>
+          </button>
+          <button
+            type="button"
+            onClick={() => onOpenChange(false)}
+            aria-label="Cerrar ventana de demo"
+            className="ml-auto rounded-lg p-1.5 text-white/90 transition-colors hover:bg-white/20 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white"
+          >
+            <X className="h-4 w-4" aria-hidden="true" />
           </button>
         </div>
         <div className="flex-1 w-full h-full overflow-hidden bg-gray-100 relative">
