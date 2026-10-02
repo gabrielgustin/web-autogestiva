@@ -91,7 +91,7 @@ const Reveal = ({
    ──────────────────────────────────────────────────────────── */
 const BrowserChrome = ({ children }: { children: React.ReactNode }) => (
   <div className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-2xl">
-    <div className="flex items-center gap-2 border-b border-slate-100 bg-slate-50 px-4 py-3">
+    <div className="hidden items-center gap-2 border-b border-slate-100 bg-slate-50 px-4 py-3 md:flex">
       <span className="h-3 w-3 rounded-full bg-red-400" />
       <span className="h-3 w-3 rounded-full bg-yellow-400" />
       <span className="h-3 w-3 rounded-full bg-green-400" />
@@ -195,7 +195,7 @@ const HeroMockup = () => {
       </div>
 
       {/* floating badges */}
-      <div className="animate-float-slow absolute -left-4 top-16 hidden rounded-2xl border border-slate-100 bg-white p-3 shadow-xl sm:flex sm:items-center sm:gap-2">
+      <div className="animate-float-slow absolute -left-4 top-16 hidden rounded-2xl border border-slate-100 bg-white p-3 shadow-xl md:flex md:items-center md:gap-2">
         <span className="flex h-9 w-9 items-center justify-center rounded-full bg-green-100 text-green-600">
           <TrendingUp className="h-5 w-5" />
         </span>
@@ -204,7 +204,7 @@ const HeroMockup = () => {
           <p className="text-[10px] text-slate-500">primeros 90 días</p>
         </div>
       </div>
-      <div className="animate-float absolute -right-3 bottom-8 hidden rounded-2xl border border-slate-100 bg-white p-3 shadow-xl sm:flex sm:items-center sm:gap-2">
+      <div className="animate-float absolute -right-3 bottom-8 hidden rounded-2xl border border-slate-100 bg-white p-3 shadow-xl md:flex md:items-center md:gap-2">
         <span className="flex h-9 w-9 items-center justify-center rounded-full bg-brand-light text-brand">
           <Gauge className="h-5 w-5" />
         </span>
