@@ -795,7 +795,7 @@ export default function HomePage() {
           <Reveal>
             <span className="text-sm font-semibold uppercase tracking-widest text-orange-500">SEO & Migraciones</span>
             <h2 className="font-display mt-3 text-3xl font-extrabold leading-tight text-ink md:text-4xl">
-              Migraciones SEO-friendly y seguras
+              Migraciones <span className="whitespace-nowrap">SEO-friendly</span> y seguras
             </h2>
             <p className="mt-5 text-lg leading-relaxed text-slate-600">
               Migrar un sitio no es solo copiar y pegar. Nos aseguramos de que el traspaso sea limpio, sin perder
