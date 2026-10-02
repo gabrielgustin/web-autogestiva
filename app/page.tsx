@@ -1033,7 +1033,7 @@ export default function HomePage() {
                     aria-label={`Visitar el sitio web de ${client.name}`}
   className={`group flex h-24 w-48 shrink-0 items-center justify-center rounded-2xl border p-5 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-lg ${
   client.name === "Gimnasio Life Gym"
-  ? "border-violet-200 bg-violet-100"
+  ? "border-violet-300 bg-violet-200"
   : client.dark
   ? "border-slate-800 bg-slate-900"
   : "border-slate-200 bg-white"
