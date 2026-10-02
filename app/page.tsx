@@ -448,12 +448,6 @@ const clients = [
     dark: false,
   },
   {
-    name: "SEA - Savio",
-    logo: "/images/clients/sea-savio.png",
-    url: "https://portalsea.com.ar/savio",
-    dark: false,
-  },
-  {
     name: "Gimnasio Life Gym",
     logo: "/images/clients/life-gym.png",
     url: "https://gimnasiolifegym.com.ar",
@@ -745,7 +739,7 @@ export default function HomePage() {
       </section>
 
 
-      {/* ── Solutions ────────────��───────────────────────────── */}
+      {/* ── Solutions ──��─────────��───────────────────────────── */}
       <section id="soluciones" className="py-24">
         <div className="container mx-auto px-4 md:px-6">
           <Reveal className="mx-auto mb-16 max-w-2xl text-center">
@@ -1033,7 +1027,7 @@ export default function HomePage() {
                     aria-label={`Visitar el sitio web de ${client.name}`}
   className={`group flex h-24 w-48 shrink-0 items-center justify-center rounded-2xl border p-5 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-lg ${
   client.name === "Gimnasio Life Gym"
-  ? "border-violet-300 bg-violet-200"
+  ? "border-[#833d9f] bg-[#833d9f]"
   : client.dark
   ? "border-slate-800 bg-slate-900"
   : "border-slate-200 bg-white"
@@ -1045,7 +1039,11 @@ export default function HomePage() {
                       crossOrigin="anonymous"
                       loading="lazy"
                       decoding="async"
-                      className="max-h-14 max-w-full object-contain opacity-75 grayscale transition-all duration-300 group-hover:opacity-100 group-hover:grayscale-0"
+                      className={`object-contain transition-all duration-300 ${
+                        client.name === "Gimnasio Life Gym"
+                          ? "max-h-20 max-w-[90%] opacity-100 grayscale-0"
+                          : "max-h-14 max-w-full opacity-75 grayscale group-hover:opacity-100 group-hover:grayscale-0"
+                      }`}
                     />
                   </a>
                 ))}
