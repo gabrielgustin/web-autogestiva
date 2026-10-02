@@ -1030,13 +1030,9 @@ export default function HomePage() {
             <div className="marquee-mask relative overflow-hidden">
               <div className="flex w-max animate-marquee-clients items-center gap-6">
                 {[...clients, ...clients].map((client, i) => (
-                  <a
-                    key={`${client.name}-${i}`}
-                    href={client.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    aria-label={`Visitar el sitio web de ${client.name}`}
-  className={`group flex h-24 w-48 shrink-0 items-center justify-center rounded-2xl border p-5 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-lg ${
+  <div
+  key={`${client.name}-${i}`}
+  className={`group flex h-24 w-48 shrink-0 items-center justify-center rounded-2xl border p-5 shadow-sm transition-all duration-300 ${
   client.name === "Gimnasio Life Gym"
   ? "border-[#833d9f] bg-[#833d9f]"
   : client.name === "Traslados Jarabus"
@@ -1061,9 +1057,9 @@ export default function HomePage() {
                           ? "max-h-20 max-w-[90%] opacity-100 grayscale-0"
                           : "max-h-14 max-w-full opacity-75 grayscale group-hover:opacity-100 group-hover:grayscale-0"
                       }`}
-                    />
-                  </a>
-                ))}
+  />
+  </div>
+  ))}
               </div>
             </div>
           </Reveal>
