@@ -1030,6 +1030,10 @@ export default function HomePage() {
   ? "border-[#833d9f] bg-[#833d9f]"
   : client.name === "Traslados Jarabus"
   ? "border-black bg-black"
+  : client.name === "Visual Henderson"
+  ? "border-[#040a15] bg-[#040a15]"
+  : client.name === "Estudio Jurídico CONVS"
+  ? "border-[#2d3127] bg-[#2d3127]"
   : client.dark
   ? "border-slate-800 bg-slate-900"
   : "border-slate-200 bg-white"
