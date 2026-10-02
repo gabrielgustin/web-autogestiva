@@ -910,7 +910,7 @@ export default function HomePage() {
               })}
             </div>
           </Reveal>
-          <Reveal delay={0.15} className="lg:translate-y-16">
+          <Reveal delay={0.15} className="lg:translate-y-40">
             <AIChatMockup />
           </Reveal>
           <div className="flex justify-center lg:col-span-2">
