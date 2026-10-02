@@ -874,23 +874,23 @@ export default function HomePage() {
       </section>
 
       {/* ── IA / Inteligencia Artificial ─────────────────────── */}
-      <section id="ia" className="relative overflow-hidden bg-ink py-24 text-white">
+      <section id="ia" className="relative overflow-hidden bg-ink py-16 text-white sm:py-20 lg:py-24">
         <div className="pointer-events-none absolute inset-0 bg-grid-pattern opacity-[0.12]" />
         <div className="animate-aurora pointer-events-none absolute -left-20 top-8 h-72 w-72 rounded-full bg-brand/30 blur-3xl" />
-        <div className="animate-aurora pointer-events-none absolute -right-10 bottom-0 h-72 w-72 rounded-full bg-orange-500/20 blur-3xl" />
-        <div className="container relative mx-auto grid grid-cols-1 items-center gap-14 px-4 md:px-6 lg:grid-cols-2">
+  <div className="animate-aurora pointer-events-none absolute -right-10 bottom-0 h-72 w-72 rounded-full bg-orange-500/20 blur-3xl" />
+  <div className="container relative mx-auto grid grid-cols-1 items-start gap-10 px-4 md:gap-12 md:px-6 lg:grid-cols-2 lg:gap-x-14 lg:gap-y-8">
           <Reveal>
             <span className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-4 py-1.5 text-sm font-semibold text-brand-light">
               <Sparkles className="h-4 w-4" /> Inteligencia Artificial
             </span>
-            <h2 className="font-display mt-5 max-w-3xl text-3xl font-extrabold leading-tight md:text-4xl lg:max-w-none lg:text-[2.75rem]">
+            <h2 className="font-display mt-5 max-w-3xl text-balance text-3xl font-extrabold leading-tight md:text-4xl lg:max-w-none lg:text-[2.75rem]">
               Sistemas que{" "}
               <span className="bg-gradient-to-r from-brand-light via-white to-orange-300 bg-clip-text text-transparent">
                 integran IA
               </span>{" "}
               para vender y operar mejor
             </h2>
-            <div className="mt-8 grid grid-cols-1 gap-3 sm:grid-cols-2">
+            <div className="mt-6 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:mt-7">
               {aiFeatures.map((f) => {
                 const Icon = f.icon
                 return (
@@ -910,10 +910,10 @@ export default function HomePage() {
               })}
             </div>
           </Reveal>
-          <Reveal delay={0.15} className="lg:translate-y-28">
+          <Reveal delay={0.15} className="w-full lg:translate-y-8">
             <AIChatMockup />
           </Reveal>
-          <div className="flex justify-center lg:col-span-2">
+          <div className="flex justify-center lg:col-span-2 lg:pt-2">
             <OrangeButton onClick={() => scrollToSection("contacto")}>
               Quiero IA en mi negocio{" "}
               <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
