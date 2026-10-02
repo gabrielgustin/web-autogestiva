@@ -38,7 +38,7 @@ const services = [
   },
   {
     icon: BookOpen,
-    title: "Catálogos digitales",
+    title: "Catálogos digitales y Cartas",
     description: "Mostrá tus productos de forma clara y autogestionable.",
     href: "/#soluciones",
   },
