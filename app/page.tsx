@@ -11,14 +11,12 @@ import {
   Rocket,
   MousePointerClick,
   Clock,
-  Users,
   Check,
   BookOpen,
   MapPin,
   Mail,
   Phone,
   Globe,
-  ChevronDown,
   Palette,
   Gauge,
   Search,
@@ -89,56 +87,6 @@ const Reveal = ({
 }
 
 /* ────────────────────────────────────────────────────────────
-   Animated stat counter
-   ──────────────────────────────────────────────────────────── */
-const StatCounter = ({
-  value,
-  suffix = "",
-  prefix = "",
-  duration = 2,
-}: {
-  value: number
-  suffix?: string
-  prefix?: string
-  duration?: number
-}) => {
-  const [count, setCount] = useState(0)
-  const ref = useRef<HTMLDivElement>(null)
-  const [inView, setInView] = useState(false)
-
-  useEffect(() => {
-    const el = ref.current
-    if (!el) return
-    const observer = new IntersectionObserver(
-      (entries) => entries.forEach((e) => e.isIntersecting && setInView(true)),
-      { threshold: 0.5 },
-    )
-    observer.observe(el)
-    return () => observer.disconnect()
-  }, [])
-
-  useEffect(() => {
-    if (!inView) return
-    let start = 0
-    const increment = value / (duration * 30)
-    const timer = setInterval(() => {
-      start += increment
-      setCount(Math.min(Math.floor(start), value))
-      if (start >= value) clearInterval(timer)
-    }, 1000 / 30)
-    return () => clearInterval(timer)
-  }, [inView, value, duration])
-
-  return (
-    <div ref={ref} className="font-display text-4xl md:text-5xl font-extrabold text-white">
-      {prefix}
-      {count}
-      {suffix}
-    </div>
-  )
-}
-
-/* ────────────────────────────────────────────────────────────
    Decorative CSS mockups (crisp, on-brand, no filler blobs)
    ──────────────────────────────────────────────────────────── */
 const BrowserChrome = ({ children }: { children: React.ReactNode }) => (
@@ -182,7 +130,7 @@ const HeroMockup = () => {
     <div className="relative" ref={ref}>
       <div className="animate-float">
         <BrowserChrome>
-          <div className="p-5">
+          <div className="hidden p-5 md:block">
             <div className="flex items-center justify-between">
               <div className={`${build("0.05s")} h-4 w-24 rounded bg-brand`} style={buildStyle("0.05s")} />
               <div className="flex gap-2">
@@ -539,12 +487,6 @@ const services = [
       "Trabajamos desde el wireframe hasta la identidad visual final. Pensamos cada sitio como una herramienta de marca: clara, funcional y alineada con tus objetivos.",
   },
   {
-    icon: Gauge,
-    title: "Desarrollo de alto rendimiento",
-    description:
-      "Sitios rápidos, estables y optimizados de backend a frontend. Buenas prácticas de programación para que tu web cargue en segundos y sea segura.",
-  },
-  {
     icon: Search,
     title: "Optimización SEO",
     description:
@@ -561,12 +503,6 @@ const services = [
     title: "Hosting privado",
     description:
       "Servidores propios con monitoreo 24/7. Tiempos de carga rápidos, máxima seguridad y soporte especializado. Tu sitio siempre online.",
-  },
-  {
-    icon: Code2,
-    title: "Desarrollo a medida",
-    description:
-      "No todos los proyectos necesitan lo mismo. Elegimos la tecnología adecuada: WordPress, HTML o Laravel para desarrollos robustos. Siempre con criterio técnico.",
   },
 ]
 
@@ -606,12 +542,6 @@ const solutions = [
   },
 ]
 
-const stats = [
-  { value: 35, suffix: "%", label: "Aumento en ventas", icon: TrendingUp },
-  { value: 80, suffix: "%", label: "Menos tiempo operativo", icon: Clock },
-  { value: 75, suffix: "%", label: "Mayor alcance de audiencia", icon: Users },
-]
-
 const procesSteps = [
   {
   title: "Análisis y Diseño",
@@ -642,39 +572,6 @@ const procesSteps = [
   },
   ]
 
-const faqs = [
-  {
-    question: "¿Cuánto tiempo tarda el desarrollo?",
-    answer:
-      "Depende del proyecto. Una landing page, web institucional o catálogo digital puede estar listo en 1-2 semanas. Los sistemas de gestión (ERP) suelen tomar de 3 a 6 semanas según la complejidad.",
-  },
-  {
-    question: "¿Puedo actualizar el contenido yo mismo?",
-    answer:
-      "Sí. Nuestras soluciones son autogestionables y te capacitamos para actualizar contenido, precios, imágenes y más sin conocimientos técnicos.",
-  },
-  {
-    question: "¿Qué tecnologías usan?",
-    answer:
-      "Trabajamos con tecnologías modernas: Next.js, React, Node.js, WordPress y Laravel, entre otras. Elegimos la más adecuada según los objetivos y el presupuesto de cada proyecto.",
-  },
-  {
-    question: "¿Desarrollan sistemas de gestión a medida?",
-    answer:
-      "Sí. Creamos ERP y plataformas internas que automatizan tareas y digitalizan procesos clave, con roles, reportes en tiempo real e integraciones a medida.",
-  },
-  {
-    question: "¿Ofrecen soporte después del lanzamiento?",
-    answer:
-      "Sí, ofrecemos soporte continuo. Estamos disponibles para resolver dudas, hacer ajustes y acompañarte en el crecimiento de tu proyecto.",
-  },
-  {
-    question: "¿Se puede migrar mi sitio actual sin perder posicionamiento?",
-    answer:
-      "Sí. Hacemos migraciones SEO-friendly: redireccionamientos, indexación y velocidad bajo control para que el traspaso sea limpio y no afecte tu tráfico.",
-  },
-]
-
 /* ────────────────────────────────────────────────────────────
    Page
    ─────────────────���────────────────────────────────────────── */
@@ -683,7 +580,6 @@ export default function HomePage() {
   const [demoDialogOpen, setDemoDialogOpen] = useState(false)
   const [demoUrl, setDemoUrl] = useState("https://autogestiva-estudio-juridico.vercel.app/")
   const [buttonPosition, setButtonPosition] = useState({ x: 0, y: 0 })
-  const [openFaqIndex, setOpenFaqIndex] = useState<number | null>(0)
   const [nombre, setNombre] = useState("")
   const [apellido, setApellido] = useState("")
   const [consulta, setConsulta] = useState("")
@@ -771,7 +667,7 @@ export default function HomePage() {
               de gestión a medida, pensados para tus procesos, tus usuarios y tus objetivos.
             </p>
 
-            <div className="mt-8 flex flex-col items-center gap-3 sm:flex-row lg:justify-start">
+            <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
               <OrangeButton onClick={() => scrollToSection("contacto")}>
                 Cotizá tu proyecto <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
               </OrangeButton>
@@ -835,7 +731,6 @@ export default function HomePage() {
               return (
                 <Reveal key={service.title} delay={0.05 * index}>
                   <div className="group relative h-full overflow-hidden rounded-2xl border border-slate-100 bg-white p-7 shadow-sm transition-all duration-300 hover:-translate-y-1.5 hover:border-brand/30 hover:shadow-xl">
-                    <div className="absolute inset-x-0 top-0 h-1 origin-left scale-x-0 bg-gradient-to-r from-brand to-orange-500 transition-transform duration-300 group-hover:scale-x-100" />
                     <span className="mb-5 inline-flex h-14 w-14 items-center justify-center rounded-2xl bg-brand-light text-brand transition-all duration-300 group-hover:bg-brand group-hover:text-white">
                       <Icon className="h-7 w-7" />
                     </span>
@@ -849,27 +744,6 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ── Stats ──────────────��─────────────────────────────── */}
-      <section className="bg-gradient-to-br from-brand to-brand-dark py-16">
-        <div className="container mx-auto grid grid-cols-1 gap-8 px-4 md:grid-cols-3 md:px-6">
-          {stats.map((stat, index) => {
-            const Icon = stat.icon
-            return (
-              <Reveal key={stat.label} delay={0.1 * index}>
-                <div className="rounded-2xl bg-white/10 p-8 text-center backdrop-blur-sm ring-1 ring-white/15">
-                  <span className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-white/15 text-white">
-                    <Icon className="h-6 w-6" />
-                  </span>
-                  <div className="font-display text-4xl font-extrabold text-white md:text-5xl">
-                    <StatCounter value={stat.value} suffix={stat.suffix} />
-                  </div>
-                  <p className="mt-2 font-medium text-white/80">{stat.label}</p>
-                </div>
-              </Reveal>
-            )
-          })}
-        </div>
-      </section>
 
       {/* ── Solutions ────────────────────────────────────────── */}
       <section id="soluciones" className="py-24">
@@ -1022,11 +896,6 @@ export default function HomePage() {
               </span>{" "}
               para vender y operar mejor
             </h2>
-            <p className="mt-5 text-lg leading-relaxed text-slate-300">
-              No solo desarrollamos software: incorporamos inteligencia artificial en tus procesos para automatizar
-              tareas, atender clientes las 24 horas y tomar decisiones con datos reales. Convertí tu operación en una
-              máquina que trabaja sola.
-            </p>
             <div className="mt-8 grid grid-cols-1 gap-3 sm:grid-cols-2">
               {aiFeatures.map((f) => {
                 const Icon = f.icon
@@ -1046,16 +915,16 @@ export default function HomePage() {
                 )
               })}
             </div>
-            <div className="mt-8">
-              <OrangeButton onClick={() => scrollToSection("contacto")}>
-                Quiero IA en mi negocio{" "}
-                <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
-              </OrangeButton>
-            </div>
           </Reveal>
           <Reveal delay={0.15}>
             <AIChatMockup />
           </Reveal>
+          <div className="flex justify-center lg:col-span-2">
+            <OrangeButton onClick={() => scrollToSection("contacto")}>
+              Quiero IA en mi negocio{" "}
+              <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
+            </OrangeButton>
+          </div>
         </div>
       </section>
 
@@ -1139,7 +1008,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ── Clients ──────────────────────────────────────────── */}
+      {/* ── Clients ─���────────────────────────────────────────── */}
       <section id="clientes" className="border-y border-slate-100 bg-slate-50 py-24">
         <div className="container mx-auto px-4 md:px-6">
           <Reveal className="mx-auto mb-14 max-w-2xl text-center">
@@ -1179,46 +1048,6 @@ export default function HomePage() {
               </div>
             </div>
           </Reveal>
-        </div>
-      </section>
-
-      {/* ── FAQ ──────────────────────────────────────────────── */}
-      <section id="faq" className="bg-slate-50 py-24">
-        <div className="container mx-auto px-4 md:px-6">
-          <Reveal className="mx-auto mb-14 max-w-2xl text-center">
-            <h2 className="font-display text-3xl font-extrabold text-ink md:text-4xl">Preguntas frecuentes</h2>
-          </Reveal>
-
-          <div className="mx-auto max-w-3xl space-y-3">
-            {faqs.map((faq, index) => {
-              const open = openFaqIndex === index
-              return (
-                <div
-                  key={faq.question}
-                  className="overflow-hidden rounded-2xl border border-slate-100 bg-white shadow-sm"
-                >
-                  <button
-                    className="flex w-full items-center justify-between gap-4 px-6 py-5 text-left transition-colors hover:bg-slate-50"
-                    onClick={() => setOpenFaqIndex(open ? null : index)}
-                    aria-expanded={open}
-                  >
-                    <span className="font-semibold text-ink">{faq.question}</span>
-                    <ChevronDown
-                      className={`h-5 w-5 shrink-0 text-brand transition-transform duration-300 ${open ? "rotate-180" : ""}`}
-                    />
-                  </button>
-                  <div
-                    className="grid transition-all duration-300 ease-out"
-                    style={{ gridTemplateRows: open ? "1fr" : "0fr" }}
-                  >
-                    <div className="overflow-hidden">
-                      <p className="border-t border-slate-100 px-6 py-4 text-slate-600">{faq.answer}</p>
-                    </div>
-                  </div>
-                </div>
-              )
-            })}
-          </div>
         </div>
       </section>
 
@@ -1361,7 +1190,7 @@ export default function HomePage() {
             <div>
               <h3 className="font-display text-lg font-semibold">Servicios</h3>
               <ul className="mt-4 space-y-3 text-sm">
-                {["Diseño web", "Optimización SEO", "Hosting privado", "Desarrollo a medida"].map((item) => (
+                {["Diseño web", "Optimización SEO", "Diseño responsive", "Sistemas de gestión"].map((item) => (
                   <li key={item}>
                     <a href="#servicios" className="text-slate-400 transition-colors hover:text-white">
                       {item}
