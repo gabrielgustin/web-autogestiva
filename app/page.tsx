@@ -745,7 +745,7 @@ export default function HomePage() {
       </section>
 
 
-      {/* ── Solutions ──��─────────��───────────────────────────── */}
+      {/* ── Solutions ──��──���──────��───────────────────────────── */}
       <section id="soluciones" className="py-24">
         <div className="container mx-auto px-4 md:px-6">
           <Reveal className="mx-auto mb-16 max-w-2xl text-center">
@@ -1019,7 +1019,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ── Clients ─���────────────────────────────────────────── */}
+      {/* ── Clients ─���────────────────────────────────��───────── */}
       <section id="clientes" className="border-y border-slate-100 bg-slate-50 py-24">
         <div className="container mx-auto px-4 md:px-6">
           <Reveal className="mx-auto mb-14 max-w-2xl text-center">
@@ -1057,8 +1057,11 @@ export default function HomePage() {
                     <img
                       src={client.logo || "/placeholder.svg"}
                       alt={client.name}
+                      width={176}
+                      height={56}
                       crossOrigin="anonymous"
-                      loading="lazy"
+                      loading={i < clients.length ? "eager" : "lazy"}
+                      fetchPriority={i < clients.length ? "high" : "low"}
                       decoding="async"
                       className={`object-contain transition-all duration-300 ${
                         client.name === "Gimnasio Life Gym"
