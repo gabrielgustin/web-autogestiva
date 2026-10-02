@@ -683,9 +683,9 @@ export default function HomePage() {
             </div>
           </div>
 
-          <div className="relative">
-            <HeroMockup />
-          </div>
+            <div className="relative hidden md:block">
+              <HeroMockup />
+            </div>
         </div>
       </section>
 
@@ -745,7 +745,7 @@ export default function HomePage() {
       </section>
 
 
-      {/* ── Solutions ────────────────────────────────────────── */}
+      {/* ── Solutions ────────────��───────────────────────────── */}
       <section id="soluciones" className="py-24">
         <div className="container mx-auto px-4 md:px-6">
           <Reveal className="mx-auto mb-16 max-w-2xl text-center">
@@ -1031,9 +1031,13 @@ export default function HomePage() {
                     target="_blank"
                     rel="noopener noreferrer"
                     aria-label={`Visitar el sitio web de ${client.name}`}
-                    className={`group flex h-24 w-48 shrink-0 items-center justify-center rounded-2xl border p-5 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-lg ${
-                      client.dark ? "border-slate-800 bg-slate-900" : "border-slate-200 bg-white"
-                    }`}
+  className={`group flex h-24 w-48 shrink-0 items-center justify-center rounded-2xl border p-5 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-lg ${
+  client.name === "Gimnasio Life Gym"
+  ? "border-violet-200 bg-violet-100"
+  : client.dark
+  ? "border-slate-800 bg-slate-900"
+  : "border-slate-200 bg-white"
+  }`}
                   >
                     <img
                       src={client.logo || "/placeholder.svg"}
