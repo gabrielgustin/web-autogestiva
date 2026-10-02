@@ -879,7 +879,7 @@ export default function HomePage() {
         <div className="animate-aurora pointer-events-none absolute -left-20 top-8 h-72 w-72 rounded-full bg-brand/30 blur-3xl" />
   <div className="animate-aurora pointer-events-none absolute -right-10 bottom-0 h-72 w-72 rounded-full bg-orange-500/20 blur-3xl" />
   <div className="container relative mx-auto grid grid-cols-1 items-start gap-10 px-4 md:gap-12 md:px-6 lg:grid-cols-2 lg:gap-x-14 lg:gap-y-8">
-          <Reveal>
+          <Reveal className="lg:col-start-1 lg:row-start-1 lg:self-center">
             <span className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-4 py-1.5 text-sm font-semibold text-brand-light">
               <Sparkles className="h-4 w-4" /> Inteligencia Artificial
             </span>
@@ -890,13 +890,15 @@ export default function HomePage() {
               </span>{" "}
               para vender y operar mejor
             </h2>
-            <div className="mt-6 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:mt-7">
+          </Reveal>
+          <Reveal delay={0.1} className="lg:col-span-2 lg:row-start-2">
+            <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4">
               {aiFeatures.map((f) => {
                 const Icon = f.icon
                 return (
                   <div
                     key={f.title}
-                    className="flex gap-3 rounded-2xl border border-white/10 bg-white/[0.04] p-4 transition-colors hover:border-brand/50 hover:bg-white/[0.08]"
+                    className="flex gap-3 rounded-2xl border border-white/10 bg-white/[0.04] p-4 transition-colors hover:border-brand/50 hover:bg-white/[0.08] lg:flex-col"
                   >
                     <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-brand/20 text-brand-light">
                       <Icon className="h-5 w-5" />
@@ -910,10 +912,10 @@ export default function HomePage() {
               })}
             </div>
           </Reveal>
-          <Reveal delay={0.15} className="w-full lg:translate-y-8">
+          <Reveal delay={0.15} className="w-full lg:col-start-2 lg:row-start-1">
             <AIChatMockup />
           </Reveal>
-          <div className="flex justify-center lg:col-span-2 lg:pt-2">
+          <div className="flex justify-center lg:col-span-2 lg:row-start-3 lg:pt-2">
             <OrangeButton onClick={() => scrollToSection("contacto")}>
               Quiero IA en mi negocio{" "}
               <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
@@ -963,9 +965,7 @@ export default function HomePage() {
                               <Icon className="h-6 w-6" />
                             </span>
                             <span
-                              className={`font-display text-5xl font-extrabold transition-colors ${
-                                index === 2 ? "text-orange-500" : "text-slate-100 group-hover:text-orange-500/20"
-                              }`}
+                    className="font-display text-5xl font-extrabold text-orange-500"
                             >
                               0{index + 1}
                             </span>
