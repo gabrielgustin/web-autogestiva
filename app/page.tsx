@@ -399,7 +399,7 @@ const AIChatMockup = () => (
   </div>
 )
 
-/* ────────────────────────────────�����───────────────────────────
+/* ────────────────────────────────�����───────────���───────────────
    Data
    ──────────────────────────────────────────────────────────── */
   const aiFeatures = [
@@ -1028,6 +1028,8 @@ export default function HomePage() {
   className={`group flex h-24 w-48 shrink-0 items-center justify-center rounded-2xl border p-5 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-lg ${
   client.name === "Gimnasio Life Gym"
   ? "border-[#833d9f] bg-[#833d9f]"
+  : client.name === "Traslados Jarabus"
+  ? "border-black bg-black"
   : client.dark
   ? "border-slate-800 bg-slate-900"
   : "border-slate-200 bg-white"
