@@ -719,11 +719,11 @@ export default function HomePage() {
             </p>
           </Reveal>
 
-          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
             {services.map((service, index) => {
               const Icon = service.icon
               return (
-                <Reveal key={service.title} delay={0.05 * index}>
+                <Reveal key={service.title} delay={0.05 * index} className="h-full">
                   <div className="group relative h-full overflow-hidden rounded-2xl border border-slate-100 bg-white p-7 shadow-sm transition-all duration-300 hover:-translate-y-1.5 hover:border-brand/30 hover:shadow-xl">
                     <span className="mb-5 inline-flex h-14 w-14 items-center justify-center rounded-2xl bg-brand-light text-brand transition-all duration-300 group-hover:bg-brand group-hover:text-white">
                       <Icon className="h-7 w-7" />
