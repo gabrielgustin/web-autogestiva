@@ -883,7 +883,7 @@ export default function HomePage() {
             <span className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-4 py-1.5 text-sm font-semibold text-brand-light">
               <Sparkles className="h-4 w-4" /> Inteligencia Artificial
             </span>
-            <h2 className="font-display mt-5 max-w-3xl text-3xl font-extrabold leading-tight md:text-4xl lg:max-w-[760px] lg:text-[2.75rem]">
+            <h2 className="font-display mt-5 max-w-3xl text-3xl font-extrabold leading-tight md:text-4xl lg:max-w-none lg:text-[2.75rem]">
               Sistemas que{" "}
               <span className="bg-gradient-to-r from-brand-light via-white to-orange-300 bg-clip-text text-transparent">
                 integran IA
@@ -910,7 +910,7 @@ export default function HomePage() {
               })}
             </div>
           </Reveal>
-          <Reveal delay={0.15} className="lg:translate-y-40">
+          <Reveal delay={0.15} className="lg:translate-y-28">
             <AIChatMockup />
           </Reveal>
           <div className="flex justify-center lg:col-span-2">
