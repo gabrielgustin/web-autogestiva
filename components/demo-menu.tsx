@@ -16,7 +16,7 @@ const DEMOS = [
     example: "Carta Digital",
     title: "Catálogo digital",
     description: "Menú o catálogo autogestionable, ideal para gastronomía y comercios.",
-    url: "https://v0-carta-digital.vercel.app",
+    url: "https://lacomanda-xi.vercel.app/",
     icon: BookOpen,
   },
   {
