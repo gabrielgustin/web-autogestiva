@@ -1196,19 +1196,6 @@ export default function HomePage() {
             </div>
 
             <div>
-              <h3 className="font-display text-lg font-semibold">Servicios</h3>
-              <ul className="mt-4 space-y-3 text-sm">
-                {["Diseño web", "Optimización SEO", "Diseño responsive", "Sistemas de gestión"].map((item) => (
-                  <li key={item}>
-                    <a href="#servicios" className="text-slate-400 transition-colors hover:text-white">
-                      {item}
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            </div>
-
-            <div>
               <h3 className="font-display text-lg font-semibold">Soluciones</h3>
               <ul className="mt-4 space-y-3 text-sm">
                 {[
