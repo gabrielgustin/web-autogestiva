@@ -422,6 +422,9 @@ const techStack = [
   "Supabase",
 ]
 
+const CLIENT_COPIES = 4
+const CLIENTS_LOOP_SECONDS = 45
+
 const clients = [
   {
     name: "Traslados Jarabus",
@@ -583,22 +586,65 @@ export default function HomePage() {
   const [nombre, setNombre] = useState("")
   const [apellido, setApellido] = useState("")
   const [consulta, setConsulta] = useState("")
-  const [isClientsInteracting, setIsClientsInteracting] = useState(false)
   const clientsScrollerRef = useRef<HTMLDivElement>(null)
+  const clientsTouchingRef = useRef(false)
+  const clientsResumeAtRef = useRef(0)
 
   useEffect(() => {
     const scroller = clientsScrollerRef.current
     if (!scroller) return
-    scroller.scrollLeft = scroller.scrollWidth / 2
+
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches
+    const getLoopWidth = () => scroller.scrollWidth / CLIENT_COPIES
+
+    scroller.scrollLeft = getLoopWidth()
+    let position = scroller.scrollLeft
+    let lastFrame = performance.now()
+    let frameId = 0
+
+    const tick = (now: number) => {
+      const elapsed = Math.min(now - lastFrame, 64)
+      lastFrame = now
+      const loopWidth = getLoopWidth()
+
+      if (loopWidth > 0) {
+        // Si el scrollLeft real se alejó de nuestra posición, el usuario lo movió: pausamos y seguimos desde ahí
+        const current = scroller.scrollLeft
+        if (Math.abs(current - position) > 1.5) {
+          position = current
+          clientsResumeAtRef.current = now + 1200
+        }
+
+        const canAutoScroll = !reduceMotion && !clientsTouchingRef.current && now >= clientsResumeAtRef.current
+        let moved = false
+
+        if (canAutoScroll) {
+          position += (loopWidth / CLIENTS_LOOP_SECONDS) * (elapsed / 1000)
+          moved = true
+        }
+
+        // Mantiene la posición siempre en la copia central: hay colchón a ambos lados, nunca se llega a un borde vacío
+        if (position < loopWidth) {
+          position += loopWidth
+          moved = true
+        } else if (position >= loopWidth * 2) {
+          position -= loopWidth
+          moved = true
+        }
+
+        if (moved) scroller.scrollLeft = position
+      }
+
+      frameId = requestAnimationFrame(tick)
+    }
+
+    frameId = requestAnimationFrame(tick)
+    return () => cancelAnimationFrame(frameId)
   }, [])
 
-  const handleClientsScroll = () => {
-    const scroller = clientsScrollerRef.current
-    if (!scroller) return
-    const loopWidth = scroller.scrollWidth / 2
-    if (loopWidth <= 0) return
-    if (scroller.scrollLeft >= loopWidth) scroller.scrollLeft -= loopWidth
-    if (scroller.scrollLeft <= 0) scroller.scrollLeft += loopWidth
+  const pauseClientsAutoScroll = (touching: boolean) => {
+    clientsTouchingRef.current = touching
+    clientsResumeAtRef.current = performance.now() + 1200
   }
 
   const handleWhatsAppSubmit = (e: React.FormEvent) => {
@@ -1052,20 +1098,16 @@ export default function HomePage() {
           <Reveal delay={0.1}>
             <div
               ref={clientsScrollerRef}
-              onScroll={handleClientsScroll}
               className="marquee-mask relative overflow-x-auto overscroll-x-contain [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
               style={{ touchAction: "pan-x" }}
-              onPointerDown={() => setIsClientsInteracting(true)}
-              onPointerUp={() => setIsClientsInteracting(false)}
-              onPointerCancel={() => setIsClientsInteracting(false)}
-              onPointerLeave={() => setIsClientsInteracting(false)}
+              onPointerDown={() => pauseClientsAutoScroll(true)}
+              onPointerUp={() => pauseClientsAutoScroll(false)}
+              onPointerCancel={() => pauseClientsAutoScroll(false)}
+              onWheel={() => pauseClientsAutoScroll(false)}
               aria-label="Carrusel de clientes. Deslizá para explorar"
             >
-              <div
-                className="flex w-max animate-marquee-clients items-center gap-6"
-                style={{ animationPlayState: isClientsInteracting ? "paused" : "running" }}
-              >
-                {[...clients, ...clients].map((client, i) => (
+              <div className="flex w-max items-center gap-6">
+                {Array.from({ length: CLIENT_COPIES }).flatMap(() => clients).map((client, i) => (
   <div
   key={`${client.name}-${i}`}
   className={`group flex h-24 w-48 shrink-0 items-center justify-center rounded-2xl border p-5 shadow-sm transition-all duration-300 ${
@@ -1090,7 +1132,7 @@ export default function HomePage() {
                       width={176}
                       height={56}
                       crossOrigin="anonymous"
-                      loading={i < clients.length ? "eager" : "lazy"}
+                      loading="eager"
                       fetchPriority={i < clients.length ? "high" : "low"}
                       decoding="async"
                       className={`object-contain transition-all duration-300 ${
