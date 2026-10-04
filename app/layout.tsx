@@ -16,6 +16,11 @@ export const metadata: Metadata = {
   description:
     "Diseñamos y desarrollamos páginas web, tiendas online y sistemas de gestión (ERP) a medida. Soluciones digitales rápidas, seguras y pensadas para escalar tu negocio.",
   generator: "v0.dev",
+  icons: {
+    icon: "/favicon.png",
+    shortcut: "/favicon.png",
+    apple: "/favicon.png",
+  },
   keywords: [
     "desarrollo web",
     "páginas web",
