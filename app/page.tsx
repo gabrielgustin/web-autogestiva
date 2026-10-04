@@ -584,6 +584,22 @@ export default function HomePage() {
   const [apellido, setApellido] = useState("")
   const [consulta, setConsulta] = useState("")
   const [isClientsInteracting, setIsClientsInteracting] = useState(false)
+  const clientsScrollerRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    const scroller = clientsScrollerRef.current
+    if (!scroller) return
+    scroller.scrollLeft = scroller.scrollWidth / 2
+  }, [])
+
+  const handleClientsScroll = () => {
+    const scroller = clientsScrollerRef.current
+    if (!scroller) return
+    const loopWidth = scroller.scrollWidth / 2
+    if (loopWidth <= 0) return
+    if (scroller.scrollLeft >= loopWidth) scroller.scrollLeft -= loopWidth
+    if (scroller.scrollLeft <= 0) scroller.scrollLeft += loopWidth
+  }
 
   const handleWhatsAppSubmit = (e: React.FormEvent) => {
     e.preventDefault()
@@ -1020,7 +1036,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ── Clients ─���──────────────────────────────����─��───────── */}
+      {/* ── Clients ─���──────���───────────────────────����─��───────── */}
       <section id="clientes" className="border-y border-slate-100 bg-slate-50 py-24">
         <div className="container mx-auto px-4 md:px-6">
           <Reveal className="mx-auto mb-14 max-w-2xl text-center">
@@ -1035,6 +1051,8 @@ export default function HomePage() {
 
           <Reveal delay={0.1}>
             <div
+              ref={clientsScrollerRef}
+              onScroll={handleClientsScroll}
               className="marquee-mask relative overflow-x-auto overscroll-x-contain [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
               style={{ touchAction: "pan-x" }}
               onPointerDown={() => setIsClientsInteracting(true)}
