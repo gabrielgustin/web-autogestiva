@@ -1241,9 +1241,19 @@ export default function HomePage() {
               />
               <p className="mt-4 text-sm leading-relaxed text-slate-400">
                 Agencia de desarrollo web y sistemas a medida. Transformamos la presencia digital de tu negocio con
-                tecnología moderna.
-              </p>
-            </div>
+  tecnología moderna.
+  </p>
+  <p className="mt-4 text-sm font-semibold">
+  <a
+  href="https://dashboardneon.vercel.app"
+  target="_blank"
+  rel="noopener noreferrer"
+  className="text-slate-300 transition-colors hover:text-white"
+  >
+  Acceso Admin
+  </a>
+  </p>
+  </div>
 
             <div>
               <h3 className="font-display text-lg font-semibold">Soluciones</h3>
