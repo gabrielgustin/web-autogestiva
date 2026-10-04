@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react"
 import { createPortal } from "react-dom"
-import { Globe, BookOpen, ArrowRight, ChevronDown, ShoppingCart, Building2 } from "lucide-react"
+import { Globe, BookOpen, ArrowRight, ChevronDown, X, ShoppingCart, Building2 } from "lucide-react"
 
 const DEMOS = [
   {
@@ -102,7 +102,7 @@ export function DemoMenu({ onSelect }: DemoMenuProps) {
                   className="rounded-full p-1 text-slate-400 transition-colors hover:bg-slate-100 hover:text-slate-600"
                 >
                   <span className="sr-only">Cerrar</span>
-                  <ChevronDown className="h-4 w-4 rotate-180" aria-hidden="true" />
+                  <X className="h-4 w-4" aria-hidden="true" />
                 </button>
               </div>
               {DEMOS.map((demo) => (

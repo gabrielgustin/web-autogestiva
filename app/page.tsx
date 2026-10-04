@@ -508,7 +508,7 @@ const services = [
 
 const solutions = [
   {
-  title: "Páginas Web",
+  title: "Webs",
   description:
   "Páginas profesionales diseñadas para captar clientes y convertir visitas en ventas. Perfectas para lanzar productos, servicios o campañas puntuales.",
   icon: Globe,
@@ -745,7 +745,7 @@ export default function HomePage() {
       </section>
 
 
-      {/* ── Solutions ──��──���──────��───────────────────────────── */}
+      {/* ── Solutions ──��──�����──────��───────────────────────────── */}
       <section id="soluciones" className="py-24">
         <div className="container mx-auto px-4 md:px-6">
           <Reveal className="mx-auto mb-16 max-w-2xl text-center">
@@ -1019,7 +1019,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ── Clients ─���────────────────────────────────��───────── */}
+      {/* ── Clients ─���──────────────────────────────��─��───────── */}
       <section id="clientes" className="border-y border-slate-100 bg-slate-50 py-24">
         <div className="container mx-auto px-4 md:px-6">
           <Reveal className="mx-auto mb-14 max-w-2xl text-center">
