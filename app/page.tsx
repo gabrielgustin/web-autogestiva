@@ -1243,7 +1243,7 @@ export default function HomePage() {
                 Agencia de desarrollo web y sistemas a medida. Transformamos la presencia digital de tu negocio con
   tecnología moderna.
   </p>
-  <p className="mt-4 text-sm font-semibold">
+  <p className="mt-4 text-sm">
   <a
   href="https://dashboardneon.vercel.app"
   target="_blank"
