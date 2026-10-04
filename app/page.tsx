@@ -676,8 +676,8 @@ export default function HomePage() {
                   escalan
                 </span>
               </span>{" "}
-              con tu negocio
-            </h1>
+  a tu negocio
+  </h1>
 
             <p className="mx-auto mt-6 max-w-xl text-pretty text-lg leading-relaxed text-slate-600 lg:mx-0">
               No trabajamos con plantillas genéricas. Diseñamos y desarrollamos páginas web, tiendas online y sistemas
