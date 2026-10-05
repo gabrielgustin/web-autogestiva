@@ -511,7 +511,7 @@ const services = [
 
 const solutions = [
   {
-  title: "Webs",
+  title: "Páginas Webs",
   description:
   "Páginas profesionales diseñadas para captar clientes y convertir visitas en ventas. Perfectas para lanzar productos, servicios o campañas puntuales.",
   icon: Globe,
@@ -519,7 +519,7 @@ const solutions = [
   features: ["Diseño orientado a conversión", "Responsive y veloz", "Formularios de contacto", "SEO optimizado"],
   },
   {
-  title: "Webs",
+  title: "Webs Institucionales",
   description:
   "Sitios corporativos que presentan tu empresa, servicios y equipo de forma profesional. Dan presencia formal y confianza a tu marca en internet.",
   icon: Building2,
