@@ -1343,6 +1343,16 @@ export default function HomePage() {
           </div>
         </div>
       </footer>
+
+      <a
+        href="https://wa.me/5493512681910?text=Hola!"
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label="Contactar por WhatsApp"
+        className="fixed bottom-5 right-5 z-50 flex h-14 w-14 items-center justify-center rounded-full bg-green-500 text-white shadow-xl shadow-green-500/30 transition-transform duration-300 hover:scale-110 hover:bg-green-600 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-green-500/40 md:bottom-6 md:right-6"
+      >
+        <MessageCircle className="h-7 w-7" aria-hidden="true" />
+      </a>
     </div>
   )
 }
