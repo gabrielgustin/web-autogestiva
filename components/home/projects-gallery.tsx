@@ -1,5 +1,6 @@
 "use client"
 
+import type React from "react"
 import { useEffect, useRef, useState } from "react"
 import { ArrowUpRight } from "lucide-react"
 import { projects, prettyUrl, type Project } from "@/lib/site-data"
@@ -137,7 +138,6 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
       {...(url ? { href: url, target: "_blank", rel: "noopener noreferrer" } : {})}
       className={`group relative flex h-full w-[min(88vw,540px)] shrink-0 flex-col overflow-hidden rounded-3xl md:w-[min(78vw,880px)] md:flex-row ${text}`}
       style={{ backgroundColor: bg }}
-      aria-label={url ? `${name}: visitar sitio` : name}
     >
       {/* Luz con el color de marca del cliente */}
       <span
@@ -207,26 +207,38 @@ export function ProjectsGallery() {
   const [pinned, setPinned] = useState(false)
   const [distance, setDistance] = useState(0)
   const [current, setCurrent] = useState(1)
+  // Con "scroll-driven animations" el navegador mueve la galería en el mismo hilo que hace el scroll:
+  // queda perfectamente sincronizada en ambos sentidos. Donde no existe, se mueve con JavaScript.
+  const [native, setNative] = useState(false)
 
   // La galería se fija y el scroll vertical la desplaza en horizontal, en cualquier tamaño de pantalla.
   // Solo con "reducir movimiento" se deja como carrusel deslizable.
   useEffect(() => {
     const reduce = window.matchMedia("(prefers-reduced-motion: reduce)")
+    setNative(typeof CSS !== "undefined" && CSS.supports("animation-timeline: view()"))
 
+    let lastWidth = -1
     const measure = () => {
       const track = trackRef.current
       const canPin = !reduce.matches
       setPinned(canPin)
       if (track) setDistance(canPin ? Math.max(0, track.scrollWidth - window.innerWidth) : 0)
     }
+    // En móvil, mostrar u ocultar la barra del navegador dispara "resize" sin cambiar el ancho: se ignora
+    const onResize = () => {
+      if (window.innerWidth === lastWidth) return
+      lastWidth = window.innerWidth
+      measure()
+    }
 
+    lastWidth = window.innerWidth
     measure()
-    window.addEventListener("resize", measure)
-    const observer = new ResizeObserver(measure)
-    if (trackRef.current) observer.observe(trackRef.current)
+    window.addEventListener("resize", onResize)
+    reduce.addEventListener("change", measure)
+    document.fonts?.ready.then(measure)
     return () => {
-      window.removeEventListener("resize", measure)
-      observer.disconnect()
+      window.removeEventListener("resize", onResize)
+      reduce.removeEventListener("change", measure)
     }
   }, [])
 
@@ -235,10 +247,10 @@ export function ProjectsGallery() {
     const track = trackRef.current
     if (!section || !track) return
 
-    // La barra se mueve sin pasar por React; el contador solo se actualiza cuando cambia de proyecto
-    let lastCurrent = 1
-    const setProgress = (progress: number) => {
-      if (barRef.current) barRef.current.style.transform = `scaleX(${progress})`
+    // El contador solo se actualiza cuando cambia de proyecto, nunca en cada fotograma
+    let lastCurrent = -1
+    const setProgress = (progress: number, moveBar: boolean) => {
+      if (moveBar && barRef.current) barRef.current.style.transform = `scaleX(${progress})`
       const next = Math.min(projects.length, Math.round(progress * (projects.length - 1)) + 1)
       if (next !== lastCurrent) {
         lastCurrent = next
@@ -250,41 +262,64 @@ export function ProjectsGallery() {
       track.style.transform = ""
       const onTrackScroll = () => {
         const max = track.scrollWidth - track.clientWidth
-        setProgress(max > 0 ? track.scrollLeft / max : 0)
+        setProgress(max > 0 ? track.scrollLeft / max : 0, true)
       }
       onTrackScroll()
       track.addEventListener("scroll", onTrackScroll, { passive: true })
       return () => track.removeEventListener("scroll", onTrackScroll)
     }
 
+    // Posición del inicio de la sección en el documento: se mide una vez, no en cada scroll
+    let sectionTop = 0
+    const locate = () => {
+      sectionTop = section.getBoundingClientRect().top + window.scrollY
+    }
+    const progressNow = () =>
+      distance > 0 ? Math.min(1, Math.max(0, (window.scrollY + NAV_HEIGHT - sectionTop) / distance)) : 0
+
     let frame = 0
     const update = () => {
       frame = 0
-      const scrolled = NAV_HEIGHT - section.getBoundingClientRect().top
-      const progress = distance > 0 ? Math.min(1, Math.max(0, scrolled / distance)) : 0
-      track.style.transform = `translate3d(${-progress * distance}px, 0, 0)`
-      setProgress(progress)
+      const progress = progressNow()
+      if (!native) track.style.transform = `translate3d(${-progress * distance}px, 0, 0)`
+      setProgress(progress, !native)
     }
     const onScroll = () => {
       if (!frame) frame = requestAnimationFrame(update)
     }
+    const onResize = () => {
+      locate()
+      onScroll()
+    }
 
+    if (native) {
+      track.style.transform = ""
+      if (barRef.current) barRef.current.style.transform = ""
+    }
+    locate()
     update()
     window.addEventListener("scroll", onScroll, { passive: true })
+    window.addEventListener("resize", onResize)
     return () => {
       window.removeEventListener("scroll", onScroll)
+      window.removeEventListener("resize", onResize)
       if (frame) cancelAnimationFrame(frame)
     }
-  }, [pinned, distance])
+  }, [pinned, distance, native])
 
   const viewport = `calc(100svh - ${NAV_HEIGHT}px)`
+  const timeline = pinned && native
 
   return (
     <section
       id="proyectos"
       ref={sectionRef}
-      className="relative scroll-mt-20 border-t border-line bg-white"
-      style={pinned ? { height: `calc(${viewport} + ${distance}px)` } : undefined}
+      className={`relative scroll-mt-20 border-t border-line bg-white ${timeline ? "gallery-timeline" : ""}`}
+      style={
+        pinned
+          ? ({ height: `calc(${viewport} + ${distance}px)`, "--gallery-distance": `${distance}px` } as React.CSSProperties)
+          : undefined
+      }
     >
       <div
         className={`flex flex-col justify-center overflow-hidden ${pinned ? "sticky" : "py-10"}`}
@@ -302,8 +337,8 @@ export function ProjectsGallery() {
             <span className="hidden h-[3px] w-24 overflow-hidden rounded-full bg-ink/10 min-[420px]:block md:w-40">
               <span
                 ref={barRef}
-                className="block h-full w-full origin-left rounded-full bg-brand"
-                style={{ transform: "scaleX(0)" }}
+                className={`block h-full w-full origin-left rounded-full bg-brand ${timeline ? "gallery-bar" : ""}`}
+                style={timeline ? undefined : { transform: "scaleX(0)" }}
               />
             </span>
           </div>
@@ -311,9 +346,9 @@ export function ProjectsGallery() {
 
         <div
           ref={trackRef}
-          className={`mt-5 flex h-[clamp(360px,calc(100svh-300px),440px)] md:h-[clamp(380px,calc(100svh-260px),540px)] gap-4 px-5 will-change-transform md:mt-8 md:gap-6 md:px-8 lg:px-[max(2rem,calc((100vw-1320px)/2+2rem))] ${
+          className={`mt-5 flex h-[clamp(360px,calc(100svh-300px),440px)] gap-4 px-5 will-change-transform md:mt-8 md:h-[clamp(380px,calc(100svh-260px),540px)] md:gap-6 md:px-8 lg:px-[max(2rem,calc((100vw-1320px)/2+2rem))] ${
             pinned ? "w-max" : "snap-x snap-mandatory overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
-          }`}
+          } ${timeline ? "gallery-track" : ""}`}
         >
           {projects.map((project, i) => (
             <ProjectCard key={project.name} project={project} index={i} />

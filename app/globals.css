@@ -434,6 +434,43 @@ summary,
   animation: pulse-dot 1.8s ease-out infinite;
 }
 
+/* Galería de proyectos: el desplazamiento horizontal lo conduce el propio scroll (sin JavaScript),
+   así va sincronizado con la sección fija tanto al avanzar como al retroceder */
+@keyframes gallery-slide {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(calc(var(--gallery-distance, 0px) * -1), 0, 0);
+  }
+}
+@keyframes gallery-bar {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+@supports (animation-timeline: view()) {
+  .gallery-timeline {
+    view-timeline-name: --gallery;
+    view-timeline-axis: block;
+    /* el encabezado fijo ocupa los primeros 72px */
+    view-timeline-inset: 72px 0px;
+  }
+  .gallery-timeline .gallery-track {
+    animation: gallery-slide linear both;
+    animation-timeline: --gallery;
+    animation-range: contain 0% contain 100%;
+  }
+  .gallery-timeline .gallery-bar {
+    animation: gallery-bar linear both;
+    animation-timeline: --gallery;
+    animation-range: contain 0% contain 100%;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto !important;
