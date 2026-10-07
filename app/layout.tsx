@@ -1,13 +1,13 @@
 import type React from "react"
 import "./globals.css"
 import type { Metadata, Viewport } from "next"
-import { Inter, Poppins } from "next/font/google"
+import { Bricolage_Grotesque, Geist, Geist_Mono } from "next/font/google"
 
-const inter = Inter({ subsets: ["latin"], variable: "--font-inter", display: "swap" })
-const poppins = Poppins({
+const geist = Geist({ subsets: ["latin"], variable: "--font-geist", display: "swap" })
+const geistMono = Geist_Mono({ subsets: ["latin"], variable: "--font-geist-mono", display: "swap" })
+const bricolage = Bricolage_Grotesque({
   subsets: ["latin"],
-  weight: ["500", "600", "700", "800"],
-  variable: "--font-poppins",
+  variable: "--font-bricolage",
   display: "swap",
 })
 
@@ -15,7 +15,6 @@ export const metadata: Metadata = {
   title: "Autogestiva | Agencia de desarrollo web y sistemas a medida",
   description:
     "Diseñamos y desarrollamos páginas web, tiendas online y sistemas de gestión (ERP) a medida. Soluciones digitales rápidas, seguras y pensadas para escalar tu negocio.",
-  generator: "v0.dev",
   icons: {
     icon: "/favicon.png",
     shortcut: "/favicon.png",
@@ -54,8 +53,11 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="es" className={`scroll-smooth bg-background ${inter.variable} ${poppins.variable}`}>
-      <body className={inter.className}>{children}</body>
+    <html
+      lang="es"
+      className={`scroll-smooth bg-paper ${geist.variable} ${geistMono.variable} ${bricolage.variable}`}
+    >
+      <body className={geist.className}>{children}</body>
     </html>
   )
 }

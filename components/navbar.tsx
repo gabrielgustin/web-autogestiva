@@ -3,57 +3,14 @@
 import { useState, useEffect } from "react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-import {
-  Menu,
-  X,
-  ChevronDown,
-  Globe,
-  Building2,
-  LayoutDashboard,
-  BookOpen,
-  Search,
-  Sparkles,
-  ArrowRight,
-} from "lucide-react"
-import { Button } from "@/components/ui/button"
+import { Menu, X, ChevronDown, ArrowRight, ArrowUpRight } from "lucide-react"
+import { navServices, contact } from "@/lib/site-data"
 
-const services = [
-  {
-    icon: Globe,
-    title: "Páginas web",
-    description: "Sitios a medida que convierten visitas en clientes.",
-    href: "/#servicios",
-  },
-  {
-  icon: Building2,
-  title: "Web Institucionales",
-  description: "Sitios profesionales para presentar tu empresa y generar confianza.",
-  href: "/#soluciones",
-  },
-  {
-    icon: LayoutDashboard,
-    title: "ERP / Sistemas de gestión",
-    description: "Plataformas internas que automatizan tus procesos.",
-    href: "/#sistemas",
-  },
-  {
-    icon: BookOpen,
-    title: "Catálogos digitales y Cartas",
-    description: "Mostrá tus productos de forma clara y autogestionable.",
-    href: "/#soluciones",
-  },
-  {
-    icon: Sparkles,
-    title: "Integración de IA",
-    description: "Chatbots, automatización y análisis con inteligencia artificial.",
-    href: "/#ia",
-  },
-  {
-    icon: Search,
-    title: "SEO & Migraciones",
-    description: "Posicionamiento y traspasos seguros sin perder tráfico.",
-    href: "/#seo",
-  },
+const links = [
+  { label: "Proyectos", href: "/#proyectos" },
+  { label: "Soluciones", href: "/#soluciones" },
+  { label: "Proceso", href: "/#como-funciona" },
+  { label: "Clientes", href: "/#clientes" },
 ]
 
 export function Navbar() {
@@ -74,37 +31,50 @@ export function Navbar() {
     return () => window.removeEventListener("scroll", onScroll)
   }, [])
 
+  useEffect(() => {
+    if (!isMenuOpen) return
+    const previousOverflow = document.body.style.overflow
+    document.body.style.overflow = "hidden"
+    return () => {
+      document.body.style.overflow = previousOverflow
+    }
+  }, [isMenuOpen])
+
+  const closeAll = () => {
+    setIsMenuOpen(false)
+    setIsServicesOpen(false)
+  }
+
   return (
     <header
-      className={`sticky top-0 z-50 w-full relative transition-all duration-300 ${
-        scrolled
-          ? "bg-white/90 backdrop-blur-md shadow-[0_6px_24px_-12px_rgba(15,23,41,0.25)] border-b border-slate-200/70"
-          : "bg-white border-b border-transparent"
+      className={`sticky top-0 z-40 w-full border-b transition-all duration-300 ${
+        scrolled || isMenuOpen ? "border-line bg-paper/85 backdrop-blur-xl" : "border-transparent bg-paper"
       }`}
     >
-      <div className="container mx-auto flex h-18 md:h-20 items-center justify-between gap-4 px-4 md:px-6 py-3">
-        <div className="flex items-center gap-1">
-          <Link className="flex items-center gap-2 shrink-0" href="/">
+      <div className="mx-auto flex h-[72px] max-w-[1320px] items-center justify-between gap-4 px-5 md:px-8">
+        <div className="flex items-center gap-6">
+          <Link className="flex shrink-0 items-center" href="/" onClick={closeAll}>
             <img
-              src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Logo%20Autogestiva%20ultimo-R93mHhq1sUa1o5uzR06VLSNktwqoaS.png"
+              src="/images/logo-autogestiva.png"
               alt="Logo Autogestiva"
-              width={200}
-              height={45}
-              className="h-12 md:h-14 w-auto"
+              width={680}
+              height={270}
+              className="-ml-1 h-[58px] w-auto md:h-[66px]"
             />
             <span className="sr-only">Autogestiva</span>
           </Link>
 
           {/* Desktop nav */}
-          <nav className="hidden lg:flex items-center gap-1">
+          <nav className="hidden items-center lg:flex">
             <div
               className="relative"
               onMouseEnter={() => setIsServicesOpen(true)}
               onMouseLeave={() => setIsServicesOpen(false)}
             >
               <button
-                className="flex items-center gap-1.5 rounded-lg px-4 py-2.5 text-[15px] font-medium text-slate-700 transition-colors hover:text-brand hover:bg-brand-light"
+                className="flex items-center gap-1.5 rounded-full px-4 py-2 text-[15px] font-medium text-ink/80 transition-colors hover:bg-ink/5 hover:text-ink"
                 aria-expanded={isServicesOpen}
+                onClick={() => setIsServicesOpen((v) => !v)}
               >
                 Servicios
                 <ChevronDown
@@ -113,115 +83,115 @@ export function Navbar() {
               </button>
 
               {isServicesOpen && (
-                <div className="absolute top-full left-0 pt-3">
-                <div className="w-[min(640px,92vw)] rounded-2xl border border-slate-100 bg-white p-3 shadow-2xl animate-rise-in">
-                  <div className="grid grid-cols-2 gap-1">
-                    {services.map((service) => {
-                      const Icon = service.icon
-                      return (
-                        <Link
-                          key={service.title}
-                          href={service.href}
-                          className="group flex items-start gap-3 rounded-xl p-3 transition-colors hover:bg-slate-50"
-                        >
-                          <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-brand-light text-brand transition-colors group-hover:bg-brand group-hover:text-white">
-                            <Icon className="h-5 w-5" />
-                          </span>
-                          <span className="flex-1">
-                            <span className="block text-sm font-semibold text-slate-800">{service.title}</span>
-                            <span className="mt-0.5 block text-xs leading-relaxed text-slate-500">
-                              {service.description}
+                <div className="absolute left-0 top-full pt-3">
+                  <div className="animate-rise-in w-[min(680px,92vw)] overflow-hidden rounded-2xl border border-line bg-white shadow-[0_30px_70px_-25px_rgba(11,19,34,0.4)]">
+                    <div className="grid grid-cols-2">
+                      {navServices.map((service, i) => {
+                        const Icon = service.icon
+                        return (
+                          <Link
+                            key={service.title}
+                            href={service.href}
+                            onClick={closeAll}
+                            className={`group flex items-start gap-3.5 border-line p-4 transition-colors hover:bg-paper ${
+                              i % 2 === 0 ? "border-r" : ""
+                            } ${i < navServices.length - 2 ? "border-b" : ""}`}
+                          >
+                            <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-brand-light text-brand transition-colors group-hover:bg-brand group-hover:text-white">
+                              <Icon className="h-5 w-5" />
                             </span>
-                          </span>
-                        </Link>
-                      )
-                    })}
-                  </div>
-                  <div className="mt-2 flex items-center justify-between rounded-xl bg-brand px-4 py-3">
-                    <span className="text-sm font-medium text-white">¿No sabés qué necesitás? Te asesoramos gratis.</span>
-                    <Link
-                      href="/#contacto"
-                      className="inline-flex items-center gap-1 text-sm font-semibold text-white/90 hover:text-white"
-                    >
-                      Hablemos <ArrowRight className="h-4 w-4" />
-                    </Link>
+                            <span className="flex-1">
+                              <span className="flex items-center gap-1 text-sm font-semibold text-ink">
+                                {service.title}
+                                <ArrowUpRight className="h-3.5 w-3.5 -translate-x-1 opacity-0 transition-all group-hover:translate-x-0 group-hover:opacity-100" />
+                              </span>
+                              <span className="mt-0.5 block text-[13px] leading-snug text-muted-ink">
+                                {service.description}
+                              </span>
+                            </span>
+                          </Link>
+                        )
+                      })}
+                    </div>
                   </div>
                 </div>
-              </div>
-            )}
-          </div>
+              )}
+            </div>
 
+            {links.map((link) => (
+              <Link
+                key={link.href}
+                href={link.href}
+                className="rounded-full px-4 py-2 text-[15px] font-medium text-ink/80 transition-colors hover:bg-ink/5 hover:text-ink"
+              >
+                {link.label}
+              </Link>
+            ))}
           </nav>
         </div>
 
         {/* Desktop actions */}
-        <div className="hidden lg:flex items-center gap-3 shrink-0">
+        <div className="hidden shrink-0 items-center gap-5 lg:flex">
+          <span className="eyebrow hidden items-center gap-2 text-muted-ink xl:flex">
+            <span className="h-1.5 w-1.5 rounded-full bg-green-500" />
+            {contact.location}
+          </span>
           <Link
             href="/#contacto"
-            className="group relative inline-flex items-center gap-2 overflow-hidden rounded-full bg-orange-500 px-6 py-2.5 text-[15px] font-semibold text-white shadow-lg shadow-orange-500/25 transition-all hover:bg-orange-600 hover:shadow-orange-500/40"
+            className="group inline-flex items-center gap-2 rounded-full bg-ink px-5 py-2.5 text-[15px] font-semibold text-white transition-colors hover:bg-orange-500"
           >
-            <span className="relative z-10">Cotizá tu proyecto</span>
-            <ArrowRight className="relative z-10 h-4 w-4 transition-transform group-hover:translate-x-0.5" />
-            <span className="pointer-events-none absolute inset-0 z-0 -translate-x-full bg-white/25 [clip-path:polygon(0_0,40%_0,60%_100%,20%_100%)] transition-transform duration-700 group-hover:translate-x-[260%]" />
+            Cotizá tu proyecto
+            <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
           </Link>
         </div>
 
         {/* Mobile toggle */}
-        <Button
-          className="lg:hidden"
-          size="icon"
-          variant="ghost"
+        <button
+          className="flex h-11 w-11 items-center justify-center rounded-full border border-line text-ink lg:hidden"
           onClick={() => setIsMenuOpen(!isMenuOpen)}
           aria-label={isMenuOpen ? "Cerrar menú" : "Abrir menú"}
+          aria-expanded={isMenuOpen}
         >
-          {isMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
-        </Button>
+          {isMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+        </button>
       </div>
 
       {/* Mobile menu */}
       {isMenuOpen && (
-        <div className="lg:hidden border-t border-slate-100 bg-white">
-          <nav className="flex flex-col gap-1 px-4 py-4">
-            <button
-              onClick={() => setIsServicesOpen(!isServicesOpen)}
-              className="flex items-center justify-between rounded-lg px-3 py-3 text-base font-medium text-slate-800 hover:bg-slate-50"
-            >
-              Servicios
-              <ChevronDown className={`h-4 w-4 transition-transform ${isServicesOpen ? "rotate-180" : ""}`} />
-            </button>
-
-            {isServicesOpen && (
-              <div className="mb-1 grid gap-1 rounded-xl bg-slate-50 p-2">
-                {services.map((service) => {
-                  const Icon = service.icon
-                  return (
-                    <Link
-                      key={service.title}
-                      href={service.href}
-                      className="flex items-start gap-3 rounded-lg bg-white p-3"
-                    >
-                      <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-brand-light text-brand">
-                        <Icon className="h-4 w-4" />
+        <div className="animate-fade-in absolute inset-x-0 top-full h-[calc(100dvh-72px)] overflow-y-auto border-t border-line bg-paper lg:hidden">
+          <nav className="flex min-h-full flex-col px-5 pb-8 pt-4">
+            <p className="eyebrow py-3 text-muted-ink">Servicios</p>
+            <div className="border-t border-line">
+              {navServices.map((service) => {
+                const Icon = service.icon
+                return (
+                  <Link
+                    key={service.title}
+                    href={service.href}
+                    onClick={closeAll}
+                    className="flex items-start gap-3.5 border-b border-line py-3.5"
+                  >
+                    <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-brand-light text-brand">
+                      <Icon className="h-4 w-4" />
+                    </span>
+                    <span>
+                      <span className="block text-[15px] font-semibold text-ink">{service.title}</span>
+                      <span className="mt-0.5 block text-[13px] leading-snug text-muted-ink">
+                        {service.description}
                       </span>
-                      <span>
-                        <span className="block text-sm font-semibold text-slate-800">{service.title}</span>
-                        <span className="mt-0.5 block text-xs text-slate-500">{service.description}</span>
-                      </span>
-                    </Link>
-                  )
-                })}
-              </div>
-            )}
-
-
-            <div className="mt-2 flex flex-col gap-2 border-t border-slate-100 pt-3">
-              <Link
-                href="/#contacto"
-                className="inline-flex items-center justify-center gap-2 rounded-full bg-orange-500 px-6 py-3 text-base font-semibold text-white shadow-lg"
-              >
-                Cotizá tu proyecto <ArrowRight className="h-4 w-4" />
-              </Link>
+                    </span>
+                  </Link>
+                )
+              })}
             </div>
+
+            <Link
+              href="/#contacto"
+              onClick={closeAll}
+              className="mt-6 inline-flex items-center justify-center gap-2 rounded-full bg-orange-500 px-6 py-4 text-base font-semibold text-white"
+            >
+              Cotizá tu proyecto <ArrowRight className="h-4 w-4" />
+            </Link>
           </nav>
         </div>
       )}
