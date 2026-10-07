@@ -2,12 +2,12 @@
 
 import type React from "react"
 import { useState } from "react"
-import { ArrowUpRight, Check, Mail, MapPin, MessageCircle, Phone, Sparkles } from "lucide-react"
+import { ArrowUpRight, Check, Mail, MapPin, Phone, Sparkles } from "lucide-react"
 import { Navbar } from "@/components/navbar"
 import { ProjectsGallery } from "@/components/home/projects-gallery"
 import { ClientsScroller } from "@/components/home/clients-scroller"
 import { DashboardMockup, SeoVisual } from "@/components/home/mockups"
-import { CtaButton, Eyebrow, Reveal, scrollToSection, useOnScreen } from "@/components/home/primitives"
+import { CtaButton, Eyebrow, Reveal, WhatsAppIcon, scrollToSection, useOnScreen } from "@/components/home/primitives"
 import {
   contact,
   erpFeatures,
@@ -506,7 +506,7 @@ export default function HomePage() {
                     type="submit"
                     className="flex w-full items-center justify-center gap-2.5 rounded-full bg-green-600 px-8 py-4 text-base font-semibold text-white transition-all duration-300 hover:bg-green-700 active:scale-[0.98]"
                   >
-                    <MessageCircle className="h-5 w-5" />
+                    <WhatsAppIcon className="h-5 w-5" />
                     Enviar por WhatsApp
                   </button>
                 </form>
@@ -594,7 +594,7 @@ export default function HomePage() {
         aria-label="Contactar por WhatsApp"
         className="fixed bottom-5 right-5 z-30 flex h-14 w-14 items-center justify-center rounded-full bg-green-500 text-white shadow-xl shadow-green-500/30 transition-transform duration-300 hover:scale-110 hover:bg-green-600 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-green-500/40 md:bottom-6 md:right-6"
       >
-        <MessageCircle className="h-7 w-7" aria-hidden="true" />
+        <WhatsAppIcon className="h-7 w-7" />
       </a>
     </div>
   )
