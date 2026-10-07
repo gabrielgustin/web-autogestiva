@@ -11,17 +11,7 @@ const NAV_HEIGHT = 72
 /* ── Dispositivos ─────────────────────────────────────────────────────── */
 
 /* iPhone: marco de titanio, bisel negro, isla dinámica, botones laterales y reflejo en el vidrio */
-function IPhone({
-  src,
-  alt,
-  bars,
-  className = "",
-}: {
-  src: string
-  alt: string
-  bars?: { width: number; height: number; bottom: number }
-  className?: string
-}) {
+function IPhone({ src, alt, className = "" }: { src: string; alt: string; className?: string }) {
   return (
     <div className={`relative aspect-[9/19.5] ${className}`}>
       {/* botones laterales */}
@@ -36,23 +26,7 @@ function IPhone({
         <div className="h-full w-full rounded-[15.4%/7.1%] bg-black p-[2.4%]">
           {/* pantalla */}
           <div className="relative h-full w-full overflow-hidden rounded-[12.6%/5.8%] bg-white">
-            {bars ? (
-              <div className="relative h-full w-full bg-[#efefef]">
-                {/* Pantalla de la app a lo ancho del teléfono, sin su barra inferior... */}
-                <div className="w-full overflow-hidden" style={{ aspectRatio: `${bars.width} / ${bars.height - bars.bottom}` }}>
-                  <img src={src} alt={alt} loading="lazy" decoding="async" className="block w-full" />
-                </div>
-                {/* ...y la barra de navegación, fija al pie como en el teléfono real */}
-                <div
-                  className="absolute inset-x-0 bottom-0 overflow-hidden"
-                  style={{ aspectRatio: `${bars.width} / ${bars.bottom}` }}
-                >
-                  <img src={src} alt="" loading="lazy" decoding="async" className="h-full w-full object-cover object-bottom" />
-                </div>
-              </div>
-            ) : (
-              <img src={src} alt={alt} loading="lazy" decoding="async" className="h-full w-full object-cover object-top" />
-            )}
+            <img src={src} alt={alt} loading="lazy" decoding="async" className="h-full w-full object-cover object-top" />
             <span className="absolute left-1/2 top-[1.9%] h-[2.9%] w-[31%] -translate-x-1/2 rounded-full bg-black" />
             <span className="absolute bottom-[1.4%] left-1/2 h-[0.5%] w-[34%] -translate-x-1/2 rounded-full bg-black/70" />
             <span className="pointer-events-none absolute inset-0 bg-gradient-to-br from-white/25 via-white/0 to-white/0 mix-blend-soft-light" />
@@ -63,7 +37,17 @@ function IPhone({
   )
 }
 
-function Browser({ src, alt, url, className = "" }: { src: string; alt: string; url?: string; className?: string }) {
+function Browser({
+  src,
+  alt,
+  url,
+  className = "",
+}: {
+  src: string
+  alt: string
+  url?: string
+  className?: string
+}) {
   return (
     <div
       className={`overflow-hidden rounded-xl bg-[#16181d] shadow-[0_30px_60px_-20px_rgba(0,0,0,0.6)] ring-1 ring-white/10 ${className}`}
@@ -80,14 +64,23 @@ function Browser({ src, alt, url, className = "" }: { src: string; alt: string; 
           </span>
         )}
       </div>
-      <img src={src} alt={alt} loading="lazy" decoding="async" className="block w-full" />
+      {/* Proporción fija: todas las ventanas miden lo mismo aunque la captura sea más ancha */}
+      <div className="aspect-[16/10] overflow-hidden">
+        <img
+          src={src}
+          alt={alt}
+          loading="lazy"
+          decoding="async"
+          className="h-full w-full object-cover object-left-top"
+        />
+      </div>
     </div>
   )
 }
 
 /* La misma composición en todas las tarjetas: navegador al fondo, teléfono al frente */
 function Devices({ project }: { project: Project }) {
-  const { name, desktop, desktopUrl, mobile, mobileBars, logo, url } = project
+  const { name, desktop, desktopUrl, mobile, logo, url } = project
 
   if (logo) {
     return (
@@ -117,7 +110,6 @@ function Devices({ project }: { project: Project }) {
         <IPhone
           src={mobile}
           alt={`${name} en el teléfono`}
-          bars={mobileBars}
           className="absolute bottom-[-13%] left-[5%] h-[96%] transition-transform duration-700 ease-out group-hover:-translate-y-3"
         />
       )}

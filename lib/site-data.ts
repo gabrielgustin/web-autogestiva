@@ -273,8 +273,6 @@ export type Project = {
   /** Dirección que se muestra en el navegador del mockup, si no es la del sitio */
   desktopUrl?: string
   mobile?: string
-  /** Captura de una app con barra inferior fija: se ajusta al ancho del teléfono y la barra queda abajo */
-  mobileBars?: { width: number; height: number; bottom: number }
   logo?: string
   /** Colores tomados de la marca de cada cliente */
   bg: string
@@ -288,9 +286,8 @@ export const projects: Project[] = [
     url: "https://trasladosjarabus.com.ar",
     type: "E-commerce",
     description: "Tienda online con reserva y venta de pasajes de forma autogestionable.",
-    desktop: "/images/work/jarabus.jpg",
-    mobile: "/images/work/jarabus-admin-mobile.jpg",
-    mobileBars: { width: 739, height: 1263, bottom: 123 },
+    desktop: "/images/work/jarabus-admin.jpg",
+    mobile: "/images/work/jarabus-mobile.jpg",
     bg: "#100506",
     accent: "#e02424",
     dark: true,
