@@ -148,8 +148,8 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
       {/* Luz con el color de marca del cliente */}
       <span
         aria-hidden="true"
-        className="pointer-events-none absolute -right-[10%] -top-[35%] h-[90%] w-[70%] rounded-full opacity-45 blur-[90px]"
-        style={{ backgroundColor: accent }}
+        className="pointer-events-none absolute inset-0 opacity-50"
+        style={{ background: `radial-gradient(60% 75% at 88% 0%, ${accent}, transparent 70%)` }}
       />
       <span
         aria-hidden="true"
@@ -240,9 +240,15 @@ export function ProjectsGallery() {
     const track = trackRef.current
     if (!section || !track) return
 
+    // La barra se mueve sin pasar por React; el contador solo se actualiza cuando cambia de proyecto
+    let lastCurrent = 1
     const setProgress = (progress: number) => {
       if (barRef.current) barRef.current.style.transform = `scaleX(${progress})`
-      setCurrent(Math.min(projects.length, Math.round(progress * (projects.length - 1)) + 1))
+      const next = Math.min(projects.length, Math.round(progress * (projects.length - 1)) + 1)
+      if (next !== lastCurrent) {
+        lastCurrent = next
+        setCurrent(next)
+      }
     }
 
     if (!pinned) {

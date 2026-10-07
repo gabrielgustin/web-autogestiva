@@ -30,6 +30,22 @@ export function useInView<T extends HTMLElement>(threshold = 0.2) {
   return { ref, inView }
 }
 
+/* true mientras el elemento está en pantalla: sirve para pausar animaciones que nadie ve */
+export function useOnScreen<T extends HTMLElement>() {
+  const ref = useRef<T>(null)
+  const [onScreen, setOnScreen] = useState(false)
+
+  useEffect(() => {
+    const el = ref.current
+    if (!el) return
+    const observer = new IntersectionObserver(([entry]) => setOnScreen(entry.isIntersecting), { rootMargin: "120px" })
+    observer.observe(el)
+    return () => observer.disconnect()
+  }, [])
+
+  return { ref, onScreen }
+}
+
 export function Reveal({
   children,
   delay = 0,

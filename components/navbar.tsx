@@ -48,7 +48,7 @@ export function Navbar() {
   return (
     <header
       className={`sticky top-0 z-40 w-full border-b transition-all duration-300 ${
-        scrolled || isMenuOpen ? "border-line bg-paper/85 backdrop-blur-xl" : "border-transparent bg-paper"
+        scrolled || isMenuOpen ? "border-line bg-paper/95 md:bg-paper/85 md:backdrop-blur-xl" : "border-transparent bg-paper"
       }`}
     >
       <div className="mx-auto flex h-[72px] max-w-[1320px] items-center justify-between gap-4 px-5 md:px-8">
@@ -57,8 +57,9 @@ export function Navbar() {
             <img
               src="/images/logo-autogestiva.png"
               alt="Logo Autogestiva"
-              width={680}
-              height={270}
+              width={380}
+              height={151}
+              fetchPriority="high"
               className="-ml-1 h-[58px] w-auto md:h-[66px]"
             />
             <span className="sr-only">Autogestiva</span>
