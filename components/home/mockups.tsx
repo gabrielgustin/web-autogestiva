@@ -22,7 +22,7 @@ export function SeoVisual() {
     <div ref={ref} className="relative">
       <div className="overflow-hidden rounded-2xl border border-ink/10 bg-ink text-white shadow-[0_40px_80px_-30px_rgba(11,19,34,0.55)]">
         <div className="flex items-center justify-between border-b border-white/10 px-5 py-3.5">
-          <span className="eyebrow truncate pr-3 text-white/50">migración · redirecciones</span>
+          <span className="eyebrow truncate pr-3 text-white/65 max-sm:text-[10px] max-sm:tracking-[0.08em]">migración · redirecciones</span>
           <span className="flex shrink-0 items-center gap-1.5 whitespace-nowrap rounded-full bg-green-500 px-3 py-1 text-xs font-semibold text-white">
             <ShieldCheck className="h-3.5 w-3.5" /> SEO OK
           </span>

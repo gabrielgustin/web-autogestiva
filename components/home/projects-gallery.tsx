@@ -1,5 +1,6 @@
 "use client"
 
+import type React from "react"
 import { useEffect, useRef, useState } from "react"
 import { ArrowUpRight } from "lucide-react"
 import { projects, prettyUrl, type Project } from "@/lib/site-data"
@@ -10,17 +11,7 @@ const NAV_HEIGHT = 72
 /* ── Dispositivos ─────────────────────────────────────────────────────── */
 
 /* iPhone: marco de titanio, bisel negro, isla dinámica, botones laterales y reflejo en el vidrio */
-function IPhone({
-  src,
-  alt,
-  bars,
-  className = "",
-}: {
-  src: string
-  alt: string
-  bars?: { width: number; height: number; bottom: number }
-  className?: string
-}) {
+function IPhone({ src, alt, className = "" }: { src: string; alt: string; className?: string }) {
   return (
     <div className={`relative aspect-[9/19.5] ${className}`}>
       {/* botones laterales */}
@@ -35,23 +26,7 @@ function IPhone({
         <div className="h-full w-full rounded-[15.4%/7.1%] bg-black p-[2.4%]">
           {/* pantalla */}
           <div className="relative h-full w-full overflow-hidden rounded-[12.6%/5.8%] bg-white">
-            {bars ? (
-              <div className="relative h-full w-full bg-[#efefef]">
-                {/* Pantalla de la app a lo ancho del teléfono, sin su barra inferior... */}
-                <div className="w-full overflow-hidden" style={{ aspectRatio: `${bars.width} / ${bars.height - bars.bottom}` }}>
-                  <img src={src} alt={alt} loading="lazy" decoding="async" className="block w-full" />
-                </div>
-                {/* ...y la barra de navegación, fija al pie como en el teléfono real */}
-                <div
-                  className="absolute inset-x-0 bottom-0 overflow-hidden"
-                  style={{ aspectRatio: `${bars.width} / ${bars.bottom}` }}
-                >
-                  <img src={src} alt="" loading="lazy" decoding="async" className="h-full w-full object-cover object-bottom" />
-                </div>
-              </div>
-            ) : (
-              <img src={src} alt={alt} loading="lazy" decoding="async" className="h-full w-full object-cover object-top" />
-            )}
+            <img src={src} alt={alt} loading="lazy" decoding="async" className="h-full w-full object-cover object-top" />
             <span className="absolute left-1/2 top-[1.9%] h-[2.9%] w-[31%] -translate-x-1/2 rounded-full bg-black" />
             <span className="absolute bottom-[1.4%] left-1/2 h-[0.5%] w-[34%] -translate-x-1/2 rounded-full bg-black/70" />
             <span className="pointer-events-none absolute inset-0 bg-gradient-to-br from-white/25 via-white/0 to-white/0 mix-blend-soft-light" />
@@ -62,7 +37,17 @@ function IPhone({
   )
 }
 
-function Browser({ src, alt, url, className = "" }: { src: string; alt: string; url?: string; className?: string }) {
+function Browser({
+  src,
+  alt,
+  url,
+  className = "",
+}: {
+  src: string
+  alt: string
+  url?: string
+  className?: string
+}) {
   return (
     <div
       className={`overflow-hidden rounded-xl bg-[#16181d] shadow-[0_30px_60px_-20px_rgba(0,0,0,0.6)] ring-1 ring-white/10 ${className}`}
@@ -79,14 +64,23 @@ function Browser({ src, alt, url, className = "" }: { src: string; alt: string; 
           </span>
         )}
       </div>
-      <img src={src} alt={alt} loading="lazy" decoding="async" className="block w-full" />
+      {/* Proporción fija: todas las ventanas miden lo mismo aunque la captura sea más ancha */}
+      <div className="aspect-[16/10] overflow-hidden">
+        <img
+          src={src}
+          alt={alt}
+          loading="lazy"
+          decoding="async"
+          className="h-full w-full object-cover object-left-top"
+        />
+      </div>
     </div>
   )
 }
 
 /* La misma composición en todas las tarjetas: navegador al fondo, teléfono al frente */
 function Devices({ project }: { project: Project }) {
-  const { name, desktop, desktopUrl, mobile, mobileBars, logo, url } = project
+  const { name, desktop, desktopUrl, mobile, logo, url } = project
 
   if (logo) {
     return (
@@ -116,7 +110,6 @@ function Devices({ project }: { project: Project }) {
         <IPhone
           src={mobile}
           alt={`${name} en el teléfono`}
-          bars={mobileBars}
           className="absolute bottom-[-13%] left-[5%] h-[96%] transition-transform duration-700 ease-out group-hover:-translate-y-3"
         />
       )}
@@ -137,7 +130,6 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
       {...(url ? { href: url, target: "_blank", rel: "noopener noreferrer" } : {})}
       className={`group relative flex h-full w-[min(88vw,540px)] shrink-0 flex-col overflow-hidden rounded-3xl md:w-[min(78vw,880px)] md:flex-row ${text}`}
       style={{ backgroundColor: bg }}
-      aria-label={url ? `${name}: visitar sitio` : name}
     >
       {/* Luz con el color de marca del cliente */}
       <span
@@ -207,26 +199,38 @@ export function ProjectsGallery() {
   const [pinned, setPinned] = useState(false)
   const [distance, setDistance] = useState(0)
   const [current, setCurrent] = useState(1)
+  // Con "scroll-driven animations" el navegador mueve la galería en el mismo hilo que hace el scroll:
+  // queda perfectamente sincronizada en ambos sentidos. Donde no existe, se mueve con JavaScript.
+  const [native, setNative] = useState(false)
 
   // La galería se fija y el scroll vertical la desplaza en horizontal, en cualquier tamaño de pantalla.
   // Solo con "reducir movimiento" se deja como carrusel deslizable.
   useEffect(() => {
     const reduce = window.matchMedia("(prefers-reduced-motion: reduce)")
+    setNative(typeof CSS !== "undefined" && CSS.supports("animation-timeline: view()"))
 
+    let lastWidth = -1
     const measure = () => {
       const track = trackRef.current
       const canPin = !reduce.matches
       setPinned(canPin)
       if (track) setDistance(canPin ? Math.max(0, track.scrollWidth - window.innerWidth) : 0)
     }
+    // En móvil, mostrar u ocultar la barra del navegador dispara "resize" sin cambiar el ancho: se ignora
+    const onResize = () => {
+      if (window.innerWidth === lastWidth) return
+      lastWidth = window.innerWidth
+      measure()
+    }
 
+    lastWidth = window.innerWidth
     measure()
-    window.addEventListener("resize", measure)
-    const observer = new ResizeObserver(measure)
-    if (trackRef.current) observer.observe(trackRef.current)
+    window.addEventListener("resize", onResize)
+    reduce.addEventListener("change", measure)
+    document.fonts?.ready.then(measure)
     return () => {
-      window.removeEventListener("resize", measure)
-      observer.disconnect()
+      window.removeEventListener("resize", onResize)
+      reduce.removeEventListener("change", measure)
     }
   }, [])
 
@@ -235,10 +239,10 @@ export function ProjectsGallery() {
     const track = trackRef.current
     if (!section || !track) return
 
-    // La barra se mueve sin pasar por React; el contador solo se actualiza cuando cambia de proyecto
-    let lastCurrent = 1
-    const setProgress = (progress: number) => {
-      if (barRef.current) barRef.current.style.transform = `scaleX(${progress})`
+    // El contador solo se actualiza cuando cambia de proyecto, nunca en cada fotograma
+    let lastCurrent = -1
+    const setProgress = (progress: number, moveBar: boolean) => {
+      if (moveBar && barRef.current) barRef.current.style.transform = `scaleX(${progress})`
       const next = Math.min(projects.length, Math.round(progress * (projects.length - 1)) + 1)
       if (next !== lastCurrent) {
         lastCurrent = next
@@ -250,41 +254,64 @@ export function ProjectsGallery() {
       track.style.transform = ""
       const onTrackScroll = () => {
         const max = track.scrollWidth - track.clientWidth
-        setProgress(max > 0 ? track.scrollLeft / max : 0)
+        setProgress(max > 0 ? track.scrollLeft / max : 0, true)
       }
       onTrackScroll()
       track.addEventListener("scroll", onTrackScroll, { passive: true })
       return () => track.removeEventListener("scroll", onTrackScroll)
     }
 
+    // Posición del inicio de la sección en el documento: se mide una vez, no en cada scroll
+    let sectionTop = 0
+    const locate = () => {
+      sectionTop = section.getBoundingClientRect().top + window.scrollY
+    }
+    const progressNow = () =>
+      distance > 0 ? Math.min(1, Math.max(0, (window.scrollY + NAV_HEIGHT - sectionTop) / distance)) : 0
+
     let frame = 0
     const update = () => {
       frame = 0
-      const scrolled = NAV_HEIGHT - section.getBoundingClientRect().top
-      const progress = distance > 0 ? Math.min(1, Math.max(0, scrolled / distance)) : 0
-      track.style.transform = `translate3d(${-progress * distance}px, 0, 0)`
-      setProgress(progress)
+      const progress = progressNow()
+      if (!native) track.style.transform = `translate3d(${-progress * distance}px, 0, 0)`
+      setProgress(progress, !native)
     }
     const onScroll = () => {
       if (!frame) frame = requestAnimationFrame(update)
     }
+    const onResize = () => {
+      locate()
+      onScroll()
+    }
 
+    if (native) {
+      track.style.transform = ""
+      if (barRef.current) barRef.current.style.transform = ""
+    }
+    locate()
     update()
     window.addEventListener("scroll", onScroll, { passive: true })
+    window.addEventListener("resize", onResize)
     return () => {
       window.removeEventListener("scroll", onScroll)
+      window.removeEventListener("resize", onResize)
       if (frame) cancelAnimationFrame(frame)
     }
-  }, [pinned, distance])
+  }, [pinned, distance, native])
 
   const viewport = `calc(100svh - ${NAV_HEIGHT}px)`
+  const timeline = pinned && native
 
   return (
     <section
       id="proyectos"
       ref={sectionRef}
-      className="relative scroll-mt-20 border-t border-line bg-white"
-      style={pinned ? { height: `calc(${viewport} + ${distance}px)` } : undefined}
+      className={`relative scroll-mt-20 border-t border-line bg-white ${timeline ? "gallery-timeline" : ""}`}
+      style={
+        pinned
+          ? ({ height: `calc(${viewport} + ${distance}px)`, "--gallery-distance": `${distance}px` } as React.CSSProperties)
+          : undefined
+      }
     >
       <div
         className={`flex flex-col justify-center overflow-hidden ${pinned ? "sticky" : "py-10"}`}
@@ -302,8 +329,8 @@ export function ProjectsGallery() {
             <span className="hidden h-[3px] w-24 overflow-hidden rounded-full bg-ink/10 min-[420px]:block md:w-40">
               <span
                 ref={barRef}
-                className="block h-full w-full origin-left rounded-full bg-brand"
-                style={{ transform: "scaleX(0)" }}
+                className={`block h-full w-full origin-left rounded-full bg-brand ${timeline ? "gallery-bar" : ""}`}
+                style={timeline ? undefined : { transform: "scaleX(0)" }}
               />
             </span>
           </div>
@@ -311,9 +338,9 @@ export function ProjectsGallery() {
 
         <div
           ref={trackRef}
-          className={`mt-5 flex h-[clamp(360px,calc(100svh-300px),440px)] md:h-[clamp(380px,calc(100svh-260px),540px)] gap-4 px-5 will-change-transform md:mt-8 md:gap-6 md:px-8 lg:px-[max(2rem,calc((100vw-1320px)/2+2rem))] ${
+          className={`mt-5 flex h-[clamp(360px,calc(100svh-300px),440px)] gap-4 px-5 will-change-transform md:mt-8 md:h-[clamp(380px,calc(100svh-260px),540px)] md:gap-6 md:px-8 lg:px-[max(2rem,calc((100vw-1320px)/2+2rem))] ${
             pinned ? "w-max" : "snap-x snap-mandatory overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
-          }`}
+          } ${timeline ? "gallery-track" : ""}`}
         >
           {projects.map((project, i) => (
             <ProjectCard key={project.name} project={project} index={i} />

@@ -60,7 +60,7 @@ export default function HomePage() {
 
             <h1 className="font-display h-mega mt-7 text-ink">
               <span className="line-mask">
-                <span>Soluciones digitales que</span>
+                <span className="text-balance">Soluciones digitales que</span>
               </span>
               <span className="line-mask">
                 <span style={{ animationDelay: "0.12s" }}>
@@ -159,7 +159,7 @@ export default function HomePage() {
                         <span className="flex h-12 w-12 items-center justify-center rounded-xl bg-brand-light text-brand transition-colors duration-500 group-hover:bg-brand group-hover:text-white">
                           <Icon className="h-6 w-6" />
                         </span>
-                        <span className="font-mono text-xs text-ink/35 transition-colors duration-500 group-hover:text-white/40">
+                        <span className="font-mono text-xs text-ink/55 transition-colors duration-500 group-hover:text-white/60">
                           0{index + 1}
                         </span>
                       </div>
@@ -210,7 +210,7 @@ export default function HomePage() {
                               {solution.badge}
                             </span>
                           )}
-                          <span className="ml-auto font-mono text-xs text-ink/35">0{index + 1}</span>
+                          <span className="ml-auto font-mono text-xs text-ink/55">0{index + 1}</span>
                         </div>
                         <h3 className="font-display mt-7 text-3xl font-semibold tracking-tight md:text-[2.1rem]">
                           {solution.title}
@@ -249,7 +249,7 @@ export default function HomePage() {
               <ul className="mt-8 max-w-xl border-t border-line">
                 {seoChecks.map((item, i) => (
                   <li key={item} className="flex items-center gap-4 border-b border-line py-4 font-medium text-ink">
-                    <span className="font-mono text-xs text-orange-500">0{i + 1}</span>
+                    <span className="font-mono text-xs text-orange-700">0{i + 1}</span>
                     {item}
                     <Check className="ml-auto h-4 w-4 shrink-0 text-green-600" />
                   </li>
@@ -531,14 +531,14 @@ export default function HomePage() {
                 loading="lazy"
                 decoding="async"
               />
-              <p className="mt-5 max-w-sm leading-relaxed text-white/55">
+              <p className="mt-5 max-w-sm leading-relaxed text-white/70">
                 Agencia de desarrollo web y sistemas a medida. Transformamos la presencia digital de tu negocio con
                 tecnología moderna.
               </p>
             </div>
 
             <div className="md:col-span-4">
-              <h3 className="eyebrow text-white/40">Soluciones</h3>
+              <h3 className="eyebrow text-white/65">Soluciones</h3>
               <ul className="mt-5 space-y-3">
                 {footerSolutions.map((item) => (
                   <li key={item.label}>
@@ -551,7 +551,7 @@ export default function HomePage() {
             </div>
 
             <div className="md:col-span-3">
-              <h3 className="eyebrow text-white/40">Contacto</h3>
+              <h3 className="eyebrow text-white/65">Contacto</h3>
               <ul className="mt-5 space-y-3">
                 <li className="flex items-start gap-2.5">
                   <MapPin className="mt-1 h-4 w-4 shrink-0 text-brand-soft" />
@@ -573,7 +573,7 @@ export default function HomePage() {
             </div>
           </div>
 
-          <div className="mt-16 flex flex-col gap-3 border-t border-white/10 pr-16 pt-7 text-sm text-white/45 sm:flex-row sm:items-center sm:justify-between md:pr-20">
+          <div className="mt-16 flex flex-col gap-3 border-t border-white/10 pr-16 pt-7 text-sm text-white/65 sm:flex-row sm:items-center sm:justify-between md:pr-20">
             <p>© {new Date().getFullYear()} Autogestiva. Todos los derechos reservados.</p>
             <a
               href={contact.adminUrl}
