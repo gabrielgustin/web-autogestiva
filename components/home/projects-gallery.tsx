@@ -86,7 +86,7 @@ function Browser({ src, alt, url, className = "" }: { src: string; alt: string; 
 
 /* La misma composición en todas las tarjetas: navegador al fondo, teléfono al frente */
 function Devices({ project }: { project: Project }) {
-  const { name, desktop, desktopUrl, desktopWide, mobile, mobileBars, logo, url } = project
+  const { name, desktop, desktopUrl, mobile, mobileBars, logo, url } = project
 
   if (logo) {
     return (
@@ -109,13 +109,7 @@ function Devices({ project }: { project: Project }) {
           src={desktop}
           alt={desktopUrl ? `Backoffice de ${name}` : `Sitio web de ${name}`}
           url={desktopUrl ?? (url ? prettyUrl(url) : undefined)}
-          className={`absolute transition-transform duration-700 ease-out group-hover:-translate-y-1.5 ${
-            desktopWide
-              ? "right-[-3%] top-[9%] w-[90%]"
-              : mobile
-                ? "right-[-12%] top-[9%] w-[84%]"
-                : "right-[-4%] top-[16%] w-[92%]"
-          }`}
+          className="absolute right-[-8%] top-[10%] w-[86%] transition-transform duration-700 ease-out group-hover:-translate-y-1.5"
         />
       )}
       {mobile && (
@@ -148,8 +142,8 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
       {/* Luz con el color de marca del cliente */}
       <span
         aria-hidden="true"
-        className="pointer-events-none absolute -right-[10%] -top-[35%] h-[90%] w-[70%] rounded-full opacity-45 blur-[90px]"
-        style={{ backgroundColor: accent }}
+        className="pointer-events-none absolute inset-0 opacity-50"
+        style={{ background: `radial-gradient(60% 75% at 88% 0%, ${accent}, transparent 70%)` }}
       />
       <span
         aria-hidden="true"
@@ -157,7 +151,8 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
       />
 
       {/* Ficha del proyecto */}
-      <div className="relative z-10 flex shrink-0 flex-col justify-between gap-3 p-5 md:w-[38%] md:p-8">
+      {/* Alto fijo en móvil: así la zona de dispositivos mide lo mismo en todas las tarjetas */}
+      <div className="relative z-10 flex h-[10.5rem] shrink-0 flex-col justify-between gap-3 p-5 md:h-auto md:w-[38%] md:p-8">
         <div className="flex items-center gap-2.5">
           <span className={`font-mono text-xs tabular-nums ${soft}`}>{String(index + 1).padStart(2, "0")}</span>
           {type && (
@@ -172,11 +167,11 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
         </div>
 
         <div>
-          <h3 className="font-display text-balance text-2xl font-semibold leading-[1.04] tracking-tight md:text-[2rem] xl:text-[2.2rem]">
+          <h3 className="font-display line-clamp-2 text-balance text-2xl font-semibold leading-[1.04] tracking-tight md:line-clamp-none md:text-[2rem] xl:text-[2.2rem]">
             {name}
           </h3>
           {description && (
-            <p className={`mt-2 line-clamp-2 text-[13px] leading-relaxed md:mt-3 md:line-clamp-3 md:text-sm ${soft}`}>
+            <p className={`mt-3 hidden text-sm leading-relaxed md:line-clamp-3 md:block ${soft}`}>
               {description}
             </p>
           )}
@@ -240,9 +235,15 @@ export function ProjectsGallery() {
     const track = trackRef.current
     if (!section || !track) return
 
+    // La barra se mueve sin pasar por React; el contador solo se actualiza cuando cambia de proyecto
+    let lastCurrent = 1
     const setProgress = (progress: number) => {
       if (barRef.current) barRef.current.style.transform = `scaleX(${progress})`
-      setCurrent(Math.min(projects.length, Math.round(progress * (projects.length - 1)) + 1))
+      const next = Math.min(projects.length, Math.round(progress * (projects.length - 1)) + 1)
+      if (next !== lastCurrent) {
+        lastCurrent = next
+        setCurrent(next)
+      }
     }
 
     if (!pinned) {

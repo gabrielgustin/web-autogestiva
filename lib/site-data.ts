@@ -272,8 +272,6 @@ export type Project = {
   desktop?: string
   /** Dirección que se muestra en el navegador del mockup, si no es la del sitio */
   desktopUrl?: string
-  /** Pantalla con contenido hasta los bordes: se muestra completa, menos recortada por el teléfono */
-  desktopWide?: boolean
   mobile?: string
   /** Captura de una app con barra inferior fija: se ajusta al ancho del teléfono y la barra queda abajo */
   mobileBars?: { width: number; height: number; bottom: number }
@@ -304,7 +302,6 @@ export const projects: Project[] = [
     description: "Menú o catálogo autogestionable, ideal para gastronomía y comercios.",
     desktop: "/images/work/la-comanda-backoffice.jpg",
     desktopUrl: "lacomanda-xi.vercel.app/backoffice/personalizar",
-    desktopWide: true,
     mobile: "/images/work/la-comanda-mobile.jpg",
     bg: "#efe1cd",
     accent: "#4a2c20",

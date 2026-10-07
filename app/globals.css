@@ -149,6 +149,15 @@ body {
   text-rendering: optimizeLegibility;
 }
 
+/* Toque más inmediato en móvil: sin destello gris ni espera para detectar doble toque */
+a,
+button,
+summary,
+[role="button"] {
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+
 ::selection {
   background: #0057b8;
   color: #fff;

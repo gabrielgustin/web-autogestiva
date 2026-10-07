@@ -2,12 +2,12 @@
 
 import type React from "react"
 import { useState } from "react"
-import { ArrowUpRight, Check, Mail, MapPin, MessageCircle, Phone, Sparkles } from "lucide-react"
+import { ArrowUpRight, Check, Mail, MapPin, Phone, Sparkles } from "lucide-react"
 import { Navbar } from "@/components/navbar"
 import { ProjectsGallery } from "@/components/home/projects-gallery"
 import { ClientsScroller } from "@/components/home/clients-scroller"
 import { DashboardMockup, SeoVisual } from "@/components/home/mockups"
-import { CtaButton, Eyebrow, Reveal, scrollToSection } from "@/components/home/primitives"
+import { CtaButton, Eyebrow, Reveal, WhatsAppIcon, scrollToSection, useOnScreen } from "@/components/home/primitives"
 import {
   contact,
   erpFeatures,
@@ -22,6 +22,7 @@ import {
 const container = "mx-auto max-w-[1320px] px-5 md:px-8"
 
 export default function HomePage() {
+  const { ref: techRef, onScreen: techOnScreen } = useOnScreen<HTMLDivElement>()
   const [nombre, setNombre] = useState("")
   const [apellido, setApellido] = useState("")
   const [consulta, setConsulta] = useState("")
@@ -46,7 +47,10 @@ export default function HomePage() {
         {/* ── Hero ─────────────────────────────────────────────── */}
         <section id="hero" className="relative overflow-hidden">
           <div className="bg-blueprint fade-edges-y pointer-events-none absolute inset-0" />
-          <div className="pointer-events-none absolute -right-32 top-40 h-[480px] w-[480px] rounded-full bg-brand/15 blur-[130px]" />
+          <div
+            className="pointer-events-none absolute -right-32 top-40 h-[560px] w-[560px]"
+            style={{ background: "radial-gradient(closest-side, rgba(0,87,184,0.16), transparent)" }}
+          />
 
           <div className={`${container} relative pb-16 pt-10 md:pb-20 md:pt-16`}>
             <p className="animate-rise-in eyebrow inline-flex items-center gap-2.5 whitespace-nowrap rounded-full border border-brand/25 bg-white/70 px-4 py-2.5 text-brand backdrop-blur max-sm:text-[10px] max-sm:tracking-[0.06em]">
@@ -114,8 +118,11 @@ export default function HomePage() {
         {/* ── Tech marquee ─────────────────────────────────────── */}
         <section className="border-y border-line bg-white py-7">
           <p className="eyebrow mb-6 text-center text-muted-ink">Construido con tecnologías modernas</p>
-          <div className="marquee-mask relative overflow-hidden">
-            <div className="animate-marquee flex w-max items-center">
+          <div ref={techRef} className="marquee-mask relative overflow-hidden">
+            <div
+              className="animate-marquee flex w-max items-center"
+              style={{ animationPlayState: techOnScreen ? "running" : "paused" }}
+            >
               {[...techStack, ...techStack].map((tech, i) => (
                 <span key={i} className="flex items-center whitespace-nowrap">
                   <span className="font-display px-7 text-2xl font-semibold tracking-tight text-ink md:text-3xl">
@@ -389,7 +396,10 @@ export default function HomePage() {
         {/* ── CTA band ─────────────────────────────────────────── */}
         <section className="relative overflow-hidden bg-brand py-24 text-white md:py-32">
           <div className="bg-blueprint-inv pointer-events-none absolute inset-0" />
-          <div className="pointer-events-none absolute -bottom-40 -right-20 h-[520px] w-[520px] rounded-full bg-brand-dark blur-[100px]" />
+          <div
+            className="pointer-events-none absolute -bottom-40 -right-20 h-[620px] w-[620px]"
+            style={{ background: "radial-gradient(closest-side, #00376f, transparent)" }}
+          />
           <div className={`${container} relative`}>
             <Reveal>
               <h2 className="font-display h-mega max-w-5xl text-balance">
@@ -496,7 +506,7 @@ export default function HomePage() {
                     type="submit"
                     className="flex w-full items-center justify-center gap-2.5 rounded-full bg-green-600 px-8 py-4 text-base font-semibold text-white transition-all duration-300 hover:bg-green-700 active:scale-[0.98]"
                   >
-                    <MessageCircle className="h-5 w-5" />
+                    <WhatsAppIcon className="h-5 w-5" />
                     Enviar por WhatsApp
                   </button>
                 </form>
@@ -514,8 +524,8 @@ export default function HomePage() {
               <img
                 src="/images/logo-autogestiva.png"
                 alt="Logo Autogestiva"
-                width={680}
-                height={270}
+                width={380}
+                height={151}
                 className="-ml-1 h-[72px] w-auto"
                 style={{ filter: "brightness(0) invert(1)" }}
                 loading="lazy"
@@ -584,7 +594,7 @@ export default function HomePage() {
         aria-label="Contactar por WhatsApp"
         className="fixed bottom-5 right-5 z-30 flex h-14 w-14 items-center justify-center rounded-full bg-green-500 text-white shadow-xl shadow-green-500/30 transition-transform duration-300 hover:scale-110 hover:bg-green-600 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-green-500/40 md:bottom-6 md:right-6"
       >
-        <MessageCircle className="h-7 w-7" aria-hidden="true" />
+        <WhatsAppIcon className="h-7 w-7" />
       </a>
     </div>
   )

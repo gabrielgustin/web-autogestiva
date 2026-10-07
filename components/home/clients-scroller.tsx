@@ -1,7 +1,7 @@
 "use client"
 
 import { clients, type Client } from "@/lib/site-data"
-import { useInView } from "@/components/home/primitives"
+import { useInView, useOnScreen } from "@/components/home/primitives"
 
 // Cada cliente vive en una sola fila: así nunca aparece el mismo logo arriba y abajo a la vez.
 // El orden alterna colores y mantiene lejos a las marcas parecidas (los dos ITS, SEA e ITS Villada).
@@ -44,7 +44,17 @@ function Tile({ client }: { client: Client }) {
   )
 }
 
-function Row({ items, reverse, visible }: { items: Client[]; reverse?: boolean; visible: boolean }) {
+function Row({
+  items,
+  reverse,
+  visible,
+  running,
+}: {
+  items: Client[]
+  reverse?: boolean
+  visible: boolean
+  running: boolean
+}) {
   const repeats = Math.ceil(MIN_HALF_WIDTH / (items.length * TILE_STEP))
   const half = Array.from({ length: repeats }).flatMap(() => items)
   const duration = (half.length * TILE_STEP) / SPEED
@@ -60,7 +70,11 @@ function Row({ items, reverse, visible }: { items: Client[]; reverse?: boolean; 
     >
       <div
         className="marquee-row flex w-max items-center gap-3 pr-3"
-        style={{ animationDirection: reverse ? "reverse" : "normal", animationDuration: `${duration}s` }}
+        style={{
+          animationDirection: reverse ? "reverse" : "normal",
+          animationDuration: `${duration}s`,
+          animationPlayState: running ? "running" : "paused",
+        }}
       >
         {[0, 1].map((copy) =>
           half.map((client, i) => <Tile key={`${copy}-${i}`} client={client} />),
@@ -72,11 +86,19 @@ function Row({ items, reverse, visible }: { items: Client[]; reverse?: boolean; 
 
 export function ClientsScroller() {
   const { ref, inView } = useInView<HTMLDivElement>(0.15)
+  const { ref: watchRef, onScreen } = useOnScreen<HTMLDivElement>()
 
   return (
-    <div ref={ref} className="-my-1" aria-label="Clientes de Autogestiva">
-      <Row items={rowA} visible={inView} />
-      <Row items={rowB} reverse visible={inView} />
+    <div
+      ref={(el) => {
+        ref.current = el
+        watchRef.current = el
+      }}
+      className="-my-1"
+      aria-label="Clientes de Autogestiva"
+    >
+      <Row items={rowA} visible={inView} running={onScreen} />
+      <Row items={rowB} reverse visible={inView} running={onScreen} />
     </div>
   )
 }
