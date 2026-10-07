@@ -1,1313 +1,538 @@
 "use client"
 
 import type React from "react"
-import { Button } from "@/components/ui/button"
-import { useState, useEffect, useRef } from "react"
-import { useIsMobile as useMobile } from "@/hooks/use-mobile"
-import {
-  ArrowRight,
-  LayoutDashboard,
-  Lightbulb,
-  Rocket,
-  MousePointerClick,
-  Clock,
-  Check,
-  BookOpen,
-  MapPin,
-  Mail,
-  Phone,
-  Globe,
-  Palette,
-  Gauge,
-  Search,
-  Smartphone,
-  Server,
-  Code2,
-  TrendingUp,
-  Sparkles,
-  ShieldCheck,
-  MessageCircle,
-  Bot,
-  Zap,
-  Cpu,
-  Wand2,
-  Building2,
-} from "lucide-react"
+import { useState } from "react"
+import { ArrowUpRight, Check, Mail, MapPin, MessageCircle, Phone, Sparkles } from "lucide-react"
 import { Navbar } from "@/components/navbar"
-import { DemoModal } from "@/components/demo-modal"
-import { DemoMenu } from "@/components/demo-menu"
+import { ProjectsGallery } from "@/components/home/projects-gallery"
+import { ClientsScroller } from "@/components/home/clients-scroller"
+import { DashboardMockup, SeoVisual } from "@/components/home/mockups"
+import { CtaButton, Eyebrow, Reveal, scrollToSection } from "@/components/home/primitives"
+import {
+  contact,
+  erpFeatures,
+  footerSolutions,
+  processSteps,
+  seoChecks,
+  services,
+  solutions,
+  techStack,
+} from "@/lib/site-data"
 
-/* ────────────────────────────────────────────────────────────
-   Reveal-on-scroll helper
-   ──────────────────────────────────────────────────────────── */
-const Reveal = ({
-  children,
-  delay = 0,
-  className = "",
-  y = 24,
-}: {
-  children: React.ReactNode
-  delay?: number
-  className?: string
-  y?: number
-}) => {
-  const [visible, setVisible] = useState(false)
-  const ref = useRef<HTMLDivElement>(null)
+const container = "mx-auto max-w-[1320px] px-5 md:px-8"
 
-  useEffect(() => {
-    const el = ref.current
-    if (!el) return
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            setTimeout(() => setVisible(true), delay * 1000)
-            observer.unobserve(entry.target)
-          }
-        })
-      },
-      { threshold: 0.15, rootMargin: "-40px" },
-    )
-    observer.observe(el)
-    return () => observer.disconnect()
-  }, [delay])
-
-  return (
-    <div
-      ref={ref}
-      className={`transition-all duration-700 ease-out ${className}`}
-      style={{
-        opacity: visible ? 1 : 0,
-        transform: visible ? "translateY(0)" : `translateY(${y}px)`,
-      }}
-    >
-      {children}
-    </div>
-  )
-}
-
-/* ────────────────────────────────────────────────────────────
-   Decorative CSS mockups (crisp, on-brand, no filler blobs)
-   ──────────────────────────────────────────────────────────── */
-const BrowserChrome = ({ children }: { children: React.ReactNode }) => (
-  <div className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-2xl">
-    <div className="hidden items-center gap-2 border-b border-slate-100 bg-slate-50 px-4 py-3 md:flex">
-      <span className="h-3 w-3 rounded-full bg-red-400" />
-      <span className="h-3 w-3 rounded-full bg-yellow-400" />
-      <span className="h-3 w-3 rounded-full bg-green-400" />
-      <span className="ml-3 hidden h-5 flex-1 rounded-md bg-white ring-1 ring-slate-200 sm:block" />
-    </div>
-    {children}
-  </div>
-)
-
-const HeroMockup = () => {
-  const [visible, setVisible] = useState(false)
-  const ref = useRef<HTMLDivElement>(null)
-
-  useEffect(() => {
-    const el = ref.current
-    if (!el) return
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            setVisible(true)
-            observer.unobserve(entry.target)
-          }
-        })
-      },
-      { threshold: 0.35 },
-    )
-    observer.observe(el)
-    return () => observer.disconnect()
-  }, [])
-
-  const build = (delay: string) => (visible ? "animate-build-in" : "opacity-0")
-  const buildStyle = (delay: string) => (visible ? { animationDelay: delay } : undefined)
-
-  return (
-    <div className="relative" ref={ref}>
-      <div className="animate-float">
-        <BrowserChrome>
-          <div className="hidden p-5 md:block">
-            <div className="flex items-center justify-between">
-              <div className={`${build("0.05s")} h-4 w-24 rounded bg-brand`} style={buildStyle("0.05s")} />
-              <div className="flex gap-2">
-                <div className={`${build("0.15s")} h-3 w-10 rounded bg-slate-200`} style={buildStyle("0.15s")} />
-                <div className={`${build("0.2s")} h-3 w-10 rounded bg-slate-200`} style={buildStyle("0.2s")} />
-                <div
-                  className={`${build("0.25s")} h-6 w-16 rounded-full bg-orange-500`}
-                  style={buildStyle("0.25s")}
-                />
-              </div>
-            </div>
-            <div className="mt-6 grid grid-cols-5 gap-4">
-              <div className="col-span-3 space-y-3">
-                <div className={`${build("0.35s")} h-6 w-4/5 rounded bg-slate-800`} style={buildStyle("0.35s")} />
-                <div className={`${build("0.45s")} h-6 w-3/5 rounded bg-slate-300`} style={buildStyle("0.45s")} />
-                <div className={`${build("0.55s")} h-3 w-full rounded bg-slate-200`} style={buildStyle("0.55s")} />
-                <div
-                  className={`${build("0.6s")} h-3 w-11/12 rounded bg-slate-200`}
-                  style={buildStyle("0.6s")}
-                />
-                <div className="mt-4 flex gap-2">
-                  <div className={`${build("0.7s")} h-8 w-24 rounded-lg bg-brand`} style={buildStyle("0.7s")} />
-                  <div
-                    className={`${build("0.78s")} h-8 w-24 rounded-lg bg-slate-100 ring-1 ring-slate-200`}
-                    style={buildStyle("0.78s")}
-                  />
-                </div>
-              </div>
-              <div
-                className={`${build("0.4s")} col-span-2 rounded-xl bg-gradient-to-br from-brand to-brand-dark p-3`}
-                style={buildStyle("0.4s")}
-              >
-                <div className={`${build("0.65s")} h-3 w-2/3 rounded bg-white/70`} style={buildStyle("0.65s")} />
-                <div
-                  className={`${build("0.75s")} mt-2 h-3 w-1/2 rounded bg-white/40`}
-                  style={buildStyle("0.75s")}
-                />
-                <div
-                  className={`${build("0.85s")} mt-4 h-16 rounded-lg bg-white/20`}
-                  style={buildStyle("0.85s")}
-                />
-              </div>
-            </div>
-            <div className="mt-5 grid grid-cols-3 gap-3">
-              {[0, 1, 2].map((i) => {
-                const delay = `${0.9 + i * 0.12}s`
-                return (
-                  <div
-                    key={i}
-                    className={`${build(delay)} rounded-xl border border-slate-100 bg-slate-50 p-3`}
-                    style={buildStyle(delay)}
-                  >
-                    <div className="h-6 w-6 rounded-md bg-brand-light" />
-                    <div className="mt-2 h-2.5 w-full rounded bg-slate-200" />
-                    <div className="mt-1.5 h-2.5 w-2/3 rounded bg-slate-200" />
-                  </div>
-                )
-              })}
-            </div>
-          </div>
-        </BrowserChrome>
-      </div>
-
-      {/* floating badges */}
-      <div className="animate-float-slow absolute -left-4 top-16 hidden rounded-2xl border border-slate-100 bg-white p-3 shadow-xl md:flex md:items-center md:gap-2">
-        <span className="flex h-9 w-9 items-center justify-center rounded-full bg-green-100 text-green-600">
-          <TrendingUp className="h-5 w-5" />
-        </span>
-        <div>
-          <p className="text-xs font-semibold text-slate-800">+35% ventas</p>
-          <p className="text-[10px] text-slate-500">primeros 90 días</p>
-        </div>
-      </div>
-      <div className="animate-float absolute -right-3 bottom-8 hidden rounded-2xl border border-slate-100 bg-white p-3 shadow-xl md:flex md:items-center md:gap-2">
-        <span className="flex h-9 w-9 items-center justify-center rounded-full bg-brand-light text-brand">
-          <Gauge className="h-5 w-5" />
-        </span>
-        <div>
-          <p className="text-xs font-semibold text-slate-800">100/100</p>
-          <p className="text-[10px] text-slate-500">performance</p>
-        </div>
-      </div>
-    </div>
-  )
-}
-
-const SeoMockup = () => {
-  const [visible, setVisible] = useState(false)
-  const ref = useRef<HTMLDivElement>(null)
-
-  useEffect(() => {
-    const el = ref.current
-    if (!el) return
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            setVisible(true)
-            observer.unobserve(entry.target)
-          }
-        })
-      },
-      { threshold: 0.35 },
-    )
-    observer.observe(el)
-    return () => observer.disconnect()
-  }, [])
-
-  const build = (delay: string) => (visible ? "animate-build-in" : "opacity-0")
-  const buildStyle = (delay: string) => (visible ? { animationDelay: delay } : undefined)
-
-  return (
-    <div className="relative" ref={ref}>
-      <BrowserChrome>
-        <div className="space-y-3 p-6">
-          <div className={`${build("0.05s")} h-7 w-4/5 rounded-lg bg-brand`} style={buildStyle("0.05s")} />
-          <div className={`${build("0.15s")} h-7 w-3/5 rounded-lg bg-brand/50`} style={buildStyle("0.15s")} />
-          <div className="mt-4 space-y-2">
-            <div className={`${build("0.3s")} h-3 w-full rounded bg-slate-200`} style={buildStyle("0.3s")} />
-            <div className={`${build("0.4s")} h-3 w-11/12 rounded bg-slate-200`} style={buildStyle("0.4s")} />
-            <div className={`${build("0.5s")} h-3 w-4/5 rounded bg-slate-200`} style={buildStyle("0.5s")} />
-            <div className={`${build("0.6s")} h-3 w-3/4 rounded bg-slate-200`} style={buildStyle("0.6s")} />
-          </div>
-        </div>
-      </BrowserChrome>
-      {/* magnifier */}
-      <div className="animate-float absolute -bottom-6 -right-2 grid h-28 w-28 place-items-center rounded-full border-[6px] border-brand-dark bg-white/40 backdrop-blur-sm shadow-2xl">
-        <Search className="h-10 w-10 text-brand-dark" />
-        <span className="absolute -bottom-4 -right-2 h-10 w-3 rotate-45 rounded-full bg-brand-dark" />
-      </div>
-      <div className="absolute right-6 top-6 flex items-center gap-1 rounded-full bg-green-500 px-3 py-1 text-xs font-semibold text-white shadow-lg">
-        <ShieldCheck className="h-3.5 w-3.5" /> SEO OK
-      </div>
-    </div>
-  )
-}
-
-const DashboardMockup = () => {
-  const [visible, setVisible] = useState(false)
-  const ref = useRef<HTMLDivElement>(null)
-
-  useEffect(() => {
-    const el = ref.current
-    if (!el) return
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            setVisible(true)
-            observer.unobserve(entry.target)
-          }
-        })
-      },
-      { threshold: 0.35 },
-    )
-    observer.observe(el)
-    return () => observer.disconnect()
-  }, [])
-
-  const build = (delay: string) => (visible ? "animate-build-in" : "opacity-0")
-  const buildStyle = (delay: string) => (visible ? { animationDelay: delay } : undefined)
-
-  return (
-    <div className="relative" ref={ref}>
-      <BrowserChrome>
-        <div className="flex">
-          <div className="hidden w-16 shrink-0 space-y-3 bg-slate-900 p-3 sm:block">
-            <div className="h-8 w-8 rounded-lg bg-brand" />
-            {[0, 1, 2, 3].map((i) => (
-              <div key={i} className="h-2.5 w-full rounded bg-white/20" />
-            ))}
-          </div>
-          <div className="flex-1 p-5">
-            <div className="flex items-center justify-between">
-              <div className={`${build("0.05s")} h-4 w-32 rounded bg-slate-800`} style={buildStyle("0.05s")} />
-              <div className={`${build("0.15s")} h-6 w-6 rounded-full bg-brand-light`} style={buildStyle("0.15s")} />
-            </div>
-            <div className="mt-4 grid grid-cols-3 gap-3">
-              {[
-                { c: "bg-brand", w: "w-2/3", delay: "0.3s" },
-                { c: "bg-orange-500", w: "w-1/2", delay: "0.4s" },
-                { c: "bg-green-500", w: "w-3/4", delay: "0.5s" },
-              ].map((k, i) => (
-                <div
-                  key={i}
-                  className={`${build(k.delay)} rounded-xl border border-slate-100 bg-slate-50 p-3`}
-                  style={buildStyle(k.delay)}
-                >
-                  <div className={`h-2.5 ${k.w} rounded bg-slate-300`} />
-                  <div className={`mt-2 h-5 w-12 rounded ${k.c}`} />
-                </div>
-              ))}
-            </div>
-            <div
-              className={`${build("0.65s")} mt-4 flex h-28 items-end gap-2 rounded-xl border border-slate-100 bg-slate-50 p-3`}
-              style={buildStyle("0.65s")}
-            >
-              {[40, 65, 50, 80, 55, 90, 70].map((h, i) => (
-                <div
-                  key={i}
-                  className="flex-1 rounded-t bg-gradient-to-t from-brand to-brand/50"
-                  style={{ height: `${h}%` }}
-                />
-              ))}
-            </div>
-          </div>
-        </div>
-      </BrowserChrome>
-      <div className="animate-float-slow absolute -left-3 bottom-6 hidden rounded-2xl border border-slate-100 bg-white p-3 shadow-xl md:flex md:items-center md:gap-2">
-        <span className="flex h-9 w-9 items-center justify-center rounded-full bg-green-100 text-green-600">
-          <Clock className="h-5 w-5" />
-        </span>
-        <div>
-          <p className="text-xs font-semibold text-slate-800">-80% tiempo</p>
-          <p className="text-[10px] text-slate-500">operativo</p>
-        </div>
-      </div>
-    </div>
-  )
-}
-
-const AIChatMockup = () => (
-  <div className="relative">
-    <div className="rounded-2xl border border-white/10 bg-slate-900/80 p-4 shadow-2xl backdrop-blur">
-      <div className="flex items-center gap-3 border-b border-white/10 pb-3">
-        <span className="relative flex h-9 w-9 items-center justify-center rounded-full bg-brand text-white">
-          <Bot className="h-5 w-5" />
-          <span className="absolute -right-0.5 -top-0.5 h-2.5 w-2.5 rounded-full bg-green-400 ring-2 ring-slate-900" />
-        </span>
-        <div>
-          <p className="text-sm font-semibold text-white">Asistente IA</p>
-          <p className="text-[11px] text-green-400">En línea · responde al instante</p>
-        </div>
-        <Sparkles className="ml-auto h-4 w-4 text-brand-light/70" />
-      </div>
-      <div className="space-y-3 py-4">
-        <div className="max-w-[80%] rounded-2xl rounded-tl-sm bg-white/10 px-3 py-2 text-sm text-slate-200">
-          Hola, ¿en qué puedo ayudarte hoy?
-        </div>
-        <div className="ml-auto max-w-[80%] rounded-2xl rounded-tr-sm bg-brand px-3 py-2 text-sm text-white">
-          Necesito el estado de mi pedido #1042
-        </div>
-        <div className="max-w-[88%] rounded-2xl rounded-tl-sm bg-white/10 px-3 py-2 text-sm text-slate-200">
-          Tu pedido #1042 está en camino y llega hoy entre las 14 y 18 h. ¿Querés que te avise cuando salga a
-          reparto?
-        </div>
-      </div>
-      <div className="flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-2.5">
-        <span className="text-sm text-slate-400">Escribí tu mensaje…</span>
-        <span className="ml-auto flex items-center gap-1">
-          <span className="h-1.5 w-1.5 animate-bounce rounded-full bg-brand-light [animation-delay:-0.3s]" />
-          <span className="h-1.5 w-1.5 animate-bounce rounded-full bg-brand-light [animation-delay:-0.15s]" />
-          <span className="h-1.5 w-1.5 animate-bounce rounded-full bg-brand-light" />
-        </span>
-      </div>
-    </div>
-    <div className="animate-float absolute -right-3 -top-5 hidden rounded-2xl border border-white/10 bg-slate-900/90 p-3 shadow-xl backdrop-blur md:flex md:items-center md:gap-2">
-      <span className="flex h-9 w-9 items-center justify-center rounded-full bg-brand/20 text-brand-light">
-        <Zap className="h-5 w-5" />
-      </span>
-      <div>
-        <p className="text-xs font-semibold text-white">+3x productividad</p>
-        <p className="text-[10px] text-slate-400">con automatización IA</p>
-      </div>
-    </div>
-  </div>
-)
-
-/* ────────────────────────────────�����───────────���───────────────
-   Data
-   ──────────────────────────────────────────────────────────── */
-  const aiFeatures = [
-  { icon: TrendingUp, title: "Análisis predictivo", text: "Anticipá demanda, stock y comportamiento." },
-  { icon: Wand2, title: "Lectura de documentos", text: "Extrae datos de facturas y formularios al instante." },
-  { icon: Search, title: "Búsqueda y recomendaciones", text: "Resultados y sugerencias personalizadas." },
-  { icon: Cpu, title: "Integrado a tus sistemas", text: "La IA vive dentro de tu web y tu ERP." },
-]
-
-const techStack = [
-  "Next.js",
-  "React",
-  "TypeScript",
-  "Node.js",
-  "Tailwind CSS",
-  "WordPress",
-  "Laravel",
-  "PostgreSQL",
-  "Vercel",
-  "Supabase",
-]
-
-const CLIENT_COPIES = 4
-const CLIENTS_LOOP_SECONDS = 45
-
-const clients = [
-  {
-    name: "Traslados Jarabus",
-    logo: "/images/clients/jarabus.jpg",
-    url: "https://trasladosjarabus.com.ar",
-    dark: false,
-  },
-  {
-    name: "Estudio Jurídico CONVS",
-    logo: "/images/clients/convs.png",
-    url: "https://estudiojuridicoconvs.com.ar",
-    dark: false,
-  },
-  {
-    name: "Tempograss",
-    logo: "/images/clients/tempograss.png",
-    url: "https://tempograss.vercel.app",
-    dark: true,
-  },
-  {
-    name: "SEA - Villada",
-    logo: "/images/clients/sea-villada.png",
-    url: "https://portalsea.com.ar/villada",
-    dark: false,
-  },
-  {
-    name: "Gimnasio Life Gym",
-    logo: "/images/clients/life-gym.png",
-    url: "https://gimnasiolifegym.com.ar",
-    dark: false,
-  },
-  {
-    name: "Mara Saúl Estética",
-    logo: "/images/clients/mara-saul.png",
-    url: "https://v0-mara-saul.vercel.app",
-    dark: true,
-  },
-  {
-    name: "Visual Henderson",
-    logo: "/images/clients/visual-henderson.png",
-    url: "https://visual-henderson.netlify.app",
-    dark: false,
-  },
-  {
-    name: "Cambel Red Jurídica",
-    logo: "/images/clients/cambel.png",
-    url: "https://cambelredjuridica.com.ar",
-    dark: true,
-  },
-  {
-    name: "Zonabot Espacio Tecnológico",
-    logo: "/images/clients/zonabot.png",
-    url: "#",
-    dark: false,
-  },
-]
-
-const services = [
-  {
-    icon: Palette,
-    title: "Diseño web personalizado",
-    description:
-      "Trabajamos desde el wireframe hasta la identidad visual final. Pensamos cada sitio como una herramienta de marca: clara, funcional y alineada con tus objetivos.",
-  },
-  {
-    icon: Search,
-    title: "Optimización SEO",
-    description:
-      "Optimizamos estructura, velocidad y contenido para que Google (y tus clientes) te encuentren. Tráfico orgánico de calidad y mejores posiciones.",
-  },
-  {
-    icon: Smartphone,
-    title: "Diseño responsive",
-    description:
-      "Cada sitio se adapta a todos los dispositivos. Optimizamos la experiencia en mobile, tablet y desktop para que naveguen sin trabas.",
-  },
-  {
-    icon: Server,
-    title: "Hosting privado",
-    description:
-      "Servidores propios con monitoreo 24/7. Tiempos de carga rápidos, máxima seguridad y soporte especializado. Tu sitio siempre online.",
-  },
-]
-
-const solutions = [
-  {
-  title: "Páginas Webs",
-  description:
-  "Páginas profesionales diseñadas para captar clientes y convertir visitas en ventas. Perfectas para lanzar productos, servicios o campañas puntuales.",
-  icon: Globe,
-  accent: "from-brand to-brand-dark",
-  features: ["Diseño orientado a conversión", "Responsive y veloz", "Formularios de contacto", "SEO optimizado"],
-  },
-  {
-  title: "Webs Institucionales",
-  description:
-  "Sitios corporativos que presentan tu empresa, servicios y equipo de forma profesional. Dan presencia formal y confianza a tu marca en internet.",
-  icon: Building2,
-  accent: "from-orange-500 to-orange-600",
-  features: ["Presencia profesional", "Secciones institucionales", "Información de contacto", "Diseño a tu marca"],
-  },
-  {
-    title: "ERP / Sistemas de gestión",
-    description:
-      "Plataformas internas a medida que automatizan tareas y digitalizan tus procesos clave. Menos trabajo manual, más control y eficiencia.",
-    icon: LayoutDashboard,
-    accent: "from-brand to-brand-dark",
-    badge: "Nuevo",
-    features: ["Automatización de procesos", "Roles y permisos", "Reportes en tiempo real", "Integraciones a medida"],
-  },
-  {
-    title: "Catálogos / Cartas Digitales",
-    description:
-      "Catálogos autogestionables para emprendimientos y tiendas. Mostrá tus productos de forma atractiva, organizada y siempre actualizada.",
-    icon: BookOpen,
-    accent: "from-orange-500 to-orange-600",
-    features: ["100% autogestionable", "Actualización en tiempo real", "Acceso por código QR", "Búsqueda y filtros"],
-  },
-]
-
-const procesSteps = [
-  {
-  title: "Análisis y Diseño",
-  description:
-  "Analizamos tus necesidades específicas y diseñamos una solución personalizada, alineada con tu marca y tus objetivos de negocio.",
-  icon: Lightbulb,
-  image: "/images/ana-cc-81lisis-20y-20disen-cc-83o.png",
-  mobileImage: "/images/analisis-diseno-mobile.png",
-  tags: ["Reunión inicial", "Objetivos", "Wireframes"],
-  },
-  {
-  title: "Desarrollo",
-  description:
-  "Construimos tu solución con foco en la experiencia de usuario y la facilidad de gestión. Desarrollo ágil, transparente y con tecnología moderna.",
-  icon: Rocket,
-  image: "/images/desarrollo.png",
-  mobileImage: "/images/desarrollo-mobile.png",
-  tags: ["Diseño a medida", "Tecnología moderna", "Revisiones"],
-  },
-  {
-  title: "Lanzamiento y Capacitación",
-  description:
-  "Lanzamos tu proyecto y te capacitamos para que gestiones el contenido de forma autónoma. Soporte continuo después del despegue.",
-  icon: MousePointerClick,
-  image: "/images/implementacio-cc-81n.png",
-  mobileImage: "/images/implementacion-mobile.png",
-  tags: ["Puesta online", "Capacitación", "Soporte continuo"],
-  },
-  ]
-
-/* ────────────────────────────────────────────────────────────
-   Page
-   ─────────────────���────────────────────────────────────────── */
 export default function HomePage() {
-  const isMobile = useMobile()
-  const [demoDialogOpen, setDemoDialogOpen] = useState(false)
-  const [demoUrl, setDemoUrl] = useState("https://autogestiva-estudio-juridico.vercel.app/")
-  const [buttonPosition, setButtonPosition] = useState({ x: 0, y: 0 })
   const [nombre, setNombre] = useState("")
   const [apellido, setApellido] = useState("")
   const [consulta, setConsulta] = useState("")
-  const clientsScrollerRef = useRef<HTMLDivElement>(null)
-  const clientsTouchingRef = useRef(false)
-  const clientsResumeAtRef = useRef(0)
-
-  useEffect(() => {
-    const scroller = clientsScrollerRef.current
-    if (!scroller) return
-
-    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches
-    const getLoopWidth = () => scroller.scrollWidth / CLIENT_COPIES
-
-    scroller.scrollLeft = getLoopWidth()
-    let position = scroller.scrollLeft
-    let lastFrame = performance.now()
-    let frameId = 0
-
-    const tick = (now: number) => {
-      const elapsed = Math.min(now - lastFrame, 64)
-      lastFrame = now
-      const loopWidth = getLoopWidth()
-
-      if (loopWidth > 0) {
-        // Si el scrollLeft real se alejó de nuestra posición, el usuario lo movió: pausamos y seguimos desde ahí
-        const current = scroller.scrollLeft
-        if (Math.abs(current - position) > 1.5) {
-          position = current
-          clientsResumeAtRef.current = now + 1200
-        }
-
-        const canAutoScroll = !reduceMotion && !clientsTouchingRef.current && now >= clientsResumeAtRef.current
-        let moved = false
-
-        if (canAutoScroll) {
-          position += (loopWidth / CLIENTS_LOOP_SECONDS) * (elapsed / 1000)
-          moved = true
-        }
-
-        // Mantiene la posición siempre en la copia central: hay colchón a ambos lados, nunca se llega a un borde vacío
-        if (position < loopWidth) {
-          position += loopWidth
-          moved = true
-        } else if (position >= loopWidth * 2) {
-          position -= loopWidth
-          moved = true
-        }
-
-        if (moved) scroller.scrollLeft = position
-      }
-
-      frameId = requestAnimationFrame(tick)
-    }
-
-    frameId = requestAnimationFrame(tick)
-    return () => cancelAnimationFrame(frameId)
-  }, [])
-
-  const pauseClientsAutoScroll = (touching: boolean) => {
-    clientsTouchingRef.current = touching
-    clientsResumeAtRef.current = performance.now() + 1200
-  }
 
   const handleWhatsAppSubmit = (e: React.FormEvent) => {
     e.preventDefault()
-    const phoneNumber = "5493512681910"
     const message = `Hola, mi nombre es ${nombre} ${apellido}. Mi consulta es: ${consulta}`
-    const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`
+    const whatsappUrl = `https://wa.me/${contact.whatsappNumber}?text=${encodeURIComponent(message)}`
     window.open(whatsappUrl, "_blank")
   }
 
-  const openDemoDialog = (url = "https://autogestiva-estudio-juridico.vercel.app/", event?: React.MouseEvent<HTMLButtonElement>) => {
-    if (event) {
-      const rect = event.currentTarget.getBoundingClientRect()
-      setButtonPosition({ x: rect.left, y: rect.bottom })
-    }
-    setDemoUrl(url)
-    setDemoDialogOpen(true)
-  }
+  const goToContact = () => scrollToSection("contacto")
 
-  const scrollToSection = (id: string) => {
-    const el = document.getElementById(id)
-    if (el) {
-      const offsetTop = el.getBoundingClientRect().top + window.scrollY - 96
-      window.scrollTo({ top: offsetTop, behavior: "smooth" })
-    }
-  }
-
-  const OrangeButton = ({
-    children,
-    onClick,
-    className = "",
-  }: {
-    children: React.ReactNode
-    onClick?: () => void
-    className?: string
-  }) => (
-    <button
-      onClick={onClick}
-      className={`group relative inline-flex items-center justify-center gap-2 overflow-hidden rounded-full bg-orange-500 px-7 py-3.5 text-base font-semibold text-white shadow-lg shadow-orange-500/25 transition-all duration-300 hover:bg-orange-600 hover:shadow-xl hover:shadow-orange-500/40 active:scale-95 ${className}`}
-    >
-      <span className="relative z-10 flex items-center gap-2">{children}</span>
-      <span className="pointer-events-none absolute inset-0 z-0 overflow-hidden rounded-full">
-        <span className="absolute top-0 h-full w-16 -translate-x-full bg-white/30 animate-sheen" />
-      </span>
-    </button>
-  )
+  const inputClass =
+    "block w-full rounded-none border-0 border-b border-ink/20 bg-transparent px-0 py-3 text-base text-ink outline-none transition-colors placeholder:text-ink/35 focus:border-brand"
 
   return (
-    <div className="min-h-screen overflow-x-hidden bg-white font-sans text-slate-800">
+    <div className="min-h-screen overflow-x-clip bg-paper font-sans text-ink">
       <Navbar />
 
-      <DemoModal open={demoDialogOpen} onOpenChange={setDemoDialogOpen} demoUrl={demoUrl} originPosition={buttonPosition} />
+      <main>
+        {/* ── Hero ─────────────────────────────────────────────── */}
+        <section id="hero" className="relative overflow-hidden">
+          <div className="bg-blueprint fade-edges-y pointer-events-none absolute inset-0" />
+          <div className="pointer-events-none absolute -right-32 top-40 h-[480px] w-[480px] rounded-full bg-brand/15 blur-[130px]" />
 
-      {/* ── Hero ─────────────────────────────────────────────── */}
-      <section id="hero" className="relative bg-white pt-14 pb-20 md:pt-20 md:pb-28">
-        {/* animated aurora background */}
-        <div className="pointer-events-none absolute inset-0 overflow-hidden">
-          <div className="animate-aurora absolute -top-24 -left-24 h-96 w-96 rounded-full bg-brand/10 blur-3xl" />
-          <div className="animate-aurora absolute -top-10 right-0 h-80 w-80 rounded-full bg-orange-500/10 blur-3xl [animation-delay:-6s]" />
-          <div className="animate-aurora absolute bottom-0 left-1/3 h-72 w-72 rounded-full bg-brand/10 blur-3xl [animation-delay:-3s]" />
-          <div className="absolute inset-0 bg-grid-pattern opacity-40" />
-        </div>
-
-        <div className="container relative mx-auto grid grid-cols-1 items-center gap-14 px-4 md:px-6 lg:grid-cols-2">
-          <div className="animate-rise-in text-center lg:text-left">
-            <span className="inline-flex items-center gap-2 rounded-full border border-brand/20 bg-brand-light px-4 py-1.5 text-sm font-medium text-brand">
-              <Sparkles className="h-4 w-4" />
+          <div className={`${container} relative pb-16 pt-10 md:pb-20 md:pt-16`}>
+            <p className="animate-rise-in eyebrow inline-flex items-center gap-2.5 whitespace-nowrap rounded-full border border-brand/25 bg-white/70 px-4 py-2.5 text-brand backdrop-blur max-sm:text-[10px] max-sm:tracking-[0.06em]">
+              <Sparkles className="h-3.5 w-3.5" />
               Agencia de desarrollo web & software
-            </span>
-
-            <h1 className="font-display mt-6 text-balance text-4xl font-extrabold leading-[1.05] tracking-tight text-ink md:text-5xl lg:text-6xl">
-              Soluciones digitales que{" "}
-              <span className="relative whitespace-nowrap">
-                <span className="animate-gradient bg-gradient-to-r from-brand via-orange-500 to-brand bg-clip-text text-transparent">
-                  escalan
-                </span>
-              </span>{" "}
-  a tu negocio
-  </h1>
-
-            <p className="mx-auto mt-6 max-w-xl text-pretty text-lg leading-relaxed text-slate-600 lg:mx-0">
-              No trabajamos con plantillas genéricas. Diseñamos y desarrollamos páginas web, tiendas online y sistemas
-              de gestión a medida, pensados para tus procesos, tus usuarios y tus objetivos.
             </p>
 
-            <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
-              <OrangeButton onClick={() => scrollToSection("contacto")}>
-                Cotizá tu proyecto <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
-              </OrangeButton>
-              <DemoMenu onSelect={(url) => openDemoDialog(url)} />
-            </div>
-
-            <div className="mt-10 flex flex-wrap items-center justify-center gap-x-6 gap-y-3 text-sm text-slate-500 lg:justify-start">
-              {["Entrega rápida", "100% autogestionable", "Soporte incluido"].map((item) => (
-                <span key={item} className="flex items-center gap-1.5">
-                  <Check className="h-4 w-4 text-green-500" /> {item}
+            <h1 className="font-display h-mega mt-7 text-ink">
+              <span className="line-mask">
+                <span>Soluciones digitales que</span>
+              </span>
+              <span className="line-mask">
+                <span style={{ animationDelay: "0.12s" }}>
+                  <span className="relative inline-block text-brand">
+                    escalan
+                    <svg
+                      aria-hidden="true"
+                      viewBox="0 0 300 20"
+                      preserveAspectRatio="none"
+                      className="absolute -bottom-[0.04em] left-0 h-[0.14em] w-full overflow-visible"
+                    >
+                      <path
+                        d="M3 14 C 60 3, 120 3, 170 10 S 260 16, 297 6"
+                        fill="none"
+                        stroke="#f97316"
+                        strokeWidth="6"
+                        strokeLinecap="round"
+                        className="draw-stroke"
+                      />
+                    </svg>
+                  </span>{" "}
+                  a tu negocio
                 </span>
-              ))}
+              </span>
+            </h1>
+
+            <div className="mt-10 grid grid-cols-1 gap-10 lg:mt-12 lg:grid-cols-12 lg:items-end">
+              <div className="animate-rise-in lg:col-span-7" style={{ animationDelay: "0.35s" }}>
+                <p className="max-w-2xl text-pretty text-lg leading-relaxed text-muted-ink md:text-xl">
+                  No trabajamos con plantillas genéricas. Diseñamos y desarrollamos páginas web, tiendas online y
+                  sistemas de gestión a medida, pensados para tus procesos, tus usuarios y tus objetivos.
+                </p>
+                <div className="mt-9">
+                  <CtaButton onClick={goToContact}>Cotizá tu proyecto</CtaButton>
+                </div>
+              </div>
+
+              <ul
+                className="animate-rise-in border-t border-line lg:col-span-4 lg:col-start-9"
+                style={{ animationDelay: "0.5s" }}
+              >
+                {["Entrega rápida", "100% autogestionable", "Soporte incluido"].map((item) => (
+                  <li key={item} className="flex items-center gap-3 border-b border-line py-3.5 font-medium text-ink">
+                    <Check className="h-4 w-4 shrink-0 text-green-600" /> {item}
+                  </li>
+                ))}
+              </ul>
             </div>
           </div>
+        </section>
 
-            <div className="relative hidden md:block">
-              <HeroMockup />
-            </div>
-        </div>
-      </section>
+        {/* ── Portfolio ────────────────────────────────────────── */}
+        <ProjectsGallery />
 
-      {/* ── Tech marquee ─────────────────────────────────────── */}
-      <section className="border-y border-slate-100 bg-slate-50 py-8">
-        <div className="container mx-auto px-4 md:px-6">
-          <p className="mb-6 text-center text-sm font-medium uppercase tracking-widest text-slate-400">
-            Construido con tecnologías modernas
-          </p>
+        {/* ── Tech marquee ─────────────────────────────────────── */}
+        <section className="border-y border-line bg-white py-7">
+          <p className="eyebrow mb-6 text-center text-muted-ink">Construido con tecnologías modernas</p>
           <div className="marquee-mask relative overflow-hidden">
-            <div className="flex w-max animate-marquee gap-4">
+            <div className="animate-marquee flex w-max items-center">
               {[...techStack, ...techStack].map((tech, i) => (
-                <span
-                  key={i}
-                  className="flex items-center gap-2 whitespace-nowrap rounded-xl border border-slate-200 bg-white px-5 py-2.5 text-sm font-semibold text-slate-700 shadow-sm"
-                >
-                  <span className="h-2 w-2 rounded-full bg-brand" />
-                  {tech}
+                <span key={i} className="flex items-center whitespace-nowrap">
+                  <span className="font-display px-7 text-2xl font-semibold tracking-tight text-ink md:text-3xl">
+                    {tech}
+                  </span>
+                  <span className="font-mono text-lg text-orange-500">/</span>
                 </span>
               ))}
             </div>
           </div>
-        </div>
-      </section>
+        </section>
 
-      {/* ── Services grid ────────────────────────────────��───── */}
-      <section id="servicios" className="py-24">
-        <div className="container mx-auto px-4 md:px-6">
-          <Reveal className="mx-auto mb-16 max-w-2xl text-center">
-            <span className="text-sm font-semibold uppercase tracking-widest text-orange-500">Servicios</span>
-            <h2 className="font-display mt-3 text-3xl font-extrabold text-ink md:text-4xl">
-              Todo lo que tu presencia digital necesita
-            </h2>
-            <p className="mt-4 text-lg text-slate-600">
-              Un equipo, todas las piezas: diseño, desarrollo, rendimiento y posicionamiento bajo un mismo criterio
-              técnico.
-            </p>
-          </Reveal>
+        {/* ── Services ─────────────────────────────────────────── */}
+        <section id="servicios" className="scroll-mt-20 py-24 md:py-32">
+          <div className={container}>
+            <Reveal className="grid grid-cols-1 gap-6 lg:grid-cols-12 lg:items-end">
+              <div className="lg:col-span-7">
+                <Eyebrow index="02">Servicios</Eyebrow>
+                <h2 className="font-display h-section mt-5 text-balance">Todo lo que tu presencia digital necesita</h2>
+              </div>
+              <p className="text-lg text-muted-ink lg:col-span-5">
+                Un equipo, todas las piezas: diseño, desarrollo, rendimiento y posicionamiento bajo un mismo criterio
+                técnico.
+              </p>
+            </Reveal>
 
-          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
-            {services.map((service, index) => {
-              const Icon = service.icon
-              return (
-                <Reveal key={service.title} delay={0.05 * index} className="h-full">
-                  <div className="group relative h-full overflow-hidden rounded-2xl border border-slate-100 bg-white p-7 shadow-sm transition-all duration-300 hover:-translate-y-1.5 hover:border-brand/30 hover:shadow-xl">
-                    <span className="mb-5 inline-flex h-14 w-14 items-center justify-center rounded-2xl bg-brand-light text-brand transition-all duration-300 group-hover:bg-brand group-hover:text-white">
-                      <Icon className="h-7 w-7" />
-                    </span>
-                    <h3 className="font-display text-xl font-bold text-ink">{service.title}</h3>
-                    <p className="mt-3 text-sm leading-relaxed text-slate-600">{service.description}</p>
-                  </div>
-                </Reveal>
-              )
-            })}
-          </div>
-        </div>
-      </section>
-
-
-      {/* ── Solutions ──��──�����──────��───────────────────────────── */}
-      <section id="soluciones" className="py-24">
-        <div className="container mx-auto px-4 md:px-6">
-          <Reveal className="mx-auto mb-16 max-w-2xl text-center">
-            <span className="text-sm font-semibold uppercase tracking-widest text-orange-500">Soluciones</span>
-            <h2 className="font-display mt-3 text-3xl font-extrabold text-ink md:text-4xl">
-              Soluciones a medida para cada tipo de negocio
-            </h2>
-            <p className="mt-4 text-lg text-slate-600">
-              Desde una landing que convierte hasta un ERP que automatiza tu operación. Elegimos el camino correcto para
-              vos.
-            </p>
-          </Reveal>
-
-          <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
-            {solutions.map((solution, index) => {
-              const Icon = solution.icon
-              return (
-                <Reveal key={solution.title} delay={0.05 * index}>
-                  <div className="group relative h-full overflow-hidden rounded-3xl border border-slate-100 bg-white p-8 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl">
-                    <div className="flex items-start justify-between gap-4">
-                      <span
-                        className={`inline-flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br ${solution.accent} text-white shadow-lg`}
-                      >
-                        <Icon className="h-8 w-8" />
-                      </span>
-                      {solution.badge && (
-                        <span className="rounded-full bg-orange-100 px-3 py-1 text-xs font-bold uppercase tracking-wide text-orange-600">
-                          {solution.badge}
+            <div className="mt-14 grid grid-cols-1 border-l border-t border-line sm:grid-cols-2 lg:grid-cols-4">
+              {services.map((service, index) => {
+                const Icon = service.icon
+                return (
+                  <Reveal key={service.title} delay={0.07 * index} className="h-full">
+                    <article className="group relative flex h-full flex-col overflow-hidden border-b border-r border-line p-7 transition-colors duration-500 hover:bg-ink md:p-8">
+                      <div className="flex items-center justify-between">
+                        <span className="flex h-12 w-12 items-center justify-center rounded-xl bg-brand-light text-brand transition-colors duration-500 group-hover:bg-brand group-hover:text-white">
+                          <Icon className="h-6 w-6" />
                         </span>
-                      )}
-                    </div>
-                    <h3 className="font-display mt-6 text-2xl font-bold text-ink">{solution.title}</h3>
-                    <p className="mt-3 text-slate-600">{solution.description}</p>
-                    <ul className="mt-6 grid grid-cols-1 gap-2.5 sm:grid-cols-2">
-                      {solution.features.map((feature) => (
-                        <li key={feature} className="flex items-center gap-2 text-sm text-slate-700">
-                          <Check className="h-4 w-4 shrink-0 text-green-500" />
-                          {feature}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                </Reveal>
-              )
-            })}
-          </div>
-        </div>
-      </section>
-
-      {/* ── SEO / Migrations feature ─────────────────────────���─ */}
-      <section id="seo" className="bg-slate-50 py-24">
-        <div className="container mx-auto grid grid-cols-1 items-center gap-14 px-4 md:px-6 lg:grid-cols-2">
-          <Reveal>
-            <span className="text-sm font-semibold uppercase tracking-widest text-orange-500">SEO & Migraciones</span>
-            <h2 className="font-display mt-3 text-3xl font-extrabold leading-tight text-ink md:text-4xl">
-              Migraciones <span className="whitespace-nowrap">SEO-friendly</span> y seguras
-            </h2>
-            <p className="mt-5 text-lg leading-relaxed text-slate-600">
-              Migrar un sitio no es solo copiar y pegar. Nos aseguramos de que el traspaso sea limpio, sin perder
-              posicionamiento ni afectar tu tráfico. Redireccionamientos, indexación y velocidad bajo control.
-            </p>
-            <ul className="mt-6 space-y-3">
-              {[
-                "Redirecciones 301 sin pérdida de ranking",
-                "Indexación y sitemap optimizados",
-                "Auditoría de velocidad y Core Web Vitals",
-              ].map((item) => (
-                <li key={item} className="flex items-center gap-3 text-slate-700">
-                  <span className="flex h-6 w-6 items-center justify-center rounded-full bg-green-100 text-green-600">
-                    <Check className="h-4 w-4" />
-                  </span>
-                  {item}
-                </li>
-              ))}
-            </ul>
-            <div className="mt-8">
-              <OrangeButton onClick={() => scrollToSection("contacto")}>
-                Posicioná tu web <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
-              </OrangeButton>
-            </div>
-          </Reveal>
-          <Reveal delay={0.15}>
-            <SeoMockup />
-          </Reveal>
-        </div>
-      </section>
-
-      {/* ── Sistemas de gestión (ERP) feature ────────────────── */}
-      <section id="sistemas" className="py-16 sm:py-20 lg:py-24">
-        <div className="container mx-auto grid grid-cols-1 items-start gap-10 px-4 md:gap-12 md:px-6 lg:grid-cols-2 lg:gap-x-14 lg:gap-y-8">
-          <Reveal className="lg:col-start-2 lg:row-start-1 lg:self-center">
-            <span className="text-sm font-semibold uppercase tracking-widest text-orange-500">
-              ERP / Sistemas de gestión
-            </span>
-            <h2 className="font-display mt-3 text-balance text-3xl font-extrabold leading-tight text-ink md:text-4xl">
-              Sistemas de gestión que impulsan tu operación
-            </h2>
-            <p className="mt-4 text-pretty text-base leading-relaxed text-slate-600 md:text-lg lg:mt-5">
-              Desarrollamos plataformas internas a medida que automatizan tareas y digitalizan procesos clave. Nuestros
-              sistemas ayudaron a empresas a reducir hasta un 80% del tiempo operativo, mejorando su seguridad,
-              eficiencia y rentabilidad.
-            </p>
-          </Reveal>
-          <Reveal delay={0.15} className="w-full lg:col-start-1 lg:row-start-1">
-            <DashboardMockup />
-          </Reveal>
-          <Reveal delay={0.1} className="lg:col-span-2 lg:row-start-2">
-            <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4">
-              {[
-                { icon: MousePointerClick, title: "Automatización", text: "Menos tareas manuales, más foco." },
-                { icon: ShieldCheck, title: "Roles y permisos", text: "Control total y datos seguros." },
-                { icon: TrendingUp, title: "Reportes en vivo", text: "Decisiones con información real." },
-                { icon: Code2, title: "A medida", text: "Se adapta a tus procesos, no al revés." },
-              ].map((f) => {
-                const Icon = f.icon
-                return (
-                  <div
-                    key={f.title}
-                    className="flex gap-3 rounded-2xl border border-slate-100 bg-slate-50 p-4 lg:flex-col"
-                  >
-                    <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-brand-light text-brand">
-                      <Icon className="h-5 w-5" />
-                    </span>
-                    <div>
-                      <p className="font-semibold text-ink">{f.title}</p>
-                      <p className="mt-1 text-sm text-slate-500">{f.text}</p>
-                    </div>
-                  </div>
-                )
-              })}
-            </div>
-          </Reveal>
-          <div className="flex justify-center lg:col-span-2 lg:row-start-3 lg:pt-2">
-            <OrangeButton onClick={() => scrollToSection("contacto")}>
-              Contactanos <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
-            </OrangeButton>
-          </div>
-        </div>
-      </section>
-
-      {/* ── IA / Inteligencia Artificial ─────────────────────── */}
-      <section id="ia" className="relative overflow-hidden bg-ink py-16 text-white sm:py-20 lg:py-24">
-        <div className="pointer-events-none absolute inset-0 bg-grid-pattern opacity-[0.12]" />
-        <div className="animate-aurora pointer-events-none absolute -left-20 top-8 h-72 w-72 rounded-full bg-brand/30 blur-3xl" />
-  <div className="animate-aurora pointer-events-none absolute -right-10 bottom-0 h-72 w-72 rounded-full bg-orange-500/20 blur-3xl" />
-  <div className="container relative mx-auto grid grid-cols-1 items-start gap-10 px-4 md:gap-12 md:px-6 lg:grid-cols-2 lg:gap-x-14 lg:gap-y-8">
-          <Reveal className="lg:col-start-1 lg:row-start-1 lg:self-center">
-            <span className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-4 py-1.5 text-sm font-semibold text-brand-light">
-              <Sparkles className="h-4 w-4" /> Inteligencia Artificial
-            </span>
-            <h2 className="font-display mt-5 max-w-3xl text-balance text-3xl font-extrabold leading-tight md:text-4xl lg:max-w-none lg:text-[2.75rem]">
-              Sistemas que{" "}
-              <span className="bg-gradient-to-r from-brand-light via-white to-orange-300 bg-clip-text text-transparent">
-                integran IA
-              </span>{" "}
-              para vender y operar mejor
-            </h2>
-          </Reveal>
-          <Reveal delay={0.1} className="lg:col-span-2 lg:row-start-2">
-            <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4">
-              {aiFeatures.map((f) => {
-                const Icon = f.icon
-                return (
-                  <div
-                    key={f.title}
-                    className="flex gap-3 rounded-2xl border border-white/10 bg-white/[0.04] p-4 transition-colors hover:border-brand/50 hover:bg-white/[0.08] lg:flex-col"
-                  >
-                    <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-brand/20 text-brand-light">
-                      <Icon className="h-5 w-5" />
-                    </span>
-                    <div>
-                      <p className="font-semibold text-white">{f.title}</p>
-                      <p className="mt-1 text-sm text-slate-400">{f.text}</p>
-                    </div>
-                  </div>
-                )
-              })}
-            </div>
-          </Reveal>
-          <Reveal delay={0.15} className="w-full lg:col-start-2 lg:row-start-1">
-            <AIChatMockup />
-          </Reveal>
-          <div className="flex justify-center lg:col-span-2 lg:row-start-3 lg:pt-2">
-            <OrangeButton onClick={() => scrollToSection("contacto")}>
-              Quiero IA en mi negocio{" "}
-              <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
-            </OrangeButton>
-          </div>
-        </div>
-      </section>
-
-      {/* ── Process ─────────────────��────────────────────────── */}
-      <section id="como-funciona" className="bg-slate-50 py-24">
-        <div className="container mx-auto px-4 md:px-6">
-          <Reveal className="mx-auto mb-20 max-w-2xl text-center">
-            <span className="inline-flex items-center gap-2 rounded-full bg-orange-500/10 px-4 py-1.5 text-sm font-semibold uppercase tracking-widest text-orange-500">
-              Proceso
-            </span>
-            <h2 className="font-display mt-4 text-3xl font-extrabold text-ink md:text-4xl">
-              De la idea al lanzamiento en 3 pasos
-            </h2>
-            <p className="mt-4 text-pretty text-slate-600">
-              Un camino claro y transparente. Así acompañamos tu proyecto desde la primera charla hasta que estás online.
-            </p>
-          </Reveal>
-
-          <div className="relative mx-auto max-w-5xl">
-            <div className="absolute left-6 top-4 bottom-4 w-0.5 bg-gradient-to-b from-brand via-brand/40 to-orange-500 md:left-1/2 md:-translate-x-1/2" />
-            <div className="space-y-12 md:space-y-16">
-              {procesSteps.map((step, index) => {
-                const Icon = step.icon
-                const textFirst = index % 2 === 0
-                return (
-                  <Reveal key={step.title} delay={0.05 * index}>
-                    <div className="relative grid grid-cols-1 items-center gap-6 md:grid-cols-2 md:gap-12">
-                      {/* Timeline node */}
-                      <span className="absolute left-6 top-8 z-10 flex h-5 w-5 -translate-x-1/2 items-center justify-center rounded-full border-4 border-slate-50 bg-orange-500 md:left-1/2">
-                        <span className="absolute h-full w-full animate-ping rounded-full bg-orange-500/40" />
-                      </span>
-
-                      {/* Text card */}
-                      <div className={textFirst ? "md:order-1" : "md:order-2"}>
-                        <div
-                          className={`group ml-14 rounded-2xl border border-slate-100 bg-white p-6 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-xl md:ml-0 ${
-                            textFirst ? "md:mr-8 md:text-right" : "md:ml-8"
-                          }`}
-                        >
-                          <div className={`flex items-center gap-3 ${textFirst ? "md:flex-row-reverse" : ""}`}>
-                            <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-brand text-white shadow-lg transition-transform duration-300 group-hover:scale-110">
-                              <Icon className="h-6 w-6" />
-                            </span>
-                            <span
-                    className="font-display text-5xl font-extrabold text-orange-500"
-                            >
-                              0{index + 1}
-                            </span>
-                          </div>
-                          <h3 className="font-display mt-4 text-2xl font-bold text-ink">{step.title}</h3>
-                          <p className="mt-3 leading-relaxed text-slate-600">{step.description}</p>
-                          <div className={`mt-5 flex flex-wrap gap-2 ${textFirst ? "md:justify-end" : ""}`}>
-                            {step.tags.map((tag) => (
-                              <span
-                                key={tag}
-                                className="rounded-full bg-brand-light px-3 py-1 text-xs font-medium text-brand"
-                              >
-                                {tag}
-                              </span>
-                            ))}
-                          </div>
-                        </div>
+                        <span className="font-mono text-xs text-ink/35 transition-colors duration-500 group-hover:text-white/40">
+                          0{index + 1}
+                        </span>
                       </div>
-
-                      {/* Image */}
-                      <div className={textFirst ? "md:order-2" : "md:order-1"}>
-                        <div className="ml-14 max-w-md overflow-hidden rounded-2xl md:mx-auto md:ml-0">
-                          <img
-                            src={(isMobile ? step.mobileImage : step.image) || "/placeholder.svg"}
-                            alt={step.title}
-                            className="mx-auto h-auto max-h-80 w-full object-contain"
-                            loading="lazy"
-                            decoding="async"
-                          />
-                        </div>
-                      </div>
-                    </div>
+                      <h3 className="font-display mt-10 text-2xl font-semibold leading-tight tracking-tight transition-colors duration-500 group-hover:text-white">
+                        {service.title}
+                      </h3>
+                      <p className="mt-3 text-[15px] leading-relaxed text-muted-ink transition-colors duration-500 group-hover:text-white/65">
+                        {service.description}
+                      </p>
+                      <span className="absolute inset-x-0 bottom-0 h-1 origin-left scale-x-0 bg-orange-500 transition-transform duration-500 group-hover:scale-x-100" />
+                    </article>
                   </Reveal>
                 )
               })}
             </div>
           </div>
-        </div>
-      </section>
+        </section>
 
-      {/* ── Clients ─���──────���───────────────────────����─��───────── */}
-      <section id="clientes" className="border-y border-slate-100 bg-slate-50 py-24">
-        <div className="container mx-auto px-4 md:px-6">
-          <Reveal className="mx-auto mb-14 max-w-2xl text-center">
-            <span className="text-sm font-semibold uppercase tracking-widest text-orange-500">Clientes</span>
-            <h2 className="font-display mt-3 text-3xl font-extrabold text-ink md:text-4xl">
-              Marcas que ya confían en nosotros
-            </h2>
-            <p className="mt-4 text-pretty text-slate-600">
-              Negocios de rubros muy distintos eligieron nuestras soluciones digitales para crecer.
-            </p>
-          </Reveal>
-
-          <Reveal delay={0.1}>
-            <div
-              ref={clientsScrollerRef}
-              className="marquee-mask relative overflow-x-auto overscroll-x-contain [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
-              style={{ touchAction: "pan-x" }}
-              onPointerDown={() => pauseClientsAutoScroll(true)}
-              onPointerUp={() => pauseClientsAutoScroll(false)}
-              onPointerCancel={() => pauseClientsAutoScroll(false)}
-              onWheel={() => pauseClientsAutoScroll(false)}
-              aria-label="Carrusel de clientes. Deslizá para explorar"
-            >
-              <div className="flex w-max items-center gap-6">
-                {Array.from({ length: CLIENT_COPIES }).flatMap(() => clients).map((client, i) => (
-  <div
-  key={`${client.name}-${i}`}
-  className={`group flex h-24 w-48 shrink-0 items-center justify-center rounded-2xl border p-5 shadow-sm transition-all duration-300 ${
-  client.name === "Gimnasio Life Gym"
-  ? "border-[#833d9f] bg-[#833d9f]"
-  : client.name === "Traslados Jarabus"
-  ? "border-black bg-black"
-  : client.name === "Visual Henderson"
-  ? "border-[#040a15] bg-[#040a15]"
-  :   client.name === "Estudio Jurídico CONVS"
-  ? "border-[#2d3127] bg-[#2d3127]"
-  : client.name === "Zonabot Espacio Tecnológico"
-  ? "border-[#f5d9a8] bg-[#f5d9a8]"
-  : client.dark
-  ? "border-slate-800 bg-slate-900"
-  : "border-slate-200 bg-white"
-  }`}
-                  >
-                    <img
-                      src={client.logo || "/placeholder.svg"}
-                      alt={client.name}
-                      width={176}
-                      height={56}
-                      crossOrigin="anonymous"
-                      loading="eager"
-                      fetchPriority={i < clients.length ? "high" : "low"}
-                      decoding="async"
-                      className={`object-contain transition-all duration-300 ${
-                        client.name === "Gimnasio Life Gym"
-                          ? "max-h-20 max-w-[90%] opacity-100 grayscale-0"
-                          : client.name === "Zonabot Espacio Tecnológico"
-                          ? "max-h-16 max-w-full opacity-100 grayscale-0"
-                          : "max-h-14 max-w-full opacity-75 grayscale group-hover:opacity-100 group-hover:grayscale-0"
-                      }`}
-  />
-  </div>
-  ))}
+        {/* ── Solutions ────────────────────────────────────────── */}
+        <section id="soluciones" className="scroll-mt-20 border-t border-line bg-paper-2 py-24 md:py-32">
+          <div className={container}>
+            <Reveal className="grid grid-cols-1 gap-6 lg:grid-cols-12 lg:items-end">
+              <div className="lg:col-span-7">
+                <Eyebrow index="03">Soluciones</Eyebrow>
+                <h2 className="font-display h-section mt-5 text-balance">
+                  Soluciones a medida para cada tipo de negocio
+                </h2>
               </div>
+              <p className="text-lg text-muted-ink lg:col-span-5">
+                Desde una landing que convierte hasta un ERP que automatiza tu operación. Elegimos el camino correcto
+                para vos.
+              </p>
+            </Reveal>
+
+            <div className="mt-14 grid grid-cols-1 gap-5 md:grid-cols-2">
+              {solutions.map((solution, index) => {
+                const Icon = solution.icon
+                return (
+                  <Reveal key={solution.title} delay={0.06 * (index % 2)} className="h-full">
+                    <article className="group flex h-full flex-col overflow-hidden rounded-3xl border border-line bg-white transition-shadow duration-500 hover:shadow-[0_40px_80px_-40px_rgba(11,19,34,0.35)]">
+                      <div className="p-7 md:p-9">
+                        <div className="flex items-center gap-3">
+                          <span className="flex h-12 w-12 items-center justify-center rounded-xl bg-ink text-white">
+                            <Icon className="h-6 w-6" />
+                          </span>
+                          {solution.badge && (
+                            <span className="eyebrow rounded-full bg-orange-500 px-3 py-1.5 font-semibold text-white">
+                              {solution.badge}
+                            </span>
+                          )}
+                          <span className="ml-auto font-mono text-xs text-ink/35">0{index + 1}</span>
+                        </div>
+                        <h3 className="font-display mt-7 text-3xl font-semibold tracking-tight md:text-[2.1rem]">
+                          {solution.title}
+                        </h3>
+                        <p className="mt-3 max-w-lg leading-relaxed text-muted-ink">{solution.description}</p>
+                        <ul className="mt-6 grid grid-cols-1 gap-x-6 gap-y-2.5 sm:grid-cols-2">
+                          {solution.features.map((feature) => (
+                            <li key={feature} className="flex items-center gap-2 text-sm font-medium text-ink">
+                              <Check className="h-4 w-4 shrink-0 text-brand" />
+                              {feature}
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+
+                    </article>
+                  </Reveal>
+                )
+              })}
             </div>
-          </Reveal>
-        </div>
-      </section>
+          </div>
+        </section>
 
-      {/* ── CTA band ─────────────────────────────────────────── */}
-      <section className="relative overflow-hidden bg-gradient-to-br from-brand to-brand-dark py-20">
-        <div className="pointer-events-none absolute inset-0">
-          <div className="animate-aurora absolute -top-20 left-10 h-72 w-72 rounded-full bg-white/10 blur-3xl" />
-          <div className="animate-aurora absolute bottom-0 right-10 h-72 w-72 rounded-full bg-orange-500/20 blur-3xl [animation-delay:-5s]" />
-        </div>
-        <div className="container relative mx-auto px-4 text-center md:px-6">
-          <Reveal>
-            <h2 className="font-display mx-auto max-w-3xl text-balance text-3xl font-extrabold text-white md:text-5xl">
-              ¿Listo para transformar tu presencia digital?
-            </h2>
-            <p className="mx-auto mt-5 max-w-2xl text-lg text-white/85">
-              Asesoría gratuita para entender qué solución necesita tu negocio. Sin complicaciones, entrega rápida y con
-              soporte incluido.
-            </p>
-            <div className="mt-8 flex justify-center">
-              <OrangeButton onClick={() => scrollToSection("contacto")}>
-                ¡Me interesa! <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
-              </OrangeButton>
+        {/* ── SEO / Migrations ─────────────────────────────────── */}
+        <section id="seo" className="scroll-mt-20 py-24 md:py-32">
+          <div className={`${container} grid grid-cols-1 items-center gap-16 lg:grid-cols-2 lg:gap-20`}>
+            <Reveal>
+              <Eyebrow index="04">SEO & Migraciones</Eyebrow>
+              <h2 className="font-display h-section mt-5 text-balance">
+                Migraciones <span className="whitespace-nowrap text-brand">SEO-friendly</span> y seguras
+              </h2>
+              <p className="mt-6 max-w-xl text-lg leading-relaxed text-muted-ink">
+                Migrar un sitio no es solo copiar y pegar. Nos aseguramos de que el traspaso sea limpio, sin perder
+                posicionamiento ni afectar tu tráfico. Redireccionamientos, indexación y velocidad bajo control.
+              </p>
+              <ul className="mt-8 max-w-xl border-t border-line">
+                {seoChecks.map((item, i) => (
+                  <li key={item} className="flex items-center gap-4 border-b border-line py-4 font-medium text-ink">
+                    <span className="font-mono text-xs text-orange-500">0{i + 1}</span>
+                    {item}
+                    <Check className="ml-auto h-4 w-4 shrink-0 text-green-600" />
+                  </li>
+                ))}
+              </ul>
+              <div className="mt-9">
+                <CtaButton onClick={goToContact}>Posicioná tu web</CtaButton>
+              </div>
+            </Reveal>
+            <Reveal delay={0.15} className="pb-20">
+              <SeoVisual />
+            </Reveal>
+          </div>
+        </section>
+
+        {/* ── Sistemas de gestión (ERP) ────────────────────────── */}
+        <section id="sistemas" className="scroll-mt-20 border-y border-line bg-white py-24 md:py-32">
+          <div className={container}>
+            <div className="grid grid-cols-1 items-center gap-16 lg:grid-cols-2 lg:gap-20">
+              <Reveal className="order-2 pb-8 lg:order-1">
+                <DashboardMockup />
+              </Reveal>
+              <Reveal delay={0.1} className="order-1 lg:order-2">
+                <Eyebrow index="05">ERP / Sistemas de gestión</Eyebrow>
+                <h2 className="font-display h-section mt-5 text-balance">
+                  Sistemas de gestión que impulsan tu operación
+                </h2>
+                <p className="mt-6 max-w-xl text-pretty text-lg leading-relaxed text-muted-ink">
+                  Desarrollamos plataformas internas a medida que automatizan tareas y digitalizan procesos clave.
+                  Nuestros sistemas ayudaron a empresas a reducir hasta un 80% del tiempo operativo, mejorando su
+                  seguridad, eficiencia y rentabilidad.
+                </p>
+                <div className="mt-9">
+                  <CtaButton onClick={goToContact} variant="ink">
+                    Contactanos
+                  </CtaButton>
+                </div>
+              </Reveal>
             </div>
-          </Reveal>
-        </div>
-      </section>
 
-      {/* ── Contact ──────────────────────────────────────────── */}
-      <section id="contacto" className="py-24">
-        <div className="container mx-auto grid grid-cols-1 gap-12 px-4 md:px-6 lg:grid-cols-2 lg:items-center">
-          <Reveal>
-            <span className="text-sm font-semibold uppercase tracking-widest text-orange-500">Contacto</span>
-            <h2 className="font-display mt-3 text-3xl font-extrabold text-ink md:text-4xl">Hablemos de tu proyecto</h2>
-            <p className="mt-4 text-lg text-slate-600">
-              Contanos qué necesitás y te asesoramos sin cargo. Respondemos por WhatsApp a la brevedad.
-            </p>
-            <ul className="mt-8 space-y-4">
-              <li className="flex items-center gap-3">
-                <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-brand-light text-brand">
-                  <MapPin className="h-5 w-5" />
-                </span>
-                <span className="text-slate-700">Córdoba, Argentina</span>
-              </li>
-              <li className="flex items-center gap-3">
-                <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-brand-light text-brand">
-                  <Mail className="h-5 w-5" />
-                </span>
-                <a href="mailto:autogestiva.info@gmail.com" className="text-slate-700 hover:text-brand">
-                  autogestiva.info@gmail.com
-                </a>
-              </li>
-              <li className="flex items-center gap-3">
-                <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-brand-light text-brand">
-                  <Phone className="h-5 w-5" />
-                </span>
-                <a href="tel:+5493512681910" className="text-slate-700 hover:text-brand">
-                  +54 9 351 268-1910
-                </a>
-              </li>
-            </ul>
-          </Reveal>
+            <Reveal delay={0.1} className="mt-20">
+              <div className="grid grid-cols-1 border-l border-t border-line sm:grid-cols-2 lg:grid-cols-4">
+                {erpFeatures.map((f) => {
+                  const Icon = f.icon
+                  return (
+                    <div key={f.title} className="border-b border-r border-line p-6 md:p-7">
+                      <Icon className="h-6 w-6 text-brand" />
+                      <p className="font-display mt-5 text-xl font-semibold tracking-tight">{f.title}</p>
+                      <p className="mt-1.5 text-[15px] text-muted-ink">{f.text}</p>
+                    </div>
+                  )
+                })}
+              </div>
+            </Reveal>
+          </div>
+        </section>
 
-          <Reveal delay={0.15}>
-            <div className="rounded-3xl border border-slate-100 bg-white p-8 shadow-xl">
-              <form onSubmit={handleWhatsAppSubmit} className="space-y-5">
-                <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
-                  <div>
-                    <label htmlFor="nombre" className="mb-2 block text-sm font-medium text-slate-700">
-                      Nombre
-                    </label>
-                    <input
-                      type="text"
-                      id="nombre"
-                      value={nombre}
-                      onChange={(e) => setNombre(e.target.value)}
-                      required
-                      className="block w-full rounded-xl border border-slate-200 px-4 py-3 text-sm outline-none transition-colors focus:border-brand focus:ring-2 focus:ring-brand/20"
-                    />
+        {/* ── Process ──────────────────────────────────────────── */}
+        <section id="como-funciona" className="scroll-mt-20 py-24 md:py-32">
+          <div className={container}>
+            <Reveal className="grid grid-cols-1 gap-6 lg:grid-cols-12 lg:items-end">
+              <div className="lg:col-span-7">
+                <Eyebrow index="06">Proceso</Eyebrow>
+                <h2 className="font-display h-section mt-5 text-balance">De la idea al lanzamiento en 3 pasos</h2>
+              </div>
+              <p className="text-lg text-muted-ink lg:col-span-5">
+                Un camino claro y transparente. Así acompañamos tu proyecto desde la primera charla hasta que estás
+                online.
+              </p>
+            </Reveal>
+
+            <ol className="mt-16 grid grid-cols-1 gap-12 lg:grid-cols-3 lg:gap-0">
+              {processSteps.map((step, index) => {
+                const Icon = step.icon
+                return (
+                  <li key={step.title}>
+                    <Reveal delay={0.12 * index} className="h-full">
+                      {/* Línea de tiempo */}
+                      <div className="flex items-center">
+                        <span className="relative flex h-4 w-4 shrink-0 items-center justify-center rounded-full bg-orange-500">
+                          <span className="absolute h-full w-full animate-ping rounded-full bg-orange-500/40" />
+                        </span>
+                        <span
+                          className={`h-px flex-1 ${
+                            index === processSteps.length - 1
+                              ? "bg-gradient-to-r from-ink/25 to-transparent"
+                              : "bg-ink/25"
+                          }`}
+                        />
+                      </div>
+                      <div className="pt-8 lg:pr-12">
+                        <div className="flex items-end justify-between">
+                          <span
+                            className="font-display text-[5.5rem] font-bold leading-[0.8] tracking-tighter text-transparent md:text-[7rem]"
+                            style={{ WebkitTextStroke: "1.5px #0057b8" }}
+                          >
+                            0{index + 1}
+                          </span>
+                          <span className="flex h-12 w-12 items-center justify-center rounded-xl bg-brand text-white">
+                            <Icon className="h-6 w-6" />
+                          </span>
+                        </div>
+                        <h3 className="font-display mt-8 text-2xl font-semibold tracking-tight md:text-3xl">
+                          {step.title}
+                        </h3>
+                        <p className="mt-3 leading-relaxed text-muted-ink">{step.description}</p>
+                        <div className="mt-6 flex flex-wrap gap-2">
+                          {step.tags.map((tag) => (
+                            <span
+                              key={tag}
+                              className="rounded-full border border-line bg-white px-3 py-1.5 font-mono text-[11px] uppercase tracking-[0.08em] text-ink"
+                            >
+                              {tag}
+                            </span>
+                          ))}
+                        </div>
+                      </div>
+                    </Reveal>
+                  </li>
+                )
+              })}
+            </ol>
+          </div>
+        </section>
+
+        {/* ── Clients ──────────────────────────────────────────── */}
+        <section id="clientes" className="scroll-mt-20 border-t border-line bg-paper-2 py-24 md:py-28">
+          <div className={container}>
+            <Reveal className="grid grid-cols-1 gap-6 lg:grid-cols-12 lg:items-end">
+              <div className="lg:col-span-7">
+                <Eyebrow index="07">Clientes</Eyebrow>
+                <h2 className="font-display h-section mt-5 text-balance">Marcas que ya confían en nosotros</h2>
+              </div>
+              <p className="text-lg text-muted-ink lg:col-span-5">
+                Negocios de rubros muy distintos eligieron nuestras soluciones digitales para crecer.
+              </p>
+            </Reveal>
+          </div>
+          <Reveal delay={0.1} className="mt-14">
+            <ClientsScroller />
+          </Reveal>
+        </section>
+
+        {/* ── CTA band ─────────────────────────────────────────── */}
+        <section className="relative overflow-hidden bg-brand py-24 text-white md:py-32">
+          <div className="bg-blueprint-inv pointer-events-none absolute inset-0" />
+          <div className="pointer-events-none absolute -bottom-40 -right-20 h-[520px] w-[520px] rounded-full bg-brand-dark blur-[100px]" />
+          <div className={`${container} relative`}>
+            <Reveal>
+              <h2 className="font-display h-mega max-w-5xl text-balance">
+                ¿Listo para transformar tu presencia digital?
+              </h2>
+              <div className="mt-10 flex flex-col gap-8 md:flex-row md:items-end md:justify-between">
+                <p className="max-w-xl text-lg text-white/85 md:text-xl">
+                  Asesoría gratuita para entender qué solución necesita tu negocio. Sin complicaciones, entrega rápida
+                  y con soporte incluido.
+                </p>
+                <CtaButton onClick={goToContact} variant="light" className="shrink-0 self-start md:self-auto">
+                  ¡Me interesa!
+                </CtaButton>
+              </div>
+            </Reveal>
+          </div>
+        </section>
+
+        {/* ── Contact ──────────────────────────────────────────── */}
+        <section id="contacto" className="scroll-mt-20 py-24 md:py-32">
+          <div className={`${container} grid grid-cols-1 gap-14 lg:grid-cols-2 lg:gap-20`}>
+            <Reveal>
+              <Eyebrow index="08">Contacto</Eyebrow>
+              <h2 className="font-display h-section mt-5 text-balance">Hablemos de tu proyecto</h2>
+              <p className="mt-6 max-w-md text-lg text-muted-ink">
+                Contanos qué necesitás y te asesoramos sin cargo. Respondemos por WhatsApp a la brevedad.
+              </p>
+              <ul className="mt-10 max-w-md border-t border-line">
+                <li className="flex items-center gap-4 border-b border-line py-4">
+                  <MapPin className="h-5 w-5 shrink-0 text-brand" />
+                  <span className="font-medium">{contact.location}</span>
+                </li>
+                <li className="border-b border-line">
+                  <a
+                    href={`mailto:${contact.email}`}
+                    className="group flex items-center gap-4 py-4 font-medium transition-colors hover:text-brand"
+                  >
+                    <Mail className="h-5 w-5 shrink-0 text-brand" />
+                    {contact.email}
+                    <ArrowUpRight className="ml-auto h-4 w-4 text-ink/30 transition-all group-hover:text-brand" />
+                  </a>
+                </li>
+                <li className="border-b border-line">
+                  <a
+                    href={contact.phoneHref}
+                    className="group flex items-center gap-4 py-4 font-medium transition-colors hover:text-brand"
+                  >
+                    <Phone className="h-5 w-5 shrink-0 text-brand" />
+                    {contact.phoneLabel}
+                    <ArrowUpRight className="ml-auto h-4 w-4 text-ink/30 transition-all group-hover:text-brand" />
+                  </a>
+                </li>
+              </ul>
+            </Reveal>
+
+            <Reveal delay={0.15}>
+              <div className="rounded-3xl border border-line bg-white p-7 shadow-[0_40px_80px_-45px_rgba(11,19,34,0.4)] md:p-10">
+                <form onSubmit={handleWhatsAppSubmit} className="space-y-7">
+                  <div className="grid grid-cols-1 gap-7 sm:grid-cols-2">
+                    <div>
+                      <label htmlFor="nombre" className="eyebrow block text-muted-ink">
+                        Nombre
+                      </label>
+                      <input
+                        type="text"
+                        id="nombre"
+                        autoComplete="given-name"
+                        value={nombre}
+                        onChange={(e) => setNombre(e.target.value)}
+                        required
+                        className={inputClass}
+                      />
+                    </div>
+                    <div>
+                      <label htmlFor="apellido" className="eyebrow block text-muted-ink">
+                        Apellido
+                      </label>
+                      <input
+                        type="text"
+                        id="apellido"
+                        autoComplete="family-name"
+                        value={apellido}
+                        onChange={(e) => setApellido(e.target.value)}
+                        required
+                        className={inputClass}
+                      />
+                    </div>
                   </div>
                   <div>
-                    <label htmlFor="apellido" className="mb-2 block text-sm font-medium text-slate-700">
-                      Apellido
+                    <label htmlFor="consulta" className="eyebrow block text-muted-ink">
+                      Tu consulta
                     </label>
-                    <input
-                      type="text"
-                      id="apellido"
-                      value={apellido}
-                      onChange={(e) => setApellido(e.target.value)}
+                    <textarea
+                      id="consulta"
+                      rows={4}
+                      value={consulta}
+                      onChange={(e) => setConsulta(e.target.value)}
                       required
-                      className="block w-full rounded-xl border border-slate-200 px-4 py-3 text-sm outline-none transition-colors focus:border-brand focus:ring-2 focus:ring-brand/20"
+                      placeholder="Contanos qué tipo de proyecto tenés en mente..."
+                      className={`${inputClass} resize-none`}
                     />
                   </div>
-                </div>
-                <div>
-                  <label htmlFor="consulta" className="mb-2 block text-sm font-medium text-slate-700">
-                    Tu consulta
-                  </label>
-                  <textarea
-                    id="consulta"
-                    rows={5}
-                    value={consulta}
-                    onChange={(e) => setConsulta(e.target.value)}
-                    required
-                    placeholder="Contanos qué tipo de proyecto tenés en mente..."
-                    className="block w-full resize-none rounded-xl border border-slate-200 px-4 py-3 text-sm outline-none transition-colors focus:border-brand focus:ring-2 focus:ring-brand/20"
-                  />
-                </div>
-                <button
-                  type="submit"
-                  className="flex w-full items-center justify-center gap-2 rounded-xl bg-green-500 px-8 py-4 text-base font-semibold text-white shadow-lg shadow-green-500/25 transition-all duration-300 hover:bg-green-600 hover:shadow-xl active:scale-[0.98]"
-                >
-                  <MessageCircle className="h-5 w-5" />
-                  Enviar por WhatsApp
-                </button>
-              </form>
-            </div>
-          </Reveal>
-        </div>
-      </section>
+                  <button
+                    type="submit"
+                    className="flex w-full items-center justify-center gap-2.5 rounded-full bg-green-600 px-8 py-4 text-base font-semibold text-white transition-all duration-300 hover:bg-green-700 active:scale-[0.98]"
+                  >
+                    <MessageCircle className="h-5 w-5" />
+                    Enviar por WhatsApp
+                  </button>
+                </form>
+              </div>
+            </Reveal>
+          </div>
+        </section>
+      </main>
 
-      {/* ── Footer ───────────────────────────────────────��───── */}
-      <footer className="bg-ink text-white">
-        <div className="container mx-auto px-4 py-14 md:px-6">
-          <div className="grid grid-cols-1 gap-10 md:grid-cols-4">
-            <div className="md:col-span-1">
+      {/* ── Footer ───────────────────────────────────────────── */}
+      <footer className="relative overflow-hidden bg-ink text-white">
+        <div className={`${container} relative pb-10 pt-20`}>
+          <div className="grid grid-cols-1 gap-12 md:grid-cols-12">
+            <div className="md:col-span-5">
               <img
-                src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Logo%20Autogestiva%20ultimo-R93mHhq1sUa1o5uzR06VLSNktwqoaS.png"
+                src="/images/logo-autogestiva.png"
                 alt="Logo Autogestiva"
-                className="h-10 w-auto"
+                width={680}
+                height={270}
+                className="-ml-1 h-[72px] w-auto"
                 style={{ filter: "brightness(0) invert(1)" }}
                 loading="lazy"
                 decoding="async"
               />
-              <p className="mt-4 text-sm leading-relaxed text-slate-400">
+              <p className="mt-5 max-w-sm leading-relaxed text-white/55">
                 Agencia de desarrollo web y sistemas a medida. Transformamos la presencia digital de tu negocio con
-  tecnología moderna.
-  </p>
-  <p className="mt-4 text-sm">
-  <a
-  href="https://dashboardneon.vercel.app"
-  target="_blank"
-  rel="noopener noreferrer"
-  className="text-slate-300 transition-colors hover:text-white"
-  >
-  Acceso Admin
-  </a>
-  </p>
-  </div>
+                tecnología moderna.
+              </p>
+            </div>
 
-            <div>
-              <h3 className="font-display text-lg font-semibold">Soluciones</h3>
-              <ul className="mt-4 space-y-3 text-sm">
-                {[
-  { label: "Landing Pages", href: "#soluciones" },
-  { label: "Web Institucionales", href: "#soluciones" },
-                  { label: "ERP / Sistemas de gestión", href: "#sistemas" },
-                  { label: "Catálogos Digitales / Cartas Digitales", href: "#soluciones" },
-                ].map((item) => (
+            <div className="md:col-span-4">
+              <h3 className="eyebrow text-white/40">Soluciones</h3>
+              <ul className="mt-5 space-y-3">
+                {footerSolutions.map((item) => (
                   <li key={item.label}>
-                    <a href={item.href} className="text-slate-400 transition-colors hover:text-white">
+                    <a href={item.href} className="text-white/75 transition-colors hover:text-white">
                       {item.label}
                     </a>
                   </li>
@@ -1315,41 +540,49 @@ export default function HomePage() {
               </ul>
             </div>
 
-            <div>
-              <h3 className="font-display text-lg font-semibold">Contacto</h3>
-              <ul className="mt-4 space-y-3 text-sm">
-                <li className="flex items-start gap-2">
-                  <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-brand" />
-                  <span className="text-slate-400">Córdoba, Argentina</span>
+            <div className="md:col-span-3">
+              <h3 className="eyebrow text-white/40">Contacto</h3>
+              <ul className="mt-5 space-y-3">
+                <li className="flex items-start gap-2.5">
+                  <MapPin className="mt-1 h-4 w-4 shrink-0 text-brand-soft" />
+                  <span className="text-white/75">{contact.location}</span>
                 </li>
-                <li className="flex items-start gap-2">
-                  <Mail className="mt-0.5 h-4 w-4 shrink-0 text-brand" />
-                  <a href="mailto:autogestiva.info@gmail.com" className="text-slate-400 hover:text-white">
-                    autogestiva.info@gmail.com
+                <li className="flex items-start gap-2.5">
+                  <Mail className="mt-1 h-4 w-4 shrink-0 text-brand-soft" />
+                  <a href={`mailto:${contact.email}`} className="break-all text-white/75 hover:text-white">
+                    {contact.email}
                   </a>
                 </li>
-                <li className="flex items-start gap-2">
-                  <Phone className="mt-0.5 h-4 w-4 shrink-0 text-brand" />
-                  <a href="tel:+5493512681910" className="text-slate-400 hover:text-white">
-                    +54 9 351 268-1910
+                <li className="flex items-start gap-2.5">
+                  <Phone className="mt-1 h-4 w-4 shrink-0 text-brand-soft" />
+                  <a href={contact.phoneHref} className="text-white/75 hover:text-white">
+                    {contact.phoneLabel}
                   </a>
                 </li>
               </ul>
             </div>
           </div>
 
-          <div className="mt-12 border-t border-white/10 pt-8 text-center text-sm text-slate-500">
+          <div className="mt-16 flex flex-col gap-3 border-t border-white/10 pr-16 pt-7 text-sm text-white/45 sm:flex-row sm:items-center sm:justify-between md:pr-20">
             <p>© {new Date().getFullYear()} Autogestiva. Todos los derechos reservados.</p>
+            <a
+              href={contact.adminUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="transition-colors hover:text-white"
+            >
+              Acceso Admin
+            </a>
           </div>
         </div>
       </footer>
 
       <a
-        href="https://wa.me/5493512681910?text=Hola!"
+        href={`https://wa.me/${contact.whatsappNumber}?text=Hola!`}
         target="_blank"
         rel="noopener noreferrer"
         aria-label="Contactar por WhatsApp"
-        className="fixed bottom-5 right-5 z-50 flex h-14 w-14 items-center justify-center rounded-full bg-green-500 text-white shadow-xl shadow-green-500/30 transition-transform duration-300 hover:scale-110 hover:bg-green-600 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-green-500/40 md:bottom-6 md:right-6"
+        className="fixed bottom-5 right-5 z-30 flex h-14 w-14 items-center justify-center rounded-full bg-green-500 text-white shadow-xl shadow-green-500/30 transition-transform duration-300 hover:scale-110 hover:bg-green-600 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-green-500/40 md:bottom-6 md:right-6"
       >
         <MessageCircle className="h-7 w-7" aria-hidden="true" />
       </a>
