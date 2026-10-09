@@ -4,7 +4,7 @@ import { useState, useEffect } from "react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { Menu, X, ChevronDown, ArrowRight, ArrowUpRight } from "lucide-react"
-import { navServices, contact } from "@/lib/site-data"
+import { navServices } from "@/lib/site-data"
 
 const links = [
   { label: "Proyectos", href: "/#proyectos" },
@@ -133,10 +133,6 @@ export function Navbar() {
 
         {/* Desktop actions */}
         <div className="hidden shrink-0 items-center gap-5 lg:flex">
-          <span className="eyebrow hidden items-center gap-2 text-muted-ink xl:flex">
-            <span className="h-1.5 w-1.5 rounded-full bg-green-500" />
-            {contact.location}
-          </span>
           <Link
             href="/#contacto"
             className="group inline-flex items-center gap-2 rounded-full bg-ink px-5 py-2.5 text-[15px] font-semibold text-white transition-colors hover:bg-orange-500"
