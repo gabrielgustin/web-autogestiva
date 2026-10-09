@@ -329,6 +329,7 @@ export const projects: Project[] = [
     url: "https://www.grupoalgarbe.com.ar",
     type: "Catálogo digital",
     desktop: "/images/work/cantina-savio-backoffice.jpg",
+    desktopUrl: "grupoalgarbe.com.ar/admin",
     mobile: "/images/work/cantina-savio-mobile.jpg",
     bg: "#0f2a52",
     accent: "#2f6fd0",
