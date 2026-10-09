@@ -327,6 +327,7 @@ export const projects: Project[] = [
   {
     name: "Cantina Savio",
     url: "https://www.grupoalgarbe.com.ar",
+    type: "Catálogo digital",
     desktop: "/images/work/cantina-savio-backoffice.jpg",
     mobile: "/images/work/cantina-savio-mobile.jpg",
     bg: "#0f2a52",
